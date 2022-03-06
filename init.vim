@@ -232,6 +232,10 @@ map <F10> :call SynGroup()<CR>
 
 call plug#begin('$HOME/.config/nvim/plugged')
 
+Plug 'preservim/nerdtree'
+
+Plug 'preservim/tagbar'
+Plug 'vim-scripts/taglist.vim'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -248,6 +252,10 @@ Plug 'mattn/vim-lsp-settings'
 "async complete
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
+
+" 
+Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+Plug 'yegappan/mru'
 
 call plug#end()
 
@@ -292,7 +300,7 @@ function! s:on_lsp_buffer_enabled() abort
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
 
-		" refer to doc to add more commands
+" refer to doc to add more commands
 endfunction
 
 augroup lsp_install
@@ -300,3 +308,18 @@ augroup lsp_install
     " call s:on_lsp_buffer_enabled only for languages that has the server registered.
     autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
+
+
+"
+" airline setting
+"
+" 设置切换tab的快捷键 <\> + <i> 切换到第i个 tab
+nmap <leader>1 <Plug>AirlineSelectTab1
+nmap <leader>2 <Plug>AirlineSelectTab2
+nmap <leader>3 <Plug>AirlineSelectTab3
+nmap <leader>4 <Plug>AirlineSelectTab4
+nmap <leader>5 <Plug>AirlineSelectTab5
+nmap <leader>6 <Plug>AirlineSelectTab6
+nmap <leader>7 <Plug>AirlineSelectTab7
+nmap <leader>8 <Plug>AirlineSelectTab8
+nmap <leader>9 <Plug>AirlineSelectTab9
