@@ -163,10 +163,10 @@ noremap = n
 " === Window management
 " ===
 " Use <space> + new arrow keys for moving the cursor around windows
-noremap <LEADER><Up> <C-w>k
-noremap <LEADER><Down> <C-w>j
-noremap <leadER><Right> <C-w>l
-noremap <LEADER><Left> <C-w>h
+noremap <C-Up> <C-w>k
+noremap <C-Down> <C-w>j
+noremap <C-Right> <C-w>l
+noremap <C-Left> <C-w>h
 noremap qf <C-w>o
 
 " Disable the default s key
@@ -254,9 +254,15 @@ Plug 'jsfaint/gen_tags.vim'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-"
+" file search
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'yegappan/mru'
+
+" Git manager
+Plug 'airblade/vim-gitgutter'
+Plug 'tpope/vim-fugitive'
+Plug 'xuyuanp/nerdtree-git-plugin'
+Plug 'tpope/vim-fugitive'
 
 call plug#end()
 
@@ -334,3 +340,11 @@ nmap <leader><Right> <Plug>AirlineSelectNextTab
 "
 let g:gen_tags#gtags_default_map = 1
 let g:gen_tags#root_marker = ".repo"
+
+let g:gitgutter_max_signs = 500  " default value (Vim < 8.1.0614, Neovim < 0.4.0)
+let g:gitgutter_max_signs = -1   " default value (otherwise)
+function! GitStatus()
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf('+%d ~%d -%d', a, m, r)
+endfunction
+set statusline+=%{GitStatus()}
