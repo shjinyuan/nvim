@@ -163,11 +163,10 @@ noremap = n
 " === Window management
 " ===
 " Use <space> + new arrow keys for moving the cursor around windows
-noremap <LEADER>ww <C-w>w
-noremap <LEADER>wk <C-w>k
-noremap <LEADER>wj <C-w>j 
-noremap <LEADER>wh <C-w>h
-noremap <LEADER>wl <C-w>l
+noremap <LEADER><Up> <C-w>k
+noremap <LEADER><Down> <C-w>j
+noremap <leadER><Right> <C-w>l
+noremap <LEADER><Left> <C-w>h
 noremap qf <C-w>o
 
 " Disable the default s key
@@ -186,17 +185,19 @@ noremap si :set splitright<CR>:vsplit<CR>
 " ===
 " Create a new tab with tu
 noremap tu :tabe<CR>
+" Copy an new tab base current tab
 noremap tU :tab split<CR>
 " Move around tabs with tn and ti
-noremap tn :-tabnext<CR>
-noremap ti :+tabnext<CR>
+"noremap tn :-tabnext<CR>
+"noremap ti :+tabnext<CR>
 " Move the tabs with tmn and tmi
-noremap tmn :-tabmove<CR>
-noremap tmi :+tabmove<CR>
+" noremap tmn :-tabmove<CR>
+" noremap tmi :+tabmove<CR>
 
-
-
-
+nnoremap <C-Left> :tabprevious<CR>
+nnoremap <C-Right> :tabnext<CR>
+nnoremap <C-Up> :tabfirst<CR>
+nnoremap <C-Down> :tablast<CR>
 
 " Press space twice to jump to the next '<++>' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
@@ -211,7 +212,7 @@ noremap ` ~
 autocmd BufEnter * silent! lcd %:p:h
 
 " Call figlet
-noremap tx :r !figlet 
+noremap tx :r !figlet
 
 " find and replace
 noremap \s :%s//g<left><left>
@@ -239,21 +240,21 @@ Plug 'vim-scripts/taglist.vim'
 
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-" vim-lsp with ccls
-" Plug 'shjinyuan/vim-lsp'
 
 " Vim Applications
 Plug 'itchyny/calendar.vim'
 
+" vim-lsp with ccls
 "Plug 'neovim/nvim-lspconfig'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-
+Plug 'neovim/nvim-lspconfig'
+Plug 'jsfaint/gen_tags.vim'
 "async complete
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-" 
+"
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
 Plug 'yegappan/mru'
 
@@ -311,9 +312,11 @@ augroup END
 
 
 "
-" airline setting
+"=== airline setting
 "
-" 设置切换tab的快捷键 <\> + <i> 切换到第i个 tab
+" 设置切换tab的快捷键 <Space> + <i> 切换到第i个 tab
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_idx_mode = 1
 nmap <leader>1 <Plug>AirlineSelectTab1
 nmap <leader>2 <Plug>AirlineSelectTab2
 nmap <leader>3 <Plug>AirlineSelectTab3
@@ -323,3 +326,9 @@ nmap <leader>6 <Plug>AirlineSelectTab6
 nmap <leader>7 <Plug>AirlineSelectTab7
 nmap <leader>8 <Plug>AirlineSelectTab8
 nmap <leader>9 <Plug>AirlineSelectTab9
+
+"
+"=== gen_tag.vim setting
+"
+let g:gen_tags#gtags_default_map = 1
+let g:gen_tags#root_marker = ".repo"
