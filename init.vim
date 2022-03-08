@@ -217,6 +217,8 @@ noremap tx :r !figlet
 " find and replace
 noremap \s :%s//g<left><left>
 
+" format python
+map <F4> :%!python -m json.tool<CR>
 
 " press f10 to show hlgroup
 function! SynGroup()
