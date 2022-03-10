@@ -86,8 +86,8 @@ tnoremap <C-O> <C-\><C-N><C-O>
 " ===
 " === Basic Mappings
 " ===
-" Set <LEADER> as <SPACE>, ; as :
-let mapleader=" "
+" Set <LEADER>
+let mapleader=","
 
 " Save & quit
 noremap Q :q<CR>
@@ -95,7 +95,7 @@ noremap Q :q<CR>
 noremap S :w<CR>
 
 " Open the vimrc file anytime
-noremap <LEADER>rc :e $HOME/.config/nvim/init.vim<CR>
+noremap <SPACE>rc :e $HOME/.config/nvim/init.vim<CR>
 
 " Adjacent duplicate words
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
@@ -115,10 +115,10 @@ noremap <LEADER>rc :e $HOME/.config/nvim/init.vim<CR>
 noremap <silent> U 5k
 noremap <silent> E 5j
 
-" N key: go to the start of the line
-noremap <silent> N 0
-" I key: go to the end of the line
-noremap <silent> I $
+" H key: go to the start of the line
+noremap <silent> H 0
+" L key: go to the end of the line
+noremap <silent> L $
 
 " Faster in-line navigation
 noremap W 5w
@@ -163,10 +163,11 @@ noremap = n
 " === Window management
 " ===
 " Use <space> + new arrow keys for moving the cursor around windows
-noremap <C-Up> <C-w>k
-noremap <C-Down> <C-w>j
-noremap <C-Right> <C-w>l
-noremap <C-Left> <C-w>h
+noremap <LEADER>ww <C-w>w
+noremap <LEADER>wk <C-w>k
+noremap <LEADER>wj <C-w>j 
+noremap <LEADER>wh <C-w>h
+noremap <LEADER>wl <C-w>l
 noremap qf <C-w>o
 
 " Disable the default s key
@@ -185,19 +186,17 @@ noremap si :set splitright<CR>:vsplit<CR>
 " ===
 " Create a new tab with tu
 noremap tu :tabe<CR>
-" Copy an new tab base current tab
 noremap tU :tab split<CR>
 " Move around tabs with tn and ti
-"noremap tn :-tabnext<CR>
-"noremap ti :+tabnext<CR>
+noremap tn :-tabnext<CR>
+noremap ti :+tabnext<CR>
 " Move the tabs with tmn and tmi
-" noremap tmn :-tabmove<CR>
-" noremap tmi :+tabmove<CR>
+noremap tmn :-tabmove<CR>
+noremap tmi :+tabmove<CR>
 
-nnoremap <C-Left> :tabprevious<CR>
-nnoremap <C-Right> :tabnext<CR>
-nnoremap <C-Up> :tabfirst<CR>
-nnoremap <C-Down> :tablast<CR>
+
+
+
 
 " Press space twice to jump to the next '<++>' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
@@ -212,7 +211,7 @@ noremap ` ~
 autocmd BufEnter * silent! lcd %:p:h
 
 " Call figlet
-noremap tx :r !figlet
+noremap tx :r !figlet 
 
 " find and replace
 noremap \s :%s//g<left><left>
@@ -234,12 +233,7 @@ map <F10> :call SynGroup()<CR>
 " ===
 
 call plug#begin('$HOME/.config/nvim/plugged')
-
-Plug 'preservim/nerdtree'
-
-Plug 'preservim/tagbar'
-Plug 'vim-scripts/taglist.vim'
-
+" themes and appearance
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
 
@@ -247,25 +241,29 @@ Plug 'vim-airline/vim-airline-themes'
 Plug 'itchyny/calendar.vim'
 
 " vim-lsp with ccls
-"Plug 'neovim/nvim-lspconfig'
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-Plug 'neovim/nvim-lspconfig'
-Plug 'jsfaint/gen_tags.vim'
+"Plug 'neovim/nvim-lspconfig'
+
 "async complete
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-" file search
-Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }
+
+Plug 'jsfaint/gen_tags.vim'
+
+" powerful commenter
+Plug 'preservim/nerdcommenter'
+
+" system navigation
+Plug 'preservim/nerdtree'
 Plug 'yegappan/mru'
+Plug 'junegunn/fzf'
 
-" Git manager
-Plug 'airblade/vim-gitgutter'
-Plug 'tpope/vim-fugitive'
-Plug 'xuyuanp/nerdtree-git-plugin'
-Plug 'tpope/vim-fugitive'
+" parentheses and brackets
 
+" Translator
+Plug 'voldikss/vim-translator'
 call plug#end()
 
 
@@ -309,7 +307,7 @@ function! s:on_lsp_buffer_enabled() abort
     let g:lsp_format_sync_timeout = 1000
     autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
 
-" refer to doc to add more commands
+		" refer to doc to add more commands
 endfunction
 
 augroup lsp_install
@@ -320,33 +318,40 @@ augroup END
 
 
 "
-"=== airline setting
-"
-" 设置切换tab的快捷键 <Space> + <i> 切换到第i个 tab
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#buffer_idx_mode = 1
-nmap <leader>1 <Plug>AirlineSelectTab1
-nmap <leader>2 <Plug>AirlineSelectTab2
-nmap <leader>3 <Plug>AirlineSelectTab3
-nmap <leader>4 <Plug>AirlineSelectTab4
-nmap <leader>5 <Plug>AirlineSelectTab5
-nmap <leader>6 <Plug>AirlineSelectTab6
-nmap <leader>7 <Plug>AirlineSelectTab7
-nmap <leader>8 <Plug>AirlineSelectTab8
-nmap <leader>9 <Plug>AirlineSelectTab9
-nmap <leader><Left> <Plug>AirlineSelectPrevTab
-nmap <leader><Right> <Plug>AirlineSelectNextTab
-
-"
-"=== gen_tag.vim setting
+" === gen_tags.vim setting
 "
 let g:gen_tags#gtags_default_map = 1
-let g:gen_tags#root_marker = ".repo"
+let g:gen_tags#root_marker = ".git"
+"let $GTAGSCONF = '/home/wsk/bin/gtags/data/gtags/gtags.conf'
+"let $GTAGSLABEL = 'pygments'
 
-let g:gitgutter_max_signs = 500  " default value (Vim < 8.1.0614, Neovim < 0.4.0)
-let g:gitgutter_max_signs = -1   " default value (otherwise)
-function! GitStatus()
-  let [a,m,r] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', a, m, r)
-endfunction
-set statusline+=%{GitStatus()}
+
+"
+" === nerdcommenter setting
+"
+" Create default mappings
+let g:NERDCreateDefaultMappings = 1
+
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
+
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Set a language to use its alternate delimiters by default
+let g:NERDAltDelims_java = 1
+
+" Add your own custom formats or override the defaults
+let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
+
+" Enable NERDCommenterToggle to check all selected lines is commented or not 
+let g:NERDToggleCheckAllLines = 1
