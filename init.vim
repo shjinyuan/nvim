@@ -359,15 +359,17 @@ let g:NERDToggleCheckAllLines = 1
 "
 " === translater setting
 "
+" let g:translator_target_lang = 'zh'
+let g:translator_default_engines = ['bing']
 " Create default mappings
 " Echo translation in the cmdline
-nmap <silent> <Leader>t <Plug>Translate
-vmap <silent> <Leader>t <Plug>TranslateV
+nmap <silent> <Leader>te <Plug>Translate<CR>
+vmap <silent> <Leader>te <Plug>TranslateV<CR>
 " Display translation in a window
-nmap <silent> <Leader>w <Plug>TranslateW
-vmap <silent> <Leader>w <Plug>TranslateWV
+" nmap <silent> <Leader>te <Plug>TranslateW<CR>
+" vmap <silent> <Leader>te <Plug>TranslateWV<CR>
 " Replace the text with translation
-nmap <silent> <Leader>r <Plug>TranslateR
-vmap <silent> <Leader>r <Plug>TranslateRV
+" nmap <silent> <Leader>r <Plug>TranslateR<CR>
+" vmap <silent> <Leader>r <Plug>TranslateRV<CR>
 " Translate the text in clipboard
-nmap <silent> <Leader>x <Plug>TranslateX
+" nmap <silent> <Leader>x <Plug>TranslateX<CR>
