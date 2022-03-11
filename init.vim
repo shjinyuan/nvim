@@ -158,6 +158,7 @@ cnoremap <C-f> <Right>
 noremap - N
 noremap = n
 
+nmap <F10> VgG=
 
 " ===
 " === Window management
@@ -165,7 +166,7 @@ noremap = n
 " Use <space> + new arrow keys for moving the cursor around windows
 noremap <LEADER>ww <C-w>w
 noremap <LEADER>wk <C-w>k
-noremap <LEADER>wj <C-w>j 
+noremap <LEADER>wj <C-w>j
 noremap <LEADER>wh <C-w>h
 noremap <LEADER>wl <C-w>l
 noremap qf <C-w>o
@@ -236,9 +237,15 @@ call plug#begin('$HOME/.config/nvim/plugged')
 " themes and appearance
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
-
+" Plug 'AlessandroYorba/Alduin'
+" Plug 'endel/vim-github-colorscheme'
+" Plug rakr/vim-two-firewatch
+" Plug Badacadabra/vim-archery
 " Vim Applications
 Plug 'itchyny/calendar.vim'
+
+" Git relative
+Plug 'airblade/vim-gitgutter'
 
 " vim-lsp with ccls
 Plug 'prabirshrestha/vim-lsp'
@@ -410,5 +417,64 @@ au Syntax * RainbowParenthesesLoadSquare
 au Syntax * RainbowParenthesesLoadBraces
 
 "
-" === xxxxxxx setting
+" === gitgutter setting
 "
+let g:gitgutter_max_signs = -1
+" let g:gitgutter_show_msg_on_hunk_jumping = 0
+" nmap ]c <Plug>(GitGutterNextHunk)
+" nmap [c <Plug>(GitGutterPrevHunk)
+function! GitStatus()
+  let [a,m,r] = GitGutterGetHunkSummary()
+  return printf('+%d ~%d -%d', a, m, r)
+endfunction
+set statusline+=%{GitStatus()}
+function! NextHunkAllBuffers()
+  let line = line('.')
+  GitGutterNextHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bnext
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      1
+      GitGutterNextHunk
+      return
+    endif
+  endwhile
+endfunction
+
+function! PrevHunkAllBuffers()
+  let line = line('.')
+  GitGutterPrevHunk
+  if line('.') != line
+    return
+  endif
+
+  let bufnr = bufnr('')
+  while 1
+    bprevious
+    if bufnr('') == bufnr
+      return
+    endif
+    if !empty(GitGutterGetHunks())
+      normal! G
+      GitGutterPrevHunk
+      return
+    endif
+  endwhile
+endfunction
+
+nmap <silent> ]c :call NextHunkAllBuffers()<CR>
+nmap <silent> [c :call PrevHunkAllBuffers()<CR>
+
+"" vimdiff color
+hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=0
+hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=0
+
+autocmd! bufwritepost $HOME/.config/nvim/init.vim
