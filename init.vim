@@ -72,7 +72,22 @@ set updatetime=100
 set virtualedit=block
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+" 设置跳出自动补全的括号 {{{2
+func SkipPair()
+    if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
+        return "\<ESC>la"
+    else
+        return "\t"
+    endif
+endfunc
 
+inoremap jj <c-r>=SkipPair()<CR>
+
+" 常规模式下输入 cM 清除行尾 ^M 符号
+nmap <space>cM :%s/\r$//g<CR>:noh<CR>
+
+" 删除行尾空格
+nmap <space>cm :%s/\s\+$//<CR>:noh<CR>
 
 " ===
 " === Terminal Behaviors
@@ -164,12 +179,17 @@ nmap <F10> VgG=
 " === Window management
 " ===
 " Use <space> + new arrow keys for moving the cursor around windows
-noremap <LEADER>ww <C-w>w
-noremap <LEADER>wk <C-w>k
-noremap <LEADER>wj <C-w>j
-noremap <LEADER>wh <C-w>h
-noremap <LEADER>wl <C-w>l
+" noremap <LEADER>ww <C-w>w
+" noremap <LEADER>wk <C-w>k
+" noremap <LEADER>wj <C-w>j
+" noremap <LEADER>wh <C-w>h
+" noremap <LEADER>wl <C-w>l
 noremap qf <C-w>o
+nmap <space>wh :vertical res +30<CR>
+nmap <space>wl :vertical res -30<CR>
+nmap <space>wj :res +15<CR>
+nmap <space>wk :res -15<CR>
+
 
 " Disable the default s key
 noremap s <nop>
@@ -199,7 +219,7 @@ noremap tmi :+tabmove<CR>
 
 
 
-" Press space twice to jump to the next '<++>' and edit it
+" Press space twice to jump to the next '' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
 " Spelling Check with <space>sc
@@ -212,7 +232,7 @@ noremap ` ~
 autocmd BufEnter * silent! lcd %:p:h
 
 " Call figlet
-noremap tx :r !figlet 
+noremap tx :r !figlet
 
 " find and replace
 noremap \s :%s//g<left><left>
@@ -364,7 +384,7 @@ let g:NERDCommentEmptyLines = 1
 " Enable trimming of trailing whitespace when uncommenting
 let g:NERDTrimTrailingWhitespace = 1
 
-" Enable NERDCommenterToggle to check all selected lines is commented or not 
+" Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
 "
