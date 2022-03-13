@@ -35,8 +35,7 @@ set autoindent
 set list
 set listchars=tab:\|\ ,trail:▫
 set scrolloff=4
-set ttimeoutlen=0
-set notimeout
+set timeoutlen=0
 set viewoptions=cursor,folds,slash,unix
 set wrap
 set tw=0
@@ -110,7 +109,7 @@ noremap Q :q<CR>
 noremap S :w<CR>
 
 " Open the vimrc file anytime
-noremap <SPACE>rc :e $HOME/.config/nvim/init.vim<CR>
+noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
 
 " Adjacent duplicate words
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
@@ -295,6 +294,9 @@ Plug 'jiangmiao/auto-pairs'
 " Translator
 Plug 'voldikss/vim-translator'
 
+" Tips for key's map
+Plug 'liuchengxu/vim-which-key'
+Plug 'AckslD/nvim-whichkey-setup.lua'
 call plug#end()
 
 
@@ -356,6 +358,10 @@ let g:gen_tags#root_marker = ".git"
 "let $GTAGSCONF = '/home/wsk/bin/gtags/data/gtags/gtags.conf'
 "let $GTAGSLABEL = 'pygments'
 
+"
+" NERDTREE setting
+nmap _ :NERDTreeCWD<CR>
+nmap - :NERDTreeToggle<CR>
 
 "
 " === nerdcommenter setting
@@ -492,6 +498,14 @@ endfunction
 
 nmap <silent> ]c :call NextHunkAllBuffers()<CR>
 nmap <silent> [c :call PrevHunkAllBuffers()<CR>
+
+"
+" === vim-which-key setting
+"
+let g:mapleader = "\<Space>"
+let g:maplocalleader = ','
+nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
 "" vimdiff color
 hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=0
