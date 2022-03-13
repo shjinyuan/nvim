@@ -73,11 +73,11 @@ set virtualedit=block
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 " 设置跳出自动补全的括号 {{{2
 func SkipPair()
-    if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
-        return "\<ESC>la"
-    else
-        return "\t"
-    endif
+	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
+		return "\<ESC>la"
+	else
+		return "\t"
+	endif
 endfunc
 
 inoremap jj <c-r>=SkipPair()<CR>
@@ -169,8 +169,8 @@ cnoremap <C-f> <Right>
 " ===
 " === Searching
 " ===
-noremap - N
-noremap = n
+" noremap - N
+" noremap = n
 
 nmap <F10> VgG=
 
@@ -305,13 +305,13 @@ call plug#end()
 " === vim-lsp with ccls setting
 "
 if executable('ccls')
-   au User lsp_setup call lsp#register_server({
-      \ 'name': 'ccls',
-      \ 'cmd': {server_info->['ccls']},
-      \ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-      \ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
-      \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-      \ })
+	au User lsp_setup call lsp#register_server({
+				\ 'name': 'ccls',
+				\ 'cmd': {server_info->['ccls']},
+				\ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+				\ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
+				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+				\ })
 endif
 " Key bindings for vim-lsp.
 nn <silent> <M-d> :LspDefinition<cr>
@@ -321,32 +321,32 @@ nn <silent> <M-a> :LspWorkspaceSymbol<cr>
 nn <silent> <M-l> :LspDocumentSymbol<cr>
 
 function! s:on_lsp_buffer_enabled() abort
-    setlocal omnifunc=lsp#complete
-    setlocal signcolumn=yes
-    if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-    nmap <buffer> gd <plug>(lsp-definition)
-    nmap <buffer> gs <plug>(lsp-document-symbol-search)
-    nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-    nmap <buffer> gr <plug>(lsp-references)
-    nmap <buffer> gi <plug>(lsp-implementation)
-    nmap <buffer> gt <plug>(lsp-type-definition)
-    nmap <buffer> <leader>rn <plug>(lsp-rename)
-    nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-    nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-    nmap <buffer> K <plug>(lsp-hover)
-    nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-    nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+	setlocal omnifunc=lsp#complete
+	setlocal signcolumn=yes
+	if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+	nmap <buffer> gd <plug>(lsp-definition)
+	nmap <buffer> gs <plug>(lsp-document-symbol-search)
+	nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+	nmap <buffer> gr <plug>(lsp-references)
+	nmap <buffer> gi <plug>(lsp-implementation)
+	nmap <buffer> gt <plug>(lsp-type-definition)
+	nmap <buffer> <leader>rn <plug>(lsp-rename)
+	nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+	nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+	nmap <buffer> K <plug>(lsp-hover)
+	nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+	nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
-    let g:lsp_format_sync_timeout = 1000
-    autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+	let g:lsp_format_sync_timeout = 1000
+	autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
 
-		" refer to doc to add more commands
+	" refer to doc to add more commands
 endfunction
 
 augroup lsp_install
-    au!
-    " call s:on_lsp_buffer_enabled only for languages that has the server registered.
-    autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+	au!
+	" call s:on_lsp_buffer_enabled only for languages that has the server registered.
+	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
 augroup END
 
 
@@ -416,23 +416,23 @@ vmap <silent> <Leader>te <Plug>TranslateV<CR>
 " === rainbow_parentheses.vim setting
 "
 let g:rbpt_colorpairs = [
-    \ ['brown',       'RoyalBlue3'],
-    \ ['Darkblue',    'SeaGreen3'],
-    \ ['darkgray',    'DarkOrchid3'],
-    \ ['darkgreen',   'firebrick3'],
-    \ ['darkcyan',    'RoyalBlue3'],
-    \ ['darkred',     'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['brown',       'firebrick3'],
-    \ ['gray',        'RoyalBlue3'],
-    \ ['black',       'SeaGreen3'],
-    \ ['darkmagenta', 'DarkOrchid3'],
-    \ ['Darkblue',    'firebrick3'],
-    \ ['darkgreen',   'RoyalBlue3'],
-    \ ['darkcyan',    'SeaGreen3'],
-    \ ['darkred',     'DarkOrchid3'],
-    \ ['red',         'firebrick3'],
-    \ ]
+			\ ['brown',       'RoyalBlue3'],
+			\ ['Darkblue',    'SeaGreen3'],
+			\ ['darkgray',    'DarkOrchid3'],
+			\ ['darkgreen',   'firebrick3'],
+			\ ['darkcyan',    'RoyalBlue3'],
+			\ ['darkred',     'SeaGreen3'],
+			\ ['darkmagenta', 'DarkOrchid3'],
+			\ ['brown',       'firebrick3'],
+			\ ['gray',        'RoyalBlue3'],
+			\ ['black',       'SeaGreen3'],
+			\ ['darkmagenta', 'DarkOrchid3'],
+			\ ['Darkblue',    'firebrick3'],
+			\ ['darkgreen',   'RoyalBlue3'],
+			\ ['darkcyan',    'SeaGreen3'],
+			\ ['darkred',     'DarkOrchid3'],
+			\ ['red',         'firebrick3'],
+			\ ]
 
 let g:rbpt_max = 16
 
@@ -450,50 +450,50 @@ let g:gitgutter_max_signs = -1
 " nmap ]c <Plug>(GitGutterNextHunk)
 " nmap [c <Plug>(GitGutterPrevHunk)
 function! GitStatus()
-  let [a,m,r] = GitGutterGetHunkSummary()
-  return printf('+%d ~%d -%d', a, m, r)
+	let [a,m,r] = GitGutterGetHunkSummary()
+	return printf('+%d ~%d -%d', a, m, r)
 endfunction
 set statusline+=%{GitStatus()}
 function! NextHunkAllBuffers()
-  let line = line('.')
-  GitGutterNextHunk
-  if line('.') != line
-    return
-  endif
+	let line = line('.')
+	GitGutterNextHunk
+	if line('.') != line
+		return
+	endif
 
-  let bufnr = bufnr('')
-  while 1
-    bnext
-    if bufnr('') == bufnr
-      return
-    endif
-    if !empty(GitGutterGetHunks())
-      1
-      GitGutterNextHunk
-      return
-    endif
-  endwhile
+	let bufnr = bufnr('')
+	while 1
+		bnext
+		if bufnr('') == bufnr
+			return
+		endif
+		if !empty(GitGutterGetHunks())
+			1
+			GitGutterNextHunk
+			return
+		endif
+	endwhile
 endfunction
 
 function! PrevHunkAllBuffers()
-  let line = line('.')
-  GitGutterPrevHunk
-  if line('.') != line
-    return
-  endif
+	let line = line('.')
+	GitGutterPrevHunk
+	if line('.') != line
+		return
+	endif
 
-  let bufnr = bufnr('')
-  while 1
-    bprevious
-    if bufnr('') == bufnr
-      return
-    endif
-    if !empty(GitGutterGetHunks())
-      normal! G
-      GitGutterPrevHunk
-      return
-    endif
-  endwhile
+	let bufnr = bufnr('')
+	while 1
+		bprevious
+		if bufnr('') == bufnr
+			return
+		endif
+		if !empty(GitGutterGetHunks())
+			normal! G
+			GitGutterPrevHunk
+			return
+		endif
+	endwhile
 endfunction
 
 nmap <silent> ]c :call NextHunkAllBuffers()<CR>
