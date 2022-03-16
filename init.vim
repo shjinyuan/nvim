@@ -35,7 +35,7 @@ set autoindent
 set list
 set listchars=tab:\|\ ,trail:▫
 set scrolloff=4
-set timeoutlen=0
+set timeoutlen=500
 set viewoptions=cursor,folds,slash,unix
 set wrap
 set tw=0
