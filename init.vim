@@ -301,6 +301,8 @@ Plug 'liuchengxu/vim-which-key'
 
 " Markdown
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+" support math latex
+" Plug 'iamcco/mathjax-support-for-mkdp'
 call plug#end()
 
 
@@ -516,7 +518,7 @@ nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 "
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
-let g:mkdp_auto_start = 0
+let g:mkdp_auto_start = 1
 
 " set to 1, the nvim will auto close current preview window when change
 " from markdown buffer to another buffer
@@ -547,7 +549,7 @@ let g:mkdp_open_ip = ''
 
 " specify browser to open preview page
 " default: ''
-let g:mkdp_browser = ''
+let g:mkdp_browser = 'firefox'
 
 " set to 1, echo preview page url in command line when open preview page
 " default is 0
