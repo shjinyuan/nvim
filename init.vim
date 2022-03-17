@@ -111,6 +111,9 @@ noremap S :w<CR>
 " Open the vimrc file anytime
 noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
 
+" Open README.md
+noremap <leader>he :vs $HOME/.config/nvim/README.md<CR>
+
 " Adjacent duplicate words
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
 
@@ -278,6 +281,8 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'jsfaint/gen_tags.vim'
 
 " snippets
+Plug 'maralla/completor.vim' "prompt snippets
+Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " powerful commenter
@@ -598,6 +603,19 @@ let g:mkdp_port = ''
 " preview page title
 " ${name} will be replace with the file name
 let g:mkdp_page_title = '「${name}」'
+
+
+"
+"==== completor setting
+"
+let g:completor_clang_binary = '/usr/bin/clang'
+
+"
+"==== UltriSnips setting
+"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<c-b>"
+let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "" vimdiff color
 hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=0
