@@ -69,6 +69,8 @@ endif
 set colorcolumn=100
 set updatetime=100
 set virtualedit=block
+set autoread
+set autowriteall
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 " 设置跳出自动补全的括号 {{{2
@@ -257,8 +259,8 @@ map <F10> :call SynGroup()<CR>
 
 call plug#begin('$HOME/.config/nvim/plugged')
 " themes and appearance
-Plug 'vim-airline/vim-airline'
-Plug 'vim-airline/vim-airline-themes'
+" Plug 'vim-airline/vim-airline'
+" Plug 'vim-airline/vim-airline-themes'
 " Plug 'AlessandroYorba/Alduin'
 " Plug rakr/vim-two-firewatch
 " Plug Badacadabra/vim-archery
@@ -523,7 +525,7 @@ nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 "
 " set to 1, nvim will open the preview window after entering the markdown buffer
 " default: 0
-let g:mkdp_auto_start = 1
+let g:mkdp_auto_start = 0
 
 " set to 1, the nvim will auto close current preview window when change
 " from markdown buffer to another buffer
@@ -618,7 +620,17 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "" vimdiff color
-hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=0
-hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=0
+" hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
+" hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
+"
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+
+
+hi Pmenu ctermfg=black ctermbg=gray  guibg=#444444
+hi PmenuSel ctermfg=7 ctermbg=4 guibg=#555555 guifg=#ffffff
 
 autocmd! bufwritepost $HOME/.config/nvim/init.vim
+autocmd FilterWritePre * if &diff | setlocal wrap< | endif
