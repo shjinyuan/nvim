@@ -259,8 +259,8 @@ map <F10> :call SynGroup()<CR>
 
 call plug#begin('$HOME/.config/nvim/plugged')
 " themes and appearance
-" Plug 'vim-airline/vim-airline'
-" Plug 'vim-airline/vim-airline-themes'
+Plug 'vim-airline/vim-airline'
+Plug 'vim-airline/vim-airline-themes'
 " Plug 'AlessandroYorba/Alduin'
 " Plug rakr/vim-two-firewatch
 " Plug Badacadabra/vim-archery
@@ -310,6 +310,10 @@ Plug 'liuchengxu/vim-which-key'
 Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " support math latex
 " Plug 'iamcco/mathjax-support-for-mkdp'
+
+" Auto save
+Plug '907th/vim-auto-save'
+
 call plug#end()
 
 
@@ -619,7 +623,12 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
-"" vimdiff color
+"
+"==== plugin_setting
+"
+let g:auto_save = 1
+let g:auto_save_events = ["InsertLeave", "CompleteDone"]
+
 " hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 " hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 "
