@@ -37,7 +37,7 @@ set listchars=tab:\|\ ,trail:▫
 set scrolloff=4
 set timeoutlen=500
 set viewoptions=cursor,folds,slash,unix
-set wrap
+set nowrap
 set tw=0
 set indentexpr=
 set foldmethod=indent
@@ -85,10 +85,10 @@ endfunc
 inoremap jj <c-r>=SkipPair()<CR>
 
 " 常规模式下输入清除行尾 ^M 符号
-nmap <space>cM :%s/\r$//g<CR>:noh<CR>
+nmap <space>dM :%s/\r$//g<CR>:noh<CR>
 
 " 删除行尾空格 和 Tab
-nmap <space>cm :%s/\s\+$//g<CR>:noh<CR>
+nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
 
 " ===
 " === Terminal Behaviors
