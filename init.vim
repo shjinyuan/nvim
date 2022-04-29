@@ -116,6 +116,9 @@ noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
 " Open README.md
 noremap <leader>he :vs $HOME/.config/nvim/README.md<CR>
 
+" Open  Man
+noremap <leader>hm :vs $HOME/.config/nvim/Man<CR>
+
 " Adjacent duplicate words
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
 
