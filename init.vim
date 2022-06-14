@@ -655,3 +655,7 @@ hi PmenuSel ctermfg=7 ctermbg=4 guibg=#555555 guifg=#ffffff
 
 autocmd! bufwritepost $HOME/.config/nvim/init.vim
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+
+if &diff
+	syntax off
+endif
