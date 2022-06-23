@@ -17,6 +17,9 @@
 let &t_ut=''
 set autochdir
 
+set path+=~/sw040/1700-generated-config/**7
+set path+=~/sw040/1710-handwritten-config/**7
+
 
 " ===
 " === Editor behavior
@@ -71,6 +74,7 @@ set updatetime=100
 set virtualedit=block
 set autoread
 set autowriteall
+filetype plugin on
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 " 设置跳出自动补全的括号 {{{2
@@ -115,9 +119,6 @@ noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
 
 " Open README.md
 noremap <leader>he :vs $HOME/.config/nvim/README.md<CR>
-
-" Open  Man
-noremap <leader>hm :vs $HOME/.config/nvim/Man<CR>
 
 " Adjacent duplicate words
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
@@ -283,12 +284,12 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-Plug 'jsfaint/gen_tags.vim'
+" Plug 'jsfaint/gen_tags.vim'
 
 " snippets
-Plug 'maralla/completor.vim' "prompt snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'maralla/completor.vim' "prompt snippets
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 " powerful commenter
 Plug 'preservim/nerdcommenter'
@@ -402,7 +403,7 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDAltDelims_java = 1
 
 " Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
 
 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
@@ -413,15 +414,6 @@ let g:NERDTrimTrailingWhitespace = 1
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
 
-
-"
-" ===asyncomplete setting
-"
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 "
 " === translater setting
 "
@@ -650,7 +642,7 @@ highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Re
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
 
 
-hi Pmenu ctermfg=green ctermbg=black  guibg=#444444
+hi Pmenu ctermfg=green ctermbg=black guibg=#444444
 hi PmenuSel ctermfg=7 ctermbg=4 guibg=#555555 guifg=#ffffff
 
 autocmd! bufwritepost $HOME/.config/nvim/init.vim
