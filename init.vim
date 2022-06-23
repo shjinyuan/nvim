@@ -651,3 +651,9 @@ autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 if &diff
 	syntax off
 endif
+
+"====================================
+"			code assist
+"====================================
+execute 'source ~/.config/nvim/utility/setTitle.vim'
+
