@@ -154,6 +154,11 @@ noremap <C-U> 5<C-y>
 noremap <C-E> 5<C-e>
 
 
+" ===
+" === copy/paset between vim and system clipboard
+" ===
+map <SPACE>pp "+p
+map <SPACE>yy "+y
 
 
 " ===
