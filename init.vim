@@ -35,8 +35,9 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set autoindent
-set list
-set listchars=tab:\|\ ,trail:▫
+set nolist
+" set list
+" set listchars=tab:\|\ ,trail:▫
 set scrolloff=4
 set timeoutlen=500
 set viewoptions=cursor,folds,slash,unix
