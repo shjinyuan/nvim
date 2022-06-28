@@ -75,6 +75,7 @@ set updatetime=100
 set virtualedit=block
 set autoread
 set autowriteall
+set mouse=a
 filetype plugin on
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -160,6 +161,9 @@ noremap <C-E> 5<C-e>
 map <SPACE>pp "+p
 map <SPACE>yy "+y
 
+" switch mouse state
+noremap <space>ma :set mouse=a<CR>
+noremap <space>mv :set mouse=v<CR>
 
 " ===
 " === Insert Mode Cursor Movement
@@ -186,8 +190,6 @@ cnoremap <C-f> <Right>
 " ===
 " noremap - N
 " noremap = n
-
-nmap <F10> VgG=
 
 " ===
 " === Window management
@@ -259,7 +261,9 @@ function! SynGroup()
 	let l:s = synID(line('.'), col('.'), 1)
 	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
 endfun
-map <F10> :call SynGroup()<CR>
+
+map <F9> :call SynGroup()<CR>
+nmap <F10> ggVG=
 
 
 
@@ -594,16 +598,16 @@ let g:mkdp_browserfunc = ''
 " hide_yaml_meta: if hide yaml metadata, default is 1
 " sequence_diagrams: js-sequence-diagrams options
 let g:mkdp_preview_options = {
-    \ 'mkit': {},
-    \ 'katex': {},
-    \ 'uml': {},
-    \ 'maid': {},
-    \ 'disable_sync_scroll': 0,
-    \ 'sync_scroll_type': 'middle',
-    \ 'hide_yaml_meta': 1,
-    \ 'sequence_diagrams': {},
-    \ 'flowchart_diagrams': {}
-    \ }
+			\ 'mkit': {},
+			\ 'katex': {},
+			\ 'uml': {},
+			\ 'maid': {},
+			\ 'disable_sync_scroll': 0,
+			\ 'sync_scroll_type': 'middle',
+			\ 'hide_yaml_meta': 1,
+			\ 'sequence_diagrams': {},
+			\ 'flowchart_diagrams': {}
+			\ }
 
 " use a custom markdown style must be absolute path
 " like '/Users/username/markdown.css' or expand('~/markdown.css')
@@ -662,4 +666,18 @@ endif
 "			code assist
 "====================================
 execute 'source ~/.config/nvim/utility/setTitle.vim'
+" change cursor mode ,not work in nvim
+" - entered insert mode
+" let &t_SI = "^[[5 q^[]12;Magenta\007" " blinking bar (Ss) in magenta (Cs)
+" - entered replace mode
+" let &t_SR = "^[[0 q^[]12;Red\007" " blinking block (Ss) in red (Cs)
+" - leaving insert/replace mode
+" let &t_EI = "^[[2 q^[]112\007" " terminal power-on style (Se) and colour (Cr)
+autocmd InsertEnter,InsertLeave * set cul!
+" set guicursor+=n-v-c:blinkon0
+" set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+" \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+" \,sm:block-blinkwait175-blinkoff150-blinkon175
 
+" autocmd InsertEnter * set cul
+" autocmd InsertLeave * set nocul
