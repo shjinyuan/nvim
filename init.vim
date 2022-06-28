@@ -262,8 +262,11 @@ function! SynGroup()
 	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
 endfun
 
-map <F9> :call SynGroup()<CR>
+nmap <F9> :call SynGroup()<CR>
 nmap <F10> ggVG=
+" nmap <F11> :call lsp#enable()<CR>
+nmap <F12> :call lsp#disable()<CR>
+nmap <SPACE><F12> :call lsp#enable()<CR>
 
 
 
@@ -294,7 +297,7 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-" Plug 'jsfaint/gen_tags.vim'
+Plug 'jsfaint/gen_tags.vim'
 
 " snippets
 " Plug 'maralla/completor.vim' "prompt snippets
