@@ -76,6 +76,11 @@ set virtualedit=block
 set autoread
 set autowriteall
 set mouse=a
+" set termguicolors
+" if &term =~# '^screen'
+    " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" endif
 filetype plugin on
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -121,6 +126,7 @@ noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
 
 " Open README.md
 noremap <leader>he :vs $HOME/.config/nvim/README.md<CR>
+noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
 
 " Adjacent duplicate words
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
