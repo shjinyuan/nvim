@@ -71,6 +71,7 @@ if has('persistent_undo')
 	set undodir=$HOME/.config/nvim/tmp/undo,.
 endif
 set colorcolumn=100
+hi ColorColumn ctermbg=blue
 set updatetime=100
 set virtualedit=block
 set autoread
