@@ -50,6 +50,9 @@ ctrl-k  # 向上resize窗格
 ctrl-h  # 向左resize窗格
 ctrl-l  # 向右resize窗格
 
+# 历史输出
+[ #直接q退出
+
 ## Other
 # 列出所有快捷键，及其对应的 Tmux 命令
 tmux list-keys
