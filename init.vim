@@ -183,14 +183,13 @@ inoremap <C-a> <ESC>A
 " ===
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-" cnoremap <C-p> <Up>
-" cnoremap <C-n> <Down>
-cnoremap <C-j> <Left>
-cnoremap <C-k> <Right>
+cnoremap <C-n> <Left>
+cnoremap <C-l> <Right>
+cnoremap <C-j> <C-n>
+cnoremap <C-k> <C-p>
 "  M -> ALT
 " cnoremap <M-b> <S-Left>
 " cnoremap <M-w> <S-Right>
-
 
 " ===
 " === Searching
@@ -433,6 +432,17 @@ let g:NERDTrimTrailingWhitespace = 1
 
 " Enable NERDCommenterToggle to check all selected lines is commented or not
 let g:NERDToggleCheckAllLines = 1
+
+
+"                                                                                                   
+" ===asyncomplete setting                                                                           
+"                                                                                                   
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"                                                                                                                                             
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                          
+" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"                                        
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                      
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"   
+
 
 "
 " === translater setting
