@@ -102,6 +102,10 @@ nmap <space>dM :%s/\r$//g<CR>:noh<CR>
 " 删除行尾空格 和 Tab
 nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
 
+" 删除空行
+nmap <space>dl :g/^s*$/d<CR>
+
+
 " ===
 " === Terminal Behaviors
 " ===
@@ -281,6 +285,9 @@ nmap <SPACE><F12> :call lsp#enable()<CR>
 " ===
 
 call plug#begin('$HOME/.config/nvim/plugged')
+" Welcome page change
+Plug 'mhinz/vim-startify'
+
 " themes and appearance
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
