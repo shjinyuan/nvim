@@ -708,3 +708,15 @@ autocmd InsertEnter,InsertLeave * set cul!
 
 " autocmd InsertEnter * set cul
 " autocmd InsertLeave * set nocul
+"
+"
+"
+"
+"
+"
+"
+"===================================
+" Cool tricks
+"===================================
+" insert time
+ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
