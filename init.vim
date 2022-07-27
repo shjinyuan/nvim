@@ -17,6 +17,9 @@
 let &t_ut=''
 set autochdir
 
+set path+=~/sw040/1700-generated-config/**7
+set path+=~/sw040/1710-handwritten-config/**7
+
 
 " ===
 " === Editor behavior
@@ -32,8 +35,9 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set autoindent
-set list
-set listchars=tab:\|\ ,trail:▫
+set nolist
+" set list
+" set listchars=tab:\|\ ,trail:▫
 set scrolloff=4
 set timeoutlen=500
 set viewoptions=cursor,folds,slash,unix
@@ -67,10 +71,18 @@ if has('persistent_undo')
 	set undodir=$HOME/.config/nvim/tmp/undo,.
 endif
 set colorcolumn=100
+hi ColorColumn ctermbg=blue
 set updatetime=100
 set virtualedit=block
 set autoread
 set autowriteall
+set mouse=a
+" set termguicolors
+" if &term =~# '^screen'
+    " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" endif
+filetype plugin on
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
 " 设置跳出自动补全的括号 {{{2
@@ -89,6 +101,10 @@ nmap <space>dM :%s/\r$//g<CR>:noh<CR>
 
 " 删除行尾空格 和 Tab
 nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
+
+" 删除空行
+nmap <space>dl :g/^s*$/d<CR>
+
 
 " ===
 " === Terminal Behaviors
@@ -115,9 +131,7 @@ noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
 
 " Open README.md
 noremap <leader>he :vs $HOME/.config/nvim/README.md<CR>
-
-" Open  Man
-noremap <leader>hm :vs $HOME/.config/nvim/Man<CR>
+noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
 
 " Adjacent duplicate words
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
@@ -152,7 +166,15 @@ noremap <C-U> 5<C-y>
 noremap <C-E> 5<C-e>
 
 
+" ===
+" === copy/paset between vim and system clipboard
+" ===
+map <SPACE>pp "+p
+map <SPACE>yy "+y
 
+" switch mouse state
+noremap <space>ma :set mouse=a<CR>
+noremap <space>mv :set mouse=v<CR>
 
 " ===
 " === Insert Mode Cursor Movement
@@ -165,22 +187,19 @@ inoremap <C-a> <ESC>A
 " ===
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-cnoremap <C-p> <Up>
-cnoremap <C-n> <Down>
-cnoremap <C-j> <Left>
-cnoremap <C-k> <Right>
+cnoremap <C-n> <Left>
+cnoremap <C-l> <Right>
+cnoremap <C-j> <C-n>
+cnoremap <C-k> <C-p>
 "  M -> ALT
 " cnoremap <M-b> <S-Left>
 " cnoremap <M-w> <S-Right>
-
 
 " ===
 " === Searching
 " ===
 " noremap - N
 " noremap = n
-
-nmap <F10> VgG=
 
 " ===
 " === Window management
@@ -252,7 +271,12 @@ function! SynGroup()
 	let l:s = synID(line('.'), col('.'), 1)
 	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
 endfun
-map <F10> :call SynGroup()<CR>
+
+nmap <F9> :call SynGroup()<CR>
+nmap <F10> ggVG=
+" nmap <F11> :call lsp#enable()<CR>
+nmap <F12> :call lsp#disable()<CR>
+nmap <SPACE><F12> :call lsp#enable()<CR>
 
 
 
@@ -261,6 +285,9 @@ map <F10> :call SynGroup()<CR>
 " ===
 
 call plug#begin('$HOME/.config/nvim/plugged')
+" Welcome page change
+Plug 'mhinz/vim-startify'
+
 " themes and appearance
 Plug 'vim-airline/vim-airline'
 Plug 'vim-airline/vim-airline-themes'
@@ -286,9 +313,9 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'jsfaint/gen_tags.vim'
 
 " snippets
-Plug 'maralla/completor.vim' "prompt snippets
-Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'maralla/completor.vim' "prompt snippets
+" Plug 'SirVer/ultisnips'
+" Plug 'honza/vim-snippets'
 
 " powerful commenter
 Plug 'preservim/nerdcommenter'
@@ -402,7 +429,7 @@ let g:NERDDefaultAlign = 'left'
 let g:NERDAltDelims_java = 1
 
 " Add your own custom formats or override the defaults
-let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
+" let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
 
 " Allow commenting and inverting empty lines (useful when commenting a region)
 let g:NERDCommentEmptyLines = 1
@@ -414,14 +441,16 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 
-"
-" ===asyncomplete setting
-"
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+"                                                                                                   
+" ===asyncomplete setting                                                                           
+"                                                                                                   
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"                                                                                                                                             
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                          
+" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"                                        
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                      
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"   
+
+
 "
 " === translater setting
 "
@@ -596,16 +625,16 @@ let g:mkdp_browserfunc = ''
 " hide_yaml_meta: if hide yaml metadata, default is 1
 " sequence_diagrams: js-sequence-diagrams options
 let g:mkdp_preview_options = {
-    \ 'mkit': {},
-    \ 'katex': {},
-    \ 'uml': {},
-    \ 'maid': {},
-    \ 'disable_sync_scroll': 0,
-    \ 'sync_scroll_type': 'middle',
-    \ 'hide_yaml_meta': 1,
-    \ 'sequence_diagrams': {},
-    \ 'flowchart_diagrams': {}
-    \ }
+			\ 'mkit': {},
+			\ 'katex': {},
+			\ 'uml': {},
+			\ 'maid': {},
+			\ 'disable_sync_scroll': 0,
+			\ 'sync_scroll_type': 'middle',
+			\ 'hide_yaml_meta': 1,
+			\ 'sequence_diagrams': {},
+			\ 'flowchart_diagrams': {}
+			\ }
 
 " use a custom markdown style must be absolute path
 " like '/Users/username/markdown.css' or expand('~/markdown.css')
@@ -659,3 +688,35 @@ autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 if &diff
 	syntax off
 endif
+
+"====================================
+"			code assist
+"====================================
+execute 'source ~/.config/nvim/utility/setTitle.vim'
+" change cursor mode ,not work in nvim
+" - entered insert mode
+" let &t_SI = "^[[5 q^[]12;Magenta\007" " blinking bar (Ss) in magenta (Cs)
+" - entered replace mode
+" let &t_SR = "^[[0 q^[]12;Red\007" " blinking block (Ss) in red (Cs)
+" - leaving insert/replace mode
+" let &t_EI = "^[[2 q^[]112\007" " terminal power-on style (Se) and colour (Cr)
+autocmd InsertEnter,InsertLeave * set cul!
+" set guicursor+=n-v-c:blinkon0
+" set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+" \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+" \,sm:block-blinkwait175-blinkoff150-blinkon175
+
+" autocmd InsertEnter * set cul
+" autocmd InsertLeave * set nocul
+"
+"
+"
+"
+"
+"
+"
+"===================================
+" Cool tricks
+"===================================
+" insert time
+ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
