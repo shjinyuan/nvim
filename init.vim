@@ -82,6 +82,17 @@ set mouse=a
     " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " endif
+set background=dark
+" true color enable
+if has("termguicolors")
+    " enable true color
+    set termguicolors
+endif
+if &term =~# '^screen'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
 filetype plugin on
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
