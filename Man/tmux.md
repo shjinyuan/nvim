@@ -7,6 +7,8 @@
 https://kxcblog.com/post/terminal/2.tmux-tutorial
 # tmux默认快捷键的前缀是 ctrl-b, 我修改成了 ` (数字键1左边的那个键)
 
+#shfit + mouse , right -> copy
+
 #Basic
 tmux ls  # 查询所有会话
 tmux new -s session_name    # 创建会话
