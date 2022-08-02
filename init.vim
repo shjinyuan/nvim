@@ -355,6 +355,9 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " Auto save
 Plug '907th/vim-auto-save'
 
+" a Vim Keystroke Parse
+Plug 'nelstrom/vimprint'
+
 call plug#end()
 
 
