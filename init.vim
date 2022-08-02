@@ -358,6 +358,9 @@ Plug '907th/vim-auto-save'
 " a Vim Keystroke Parse
 Plug 'nelstrom/vimprint'
 
+" multi cursor support
+Plug 'terryma/vim-multiple-cursors'
+
 call plug#end()
 
 
