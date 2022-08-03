@@ -355,16 +355,17 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " Auto save
 Plug '907th/vim-auto-save'
 
-" a Vim Keystroke Parse
-Plug 'nelstrom/vimprint'
-
 " multi cursor support
 Plug 'terryma/vim-multiple-cursors'
 
+"  buffer managerment
+Plug 'bsdelf/bufferhint'
 call plug#end()
 
 
-
+"================================================================================
+" Plugin setting START
+"================================================================================
 "
 " === vim-lsp with ccls setting
 "
@@ -425,7 +426,6 @@ let g:gen_tags#root_marker = ".git"
 "
 " NERDTREE setting
 nmap _ :NERDTreeCWD<CR>
-nmap - :NERDTreeToggle<CR>
 
 "
 " === nerdcommenter setting
@@ -682,10 +682,23 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "
-"==== plugin_setting
+"==== auto save plugin_setting
 "
 let g:auto_save = 1
 let g:auto_save_events = ["InsertLeave", "CompleteDone"]
+
+"
+"==== bufferhint setting
+"
+nnoremap - :call bufferhint#Popup()
+nnoremap \ :call bufferhint#LoadPrevious()
+
+
+"================================================================================
+" Plugin setting END
+"================================================================================
+
+
 
 " hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 " hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
