@@ -38,6 +38,12 @@ set autoindent
 set nolist
 " set list
 " set listchars=tab:\|\ ,trail:▫
+"禁止产生临时文件
+"sdad
+set noundofile
+set nobackup
+set noswapfile
+
 set scrolloff=4
 set timeoutlen=500
 set viewoptions=cursor,folds,slash,unix
@@ -82,6 +88,17 @@ set mouse=a
     " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
     " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " endif
+set background=dark
+" true color enable
+if has("termguicolors")
+    " enable true color
+    set termguicolors
+endif
+if &term =~# '^screen'
+    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+endif
+
 filetype plugin on
 
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
@@ -344,10 +361,17 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " Auto save
 Plug '907th/vim-auto-save'
 
+" multi cursor support
+Plug 'terryma/vim-multiple-cursors'
+
+"  buffer managerment
+Plug 'bsdelf/bufferhint'
 call plug#end()
 
 
-
+"================================================================================
+" Plugin setting START
+"================================================================================
 "
 " === vim-lsp with ccls setting
 "
@@ -408,7 +432,6 @@ let g:gen_tags#root_marker = ".git"
 "
 " NERDTREE setting
 nmap _ :NERDTreeCWD<CR>
-nmap - :NERDTreeToggle<CR>
 
 "
 " === nerdcommenter setting
@@ -665,10 +688,23 @@ let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
 "
-"==== plugin_setting
+"==== auto save plugin_setting
 "
 let g:auto_save = 1
 let g:auto_save_events = ["InsertLeave", "CompleteDone"]
+
+"
+"==== bufferhint setting
+"
+nnoremap - :call bufferhint#Popup()<CR>
+nnoremap \ :call bufferhint#LoadPrevious()<CR>
+
+
+"================================================================================
+" Plugin setting END
+"================================================================================
+
+
 
 " hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 " hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
