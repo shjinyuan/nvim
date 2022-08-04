@@ -38,6 +38,12 @@ set autoindent
 set nolist
 " set list
 " set listchars=tab:\|\ ,trail:▫
+"禁止产生临时文件
+"sdad
+set noundofile
+set nobackup
+set noswapfile
+
 set scrolloff=4
 set timeoutlen=500
 set viewoptions=cursor,folds,slash,unix
@@ -690,8 +696,8 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "
 "==== bufferhint setting
 "
-nnoremap - :call bufferhint#Popup()
-nnoremap \ :call bufferhint#LoadPrevious()
+nnoremap - :call bufferhint#Popup()<CR>
+nnoremap \ :call bufferhint#LoadPrevious()<CR>
 
 
 "================================================================================
