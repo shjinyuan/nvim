@@ -324,9 +324,9 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'jsfaint/gen_tags.vim'
 
 " snippets
-" Plug 'maralla/completor.vim' "prompt snippets
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
+Plug 'maralla/completor.vim' "prompt snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " powerful commenter
 Plug 'preservim/nerdcommenter'
@@ -677,6 +677,10 @@ let g:completor_clang_binary = '/usr/bin/clang'
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
+
+" ActivateAddons vim-snippets snipmate
+
+let g:completor_clang_binary = '/usr/bin/clang'
 
 "
 "==== plugin_setting
