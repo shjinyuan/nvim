@@ -5,6 +5,7 @@
 "|_|  |_| |_|   |_| \_|  \_/  |___|_|  |_|_| \_\\____|
 
 
+let g:python3_host_prog = '/usr/bin/python3'
 
 
 " ====================
@@ -296,7 +297,6 @@ nmap <F12> :call lsp#disable()<CR>
 nmap <SPACE><F12> :call lsp#enable()<CR>
 
 
-
 " ===
 " === Install Plugins with Vim-Plug
 " ===
@@ -330,9 +330,9 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'jsfaint/gen_tags.vim'
 
 " snippets
-" Plug 'maralla/completor.vim' "prompt snippets
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
+Plug 'maralla/completor.vim' "prompt snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " powerful commenter
 Plug 'preservim/nerdcommenter'
