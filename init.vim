@@ -704,7 +704,7 @@ nnoremap - :call bufferhint#Popup()<CR>
 " nnoremap \ :call bufferhint#LoadPrevious()<CR>
 
 "vertically split far-right window
-let MRU_Window_Height = 15
+let MRU_Window_Height = 35
 nnoremap \ :vertical botright MRU <CR>
 
 
