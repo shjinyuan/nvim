@@ -366,6 +366,11 @@ Plug 'terryma/vim-multiple-cursors'
 
 "  buffer managerment
 Plug 'bsdelf/bufferhint'
+
+" tagbar which repleace taglist
+Plug 'preservim/tagbar'
+
+
 call plug#end()
 
 
@@ -703,11 +708,17 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 nnoremap - :call bufferhint#Popup()<CR>
 " nnoremap \ :call bufferhint#LoadPrevious()<CR>
 
-"vertically split far-right window
+"
+"==== MRU setting
+"
 let MRU_Window_Height = 35
 nnoremap \ :vertical botright MRU <CR>
 
-
+"
+"==== tagbar setting
+"
+let g:tagbar_position = 'leftabove vertical'
+nnoremap <silent> <F8> :TagbarToggle<CR>
 
 "================================================================================
 " Plugin setting END
