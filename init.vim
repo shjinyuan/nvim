@@ -250,8 +250,8 @@ noremap si :set splitright<CR>:vsplit<CR>
 " === Tab management
 " ===
 " Create a new tab with tu
-noremap tu :tabe<CR>
-noremap tU :tab split<CR>
+noremap tu :tab split<CR>
+noremap tU :tabe<CR>
 " Move around tabs with tn and ti
 noremap tn :-tabnext<CR>
 noremap ti :+tabnext<CR>
@@ -259,8 +259,8 @@ noremap ti :+tabnext<CR>
 noremap tmn :-tabmove<CR>
 noremap tmi :+tabmove<CR>
 
-
-
+" Close the tab
+noremap tc :tabclose<CR>
 
 
 " Press space twice to jump to the next '' and edit it
@@ -701,7 +701,12 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "==== bufferhint setting
 "
 nnoremap - :call bufferhint#Popup()<CR>
-nnoremap \ :call bufferhint#LoadPrevious()<CR>
+" nnoremap \ :call bufferhint#LoadPrevious()<CR>
+
+"vertically split far-right window
+let MRU_Window_Height = 15
+nnoremap \ :vertical botright MRU <CR>
+
 
 
 "================================================================================
@@ -745,6 +750,7 @@ autocmd InsertEnter,InsertLeave * set cul!
 " set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 " \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 " \,sm:block-blinkwait175-blinkoff150-blinkon175
+nnoremap \ :vertical botright MRU <CR>
 
 " autocmd InsertEnter * set cul
 " autocmd InsertLeave * set nocul
