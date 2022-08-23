@@ -117,17 +117,17 @@ func SkipPair()
 	endif
 endfunc
 
-inoremap jj <c-r>=SkipPair()<CR>"}}}
-
-" 常规模式下输入清除行尾 ^M 符号
+inoremap jj <c-r>=SkipPair()<CR>
+"}}}
+" 常规模式下输入清除行尾 ^M 符号{{{
 nmap <space>dM :%s/\r$//g<CR>:noh<CR>
-
-" 删除行尾空格 和 Tab
+"}}}
+" 删除行尾空格 和 Tab{{{
 nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
-
-" 删除空行
+"}}}
+" 删除空行{{{
 nmap <space>dl :g/^s*$/d<CR>
-
+"}}}
 
 " ===
 " === Terminal Behaviors
@@ -137,6 +137,7 @@ autocmd TermOpen term://* startinsert
 tnoremap <C-N> <C-\><C-N>
 tnoremap <C-O> <C-\><C-N><C-O>
 
+nn cc :cclose<CR>
 "{{{ === Basic Mappings
 " ===
 " ===
@@ -256,16 +257,17 @@ noremap si :set splitright<CR>:vsplit<CR>
 " Create a new tab with tu
 noremap tu :tab split<CR>
 noremap tU :tabe<CR>
-" Move around tabs with tn and ti
+" Motion around tabs with tn and ti
 noremap tn :-tabnext<CR>
 noremap ti :+tabnext<CR>
-" Move the tabs with tmn and tmi
+" Motion the tabs with tmn and tmi
 noremap tmn :-tabmove<CR>
 noremap tmi :+tabmove<CR>
 
 " Close the tab
 noremap tc :tabclose<CR>
 
+"motion between tabs
 nn > :bn<CR>
 nn < :bp<CR>
 
