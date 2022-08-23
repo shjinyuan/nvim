@@ -21,7 +21,7 @@ set autochdir
 set path+=~/sw040/1700-generated-config/**7
 set path+=~/sw040/1710-handwritten-config/**7
 
-
+" Basic setting {{{
 " ===
 " === Editor behavior
 " ===
@@ -100,10 +100,15 @@ if &term =~# '^screen'
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-filetype plugin on
+set foldenable
+set foldmethod=marker
 
+filetype plugin on"}}}
+
+" Restore the last quit position when open file.
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-" 设置跳出自动补全的括号 {{{2
+
+" 设置跳出自动补全的括号 {{{
 func SkipPair()
 	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
 		return "\<ESC>la"
@@ -112,7 +117,7 @@ func SkipPair()
 	endif
 endfunc
 
-inoremap jj <c-r>=SkipPair()<CR>
+inoremap jj <c-r>=SkipPair()<CR>"}}}
 
 " 常规模式下输入清除行尾 ^M 符号
 nmap <space>dM :%s/\r$//g<CR>:noh<CR>
@@ -132,9 +137,8 @@ autocmd TermOpen term://* startinsert
 tnoremap <C-N> <C-\><C-N>
 tnoremap <C-O> <C-\><C-N><C-O>
 
-
+"{{{ === Basic Mappings
 " ===
-" === Basic Mappings
 " ===
 " Set <LEADER>
 let mapleader=","
@@ -262,6 +266,8 @@ noremap tmi :+tabmove<CR>
 " Close the tab
 noremap tc :tabclose<CR>
 
+nn > :bn<CR>
+nn < :bp<CR>
 
 " Press space twice to jump to the next '' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
@@ -295,7 +301,7 @@ nmap <F10> ggVG=
 " nmap <F11> :call lsp#enable()<CR>
 nmap <F12> :call lsp#disable()<CR>
 nmap <SPACE><F12> :call lsp#enable()<CR>
-
+"}}}
 
 " ===
 " === Install Plugins with Vim-Plug
@@ -378,6 +384,16 @@ call plug#end()
 " Plugin setting START
 "================================================================================
 "
+"
+"
+"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#hunks#enabled = 1
+
+
+
+"
 " === vim-lsp with ccls setting
 "
 if executable('ccls')
@@ -390,8 +406,8 @@ if executable('ccls')
 				\ })
 endif
 " Key bindings for vim-lsp.
-nn <silent> <M-d> :LspDefinition<cr>
-nn <silent> <M-r> :LspReferences<cr>
+nn <silent> <M-d> :vert LspDefinition<cr>
+nn <silent> <M-r> :vert LspReferences<cr>
 nn <f2> :LspRename<cr>
 nn <silent> <M-a> :LspWorkspaceSymbol<cr>
 nn <silent> <M-l> :LspDocumentSymbol<cr>
