@@ -454,7 +454,7 @@ let g:gen_tags#root_marker = ".git"
 
 "
 " NERDTREE setting
-nmap _ :NERDTreeCWD<CR>
+nmap _ :NERDTreeToggle<CR>
 
 "
 " === nerdcommenter setting
@@ -730,7 +730,7 @@ nnoremap - :call bufferhint#Popup()<CR>
 "==== MRU setting
 "
 let MRU_Window_Height = 35
-nnoremap \ :vertical botright MRU <CR>
+nnoremap <space>mm :vertical botright MRUToggle<CR>
 
 "
 "==== tagbar setting
