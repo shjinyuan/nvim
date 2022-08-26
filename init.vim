@@ -760,3 +760,17 @@ autocmd InsertEnter,InsertLeave * set cul!
 "===================================
 " insert time
 ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
+
+
+
+let g:ascii = [
+			\ '        __',
+			\ '.--.--.|__|.--------.',
+			\ '|  |  ||  ||        |',
+			\ ' \___/ |__||__|__|__|',
+			\ ''
+			\]
+" let g:startify_custom_header =
+			" \ startify#pad(g:ascii + startify#fortune#boxed())
+let g:startify_custom_header =
+			\ 'startify#pad(g:ascii)'
