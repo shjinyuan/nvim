@@ -21,7 +21,7 @@ set autochdir
 set path+=~/sw040/1700-generated-config/**7
 set path+=~/sw040/1710-handwritten-config/**7
 
-
+" Basic setting {{{
 " ===
 " === Editor behavior
 " ===
@@ -100,10 +100,15 @@ if &term =~# '^screen'
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-filetype plugin on
+set foldenable
+set foldmethod=marker
 
+filetype plugin on"}}}
+
+" Restore the last quit position when open file.
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-" 设置跳出自动补全的括号 {{{2
+
+" 设置跳出自动补全的括号 {{{
 func SkipPair()
 	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
 		return "\<ESC>la"
@@ -113,16 +118,16 @@ func SkipPair()
 endfunc
 
 inoremap jj <c-r>=SkipPair()<CR>
-
-" 常规模式下输入清除行尾 ^M 符号
+"}}}
+" 常规模式下输入清除行尾 ^M 符号{{{
 nmap <space>dM :%s/\r$//g<CR>:noh<CR>
-
-" 删除行尾空格 和 Tab
+"}}}
+" 删除行尾空格 和 Tab{{{
 nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
-
-" 删除空行
+"}}}
+" 删除空行{{{
 nmap <space>dl :g/^s*$/d<CR>
-
+"}}}
 
 " ===
 " === Terminal Behaviors
@@ -132,9 +137,9 @@ autocmd TermOpen term://* startinsert
 tnoremap <C-N> <C-\><C-N>
 tnoremap <C-O> <C-\><C-N><C-O>
 
-
+nn cc :cclose<CR>
+"{{{ === Basic Mappings
 " ===
-" === Basic Mappings
 " ===
 " Set <LEADER>
 let mapleader=","
@@ -250,18 +255,21 @@ noremap si :set splitright<CR>:vsplit<CR>
 " === Tab management
 " ===
 " Create a new tab with tu
-noremap tu :tabe<CR>
-noremap tU :tab split<CR>
-" Move around tabs with tn and ti
+noremap tu :tab split<CR>
+noremap tU :tabe<CR>
+" Motion around tabs with tn and ti
 noremap tn :-tabnext<CR>
 noremap ti :+tabnext<CR>
-" Move the tabs with tmn and tmi
+" Motion the tabs with tmn and tmi
 noremap tmn :-tabmove<CR>
 noremap tmi :+tabmove<CR>
 
+" Close the tab
+noremap tc :tabclose<CR>
 
-
-
+"motion between tabs
+nn > :bn<CR>
+nn < :bp<CR>
 
 " Press space twice to jump to the next '' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
@@ -295,7 +303,7 @@ nmap <F10> ggVG=
 " nmap <F11> :call lsp#enable()<CR>
 nmap <F12> :call lsp#disable()<CR>
 nmap <SPACE><F12> :call lsp#enable()<CR>
-
+"}}}
 
 " ===
 " === Install Plugins with Vim-Plug
@@ -366,12 +374,27 @@ Plug 'terryma/vim-multiple-cursors'
 
 "  buffer managerment
 Plug 'bsdelf/bufferhint'
+
+" tagbar which repleace taglist
+Plug 'preservim/tagbar'
+
+
 call plug#end()
 
 
 "================================================================================
 " Plugin setting START
 "================================================================================
+"
+"
+"
+"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#hunks#enabled = 1
+
+
+
 "
 " === vim-lsp with ccls setting
 "
@@ -385,8 +408,8 @@ if executable('ccls')
 				\ })
 endif
 " Key bindings for vim-lsp.
-nn <silent> <M-d> :LspDefinition<cr>
-nn <silent> <M-r> :LspReferences<cr>
+nn <silent> <M-d> :vert LspDefinition<cr>
+nn <silent> <M-r> :vert LspReferences<cr>
 nn <f2> :LspRename<cr>
 nn <silent> <M-a> :LspWorkspaceSymbol<cr>
 nn <silent> <M-l> :LspDocumentSymbol<cr>
@@ -431,7 +454,7 @@ let g:gen_tags#root_marker = ".git"
 
 "
 " NERDTREE setting
-nmap _ :NERDTreeCWD<CR>
+nmap _ :NERDTreeToggle<CR>
 
 "
 " === nerdcommenter setting
@@ -701,8 +724,19 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "==== bufferhint setting
 "
 nnoremap - :call bufferhint#Popup()<CR>
-nnoremap \ :call bufferhint#LoadPrevious()<CR>
+" nnoremap \ :call bufferhint#LoadPrevious()<CR>
 
+"
+"==== MRU setting
+"
+let MRU_Window_Height = 35
+nnoremap <space>mm :vertical botright MRUToggle<CR>
+
+"
+"==== tagbar setting
+"
+let g:tagbar_position = 'leftabove vertical'
+nnoremap <silent> <F8> :TagbarToggle<CR>
 
 "================================================================================
 " Plugin setting END
@@ -745,6 +779,7 @@ autocmd InsertEnter,InsertLeave * set cul!
 " set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 " \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 " \,sm:block-blinkwait175-blinkoff150-blinkon175
+nnoremap \ :vertical botright MRU <CR>
 
 " autocmd InsertEnter * set cul
 " autocmd InsertLeave * set nocul
