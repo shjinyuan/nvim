@@ -792,15 +792,16 @@ let g:startify_custom_header =
 
 
 
-"
+"{{{
 " custom highlight setting 
 "
+"
 " ======== Gitgutter sign
-highlight GitGutterChangeInvisible  ctermfg=242 ctermbg=242 guifg=bg guibg=Red
-highlight GitGutterDeleteInvisible  ctermfg=242 ctermbg=242 guifg=bg guibg=Red
-highlight GitGutterAdd     ctermfg=2 ctermbg=242 guifg=#009900 guibg=Red guifg=Darkblue
-highlight GitGutterChange  ctermfg=3 ctermbg=242 guifg=#bbbb00 guibg=Red guifg=Darkblue
-highlight GitGutterDelete  ctermfg=1 ctermbg=242 guifg=#ff2222 guibg=Red guifg=Darkblue
+" highlight GitGutterChangeInvisible guifg=Red
+" highlight GitGutterDeleteInvisible guifg=Red
+highlight GitGutterAdd		guifg=Green
+highlight GitGutterDelete guifg=Gray
+highlight GitGutterChange guifg=Blue
 "
 "
 "========== Diff Mode
@@ -814,4 +815,5 @@ highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Re
 "
 "========== Menu for selection
 hi Pmenu ctermfg=10 ctermbg=17 guibg=Black guifg=Green
-hi PmenuSel ctermfg=Green ctermbg=Black guibg=#444444
+hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray guifg=White
+"}}}
