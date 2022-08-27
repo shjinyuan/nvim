@@ -741,28 +741,14 @@ nnoremap <silent> <F8> :TagbarToggle<CR>
 "================================================================================
 " Plugin setting END
 "================================================================================
-
-
-
-" hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-" hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-"
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
-
-
-hi Pmenu ctermfg=green ctermbg=black guibg=#444444
-hi PmenuSel ctermfg=7 ctermbg=4 guibg=#555555 guifg=#ffffff
-
+"{{{ TODO check the autocmd meaning here
 autocmd! bufwritepost $HOME/.config/nvim/init.vim
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
 if &diff
 	syntax off
 endif
-
+"}}}
 "====================================
 "			code assist
 "====================================
@@ -784,12 +770,6 @@ nnoremap \ :vertical botright MRU <CR>
 " autocmd InsertEnter * set cul
 " autocmd InsertLeave * set nocul
 "
-"
-"
-"
-"
-"
-"
 "===================================
 " Cool tricks
 "===================================
@@ -809,3 +789,29 @@ let g:ascii = [
 			" \ startify#pad(g:ascii + startify#fortune#boxed())
 let g:startify_custom_header =
 			\ 'startify#pad(g:ascii)'
+
+
+
+"
+" custom highlight setting 
+"
+" ======== Gitgutter sign
+highlight GitGutterChangeInvisible  ctermfg=242 ctermbg=242 guifg=bg guibg=Red
+highlight GitGutterDeleteInvisible  ctermfg=242 ctermbg=242 guifg=bg guibg=Red
+highlight GitGutterAdd     ctermfg=2 ctermbg=242 guifg=#009900 guibg=Red guifg=Darkblue
+highlight GitGutterChange  ctermfg=3 ctermbg=242 guifg=#bbbb00 guibg=Red guifg=Darkblue
+highlight GitGutterDelete  ctermfg=1 ctermbg=242 guifg=#ff2222 guibg=Red guifg=Darkblue
+"
+"
+"========== Diff Mode
+" hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
+" hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+"
+"
+"========== Menu for selection
+hi Pmenu ctermfg=10 ctermbg=17 guibg=Black guifg=Green
+hi PmenuSel ctermfg=Green ctermbg=Black guibg=#444444
