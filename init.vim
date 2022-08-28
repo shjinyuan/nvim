@@ -447,11 +447,34 @@ augroup END
 "
 " === gen_tags.vim setting
 "
-let g:gen_tags#gtags_default_map = 1
-let g:gen_tags#root_marker = ".git"
-"let $GTAGSCONF = '/home/wsk/bin/gtags/data/gtags/gtags.conf'
-"let $GTAGSLABEL = 'pygments'
+let g:gen_tags#ctags_auto_gen = 1
+let g:gen_tags#gtags_auto_gen = 1
 
+let g:gen_tags#root_marker = ".git"
+let g:gen_tags#ctags_opts = ['--c++-kinds=+px', '--c-kinds=+px']
+let g:gen_tags#ctags_opts = ['-c', '--verbose']
+autocmd User GenTags#CtagsLoaded echo "hello world"
+autocmd User GenTags#GtagsLoaded nnoremap gd <c-]>
+
+let g:gen_tags#gtags_default_map = 0
+
+map <LEADER>sc :cs find c <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>sd :cs find d <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>se :cs find e <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>sf :cs find f <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>sg :cs find g <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>si :cs find i <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>ss :cs find s <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>st :cs find t <C-R>=expand('<cword>')<CR><CR>
+
+map <LEADER>vc :vert scs find c <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vd :vert scs find d <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>ve :vert scs find e <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vf :vert scs find f <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>vg :vert scs find g <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vi :vert scs find i <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>vs :vert scs find s <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
 "
 " NERDTREE setting
 nmap _ :NERDTreeToggle<CR>
