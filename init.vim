@@ -287,7 +287,7 @@ autocmd BufEnter * silent! lcd %:p:h
 noremap tx :r !figlet
 
 " find and replace
-noremap \s :%s//g<left><left>
+noremap \s :%s//<left><left>
 
 " format python
 map <F4> :%!python -m json.tool<CR>
@@ -478,6 +478,7 @@ map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
 "
 " NERDTREE setting
 nmap _ :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
 
 "
 " === nerdcommenter setting
@@ -800,7 +801,6 @@ nnoremap \ :vertical botright MRU <CR>
 ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
 
 
-
 let g:ascii = [
 			\ '        __',
 			\ '.--.--.|__|.--------.',
@@ -871,3 +871,17 @@ let g:fzf_action = {
 	\ 'ctrl-x': 'split',
 	\ 'ctrl-v': 'vsplit' }
 
+" using ALT +hjkl to motion among windows
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+noremap <A-h> <C-\><C-N><C-w>h
+noremap <A-j> <C-\><C-N><C-w>j
+noremap <A-k> <C-\><C-N><C-w>k
+noremap <A-l> <C-\><C-N><C-w>l
+noremap <A-h> <C-w>h          
+noremap <A-j> <C-w>j          
+noremap <A-k> <C-w>k          
+noremap <A-l> <C-w>l          
+map <space>x  <C-c>
