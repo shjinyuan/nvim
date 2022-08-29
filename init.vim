@@ -5,6 +5,7 @@
 "|_|  |_| |_|   |_| \_|  \_/  |___|_|  |_|_| \_\\____|
 
 
+let g:python3_host_prog = '/usr/bin/python3'
 
 
 " ====================
@@ -20,7 +21,7 @@ set autochdir
 set path+=~/sw040/1700-generated-config/**7
 set path+=~/sw040/1710-handwritten-config/**7
 
-
+" Basic setting {{{
 " ===
 " === Editor behavior
 " ===
@@ -99,10 +100,15 @@ if &term =~# '^screen'
     let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
-filetype plugin on
+set foldenable
+set foldmethod=marker
 
+filetype plugin on"}}}
+
+" Restore the last quit position when open file.
 au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-" 设置跳出自动补全的括号 {{{2
+
+" 设置跳出自动补全的括号 {{{
 func SkipPair()
 	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
 		return "\<ESC>la"
@@ -112,16 +118,16 @@ func SkipPair()
 endfunc
 
 inoremap jj <c-r>=SkipPair()<CR>
-
-" 常规模式下输入清除行尾 ^M 符号
+"}}}
+" 常规模式下输入清除行尾 ^M 符号{{{
 nmap <space>dM :%s/\r$//g<CR>:noh<CR>
-
-" 删除行尾空格 和 Tab
+"}}}
+" 删除行尾空格 和 Tab{{{
 nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
-
-" 删除空行
+"}}}
+" 删除空行{{{
 nmap <space>dl :g/^s*$/d<CR>
-
+"}}}
 
 " ===
 " === Terminal Behaviors
@@ -131,9 +137,9 @@ autocmd TermOpen term://* startinsert
 tnoremap <C-N> <C-\><C-N>
 tnoremap <C-O> <C-\><C-N><C-O>
 
-
+nn cc :cclose<CR>
+"{{{ === Basic Mappings
 " ===
-" === Basic Mappings
 " ===
 " Set <LEADER>
 let mapleader=","
@@ -249,18 +255,21 @@ noremap si :set splitright<CR>:vsplit<CR>
 " === Tab management
 " ===
 " Create a new tab with tu
-noremap tu :tabe<CR>
-noremap tU :tab split<CR>
-" Move around tabs with tn and ti
+noremap tu :tab split<CR>
+noremap tU :tabe<CR>
+" Motion around tabs with tn and ti
 noremap tn :-tabnext<CR>
 noremap ti :+tabnext<CR>
-" Move the tabs with tmn and tmi
+" Motion the tabs with tmn and tmi
 noremap tmn :-tabmove<CR>
 noremap tmi :+tabmove<CR>
 
+" Close the tab
+noremap tc :tabclose<CR>
 
-
-
+"motion between tabs
+nn > :bn<CR>
+nn < :bp<CR>
 
 " Press space twice to jump to the next '' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
@@ -278,7 +287,7 @@ autocmd BufEnter * silent! lcd %:p:h
 noremap tx :r !figlet
 
 " find and replace
-noremap \s :%s//g<left><left>
+noremap \s :%s//<left><left>
 
 " format python
 map <F4> :%!python -m json.tool<CR>
@@ -294,8 +303,7 @@ nmap <F10> ggVG=
 " nmap <F11> :call lsp#enable()<CR>
 nmap <F12> :call lsp#disable()<CR>
 nmap <SPACE><F12> :call lsp#enable()<CR>
-
-
+"}}}
 
 " ===
 " === Install Plugins with Vim-Plug
@@ -330,9 +338,9 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 Plug 'jsfaint/gen_tags.vim'
 
 " snippets
-" Plug 'maralla/completor.vim' "prompt snippets
-" Plug 'SirVer/ultisnips'
-" Plug 'honza/vim-snippets'
+Plug 'maralla/completor.vim' "prompt snippets
+Plug 'SirVer/ultisnips'
+Plug 'honza/vim-snippets'
 
 " powerful commenter
 Plug 'preservim/nerdcommenter'
@@ -366,12 +374,27 @@ Plug 'terryma/vim-multiple-cursors'
 
 "  buffer managerment
 Plug 'bsdelf/bufferhint'
+
+" tagbar which repleace taglist
+Plug 'preservim/tagbar'
+
+
 call plug#end()
 
 
 "================================================================================
 " Plugin setting START
 "================================================================================
+"
+"
+"
+"
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#buffer_nr_show = 1
+let g:airline#extensions#hunks#enabled = 1
+
+
+
 "
 " === vim-lsp with ccls setting
 "
@@ -385,8 +408,8 @@ if executable('ccls')
 				\ })
 endif
 " Key bindings for vim-lsp.
-nn <silent> <M-d> :LspDefinition<cr>
-nn <silent> <M-r> :LspReferences<cr>
+nn <silent> <M-d> :vert LspDefinition<cr>
+nn <silent> <M-r> :vert LspReferences<cr>
 nn <f2> :LspRename<cr>
 nn <silent> <M-a> :LspWorkspaceSymbol<cr>
 nn <silent> <M-l> :LspDocumentSymbol<cr>
@@ -424,14 +447,38 @@ augroup END
 "
 " === gen_tags.vim setting
 "
-let g:gen_tags#gtags_default_map = 1
-let g:gen_tags#root_marker = ".git"
-"let $GTAGSCONF = '/home/wsk/bin/gtags/data/gtags/gtags.conf'
-"let $GTAGSLABEL = 'pygments'
+let g:gen_tags#ctags_auto_gen = 1
+let g:gen_tags#gtags_auto_gen = 1
 
+let g:gen_tags#root_marker = ".git"
+let g:gen_tags#ctags_opts = ['--c++-kinds=+px', '--c-kinds=+px']
+let g:gen_tags#ctags_opts = ['-c', '--verbose']
+autocmd User GenTags#CtagsLoaded echo "hello world"
+autocmd User GenTags#GtagsLoaded nnoremap gd <c-]>
+
+let g:gen_tags#gtags_default_map = 0
+
+map <LEADER>sc :cs find c <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>sd :cs find d <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>se :cs find e <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>sf :cs find f <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>sg :cs find g <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>si :cs find i <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>ss :cs find s <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>st :cs find t <C-R>=expand('<cword>')<CR><CR>
+
+map <LEADER>vc :vert scs find c <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vd :vert scs find d <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>ve :vert scs find e <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vf :vert scs find f <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>vg :vert scs find g <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vi :vert scs find i <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>vs :vert scs find s <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
 "
 " NERDTREE setting
-nmap _ :NERDTreeCWD<CR>
+nmap _ :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
 
 "
 " === nerdcommenter setting
@@ -687,6 +734,10 @@ let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<c-b>"
 let g:UltiSnipsJumpBackwardTrigger="<c-z>"
 
+" ActivateAddons vim-snippets snipmate
+
+let g:completor_clang_binary = '/usr/bin/clang'
+
 "
 "==== auto save plugin_setting
 "
@@ -697,34 +748,31 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "==== bufferhint setting
 "
 nnoremap - :call bufferhint#Popup()<CR>
-nnoremap \ :call bufferhint#LoadPrevious()<CR>
+" nnoremap \ :call bufferhint#LoadPrevious()<CR>
 
+"
+"==== MRU setting
+"
+let MRU_Window_Height = 35
+nnoremap <space>mm :vertical botright MRUToggle<CR>
+
+"
+"==== tagbar setting
+"
+let g:tagbar_position = 'leftabove vertical'
+nnoremap <silent> <F8> :TagbarToggle<CR>
 
 "================================================================================
 " Plugin setting END
 "================================================================================
-
-
-
-" hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-" hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-"
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
-
-
-hi Pmenu ctermfg=green ctermbg=black guibg=#444444
-hi PmenuSel ctermfg=7 ctermbg=4 guibg=#555555 guifg=#ffffff
-
+"{{{ TODO check the autocmd meaning here
 autocmd! bufwritepost $HOME/.config/nvim/init.vim
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
 if &diff
 	syntax off
 endif
-
+"}}}
 "====================================
 "			code assist
 "====================================
@@ -741,18 +789,99 @@ autocmd InsertEnter,InsertLeave * set cul!
 " set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 " \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 " \,sm:block-blinkwait175-blinkoff150-blinkon175
+nnoremap \ :vertical botright MRU <CR>
 
 " autocmd InsertEnter * set cul
 " autocmd InsertLeave * set nocul
-"
-"
-"
-"
-"
-"
 "
 "===================================
 " Cool tricks
 "===================================
 " insert time
 ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
+
+
+let g:ascii = [
+			\ '        __',
+			\ '.--.--.|__|.--------.',
+			\ '|  |  ||  ||        |',
+			\ ' \___/ |__||__|__|__|',
+			\ ''
+			\]
+" let g:startify_custom_header =
+			" \ startify#pad(g:ascii + startify#fortune#boxed())
+let g:startify_custom_header =
+			\ 'startify#pad(g:ascii)'
+
+
+
+"{{{
+" custom highlight setting 
+"
+"
+" ======== Gitgutter sign
+" highlight GitGutterChangeInvisible guifg=Red
+" highlight GitGutterDeleteInvisible guifg=Red
+highlight GitGutterAdd		guifg=Green
+highlight GitGutterDelete guifg=Gray
+highlight GitGutterChange guifg=Blue
+"
+"
+"========== Diff Mode
+" hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
+" hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+"
+"
+"========== Menu for selection
+hi Pmenu ctermfg=10 ctermbg=17 guibg=Black guifg=Green
+hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray guifg=White
+"}}}
+
+let g:fzf_colors =
+\ { 'fg':      ['fg', 'Normal'],
+	\ 'bg':      ['bg', 'Normal'],
+	\ 'hl':      ['fg', 'Comment'],
+	\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+	\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+	\ 'hl+':     ['fg', 'Statement'],
+	\ 'info':    ['fg', 'PreProc'],
+	\ 'border':  ['fg', 'Ignore'],
+	\ 'prompt':  ['fg', 'Conditional'],
+	\ 'pointer': ['fg', 'Exception'],
+	\ 'marker':  ['fg', 'Keyword'],
+		\ 'spinner': ['fg', 'Label'],
+		\ 'header':  ['fg', 'Comment'] }
+
+
+
+" An action can be a reference to a function that processes selected lines
+function! s:build_quickfix_list(lines)
+call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+copen
+cc
+endfunction
+
+let g:fzf_action = {
+	\ 'ctrl-q': function('s:build_quickfix_list'),
+	\ 'ctrl-t': 'tab split',
+	\ 'ctrl-x': 'split',
+	\ 'ctrl-v': 'vsplit' }
+
+" using ALT +hjkl to motion among windows
+tnoremap <A-h> <C-\><C-N><C-w>h
+tnoremap <A-j> <C-\><C-N><C-w>j
+tnoremap <A-k> <C-\><C-N><C-w>k
+tnoremap <A-l> <C-\><C-N><C-w>l
+noremap <A-h> <C-\><C-N><C-w>h
+noremap <A-j> <C-\><C-N><C-w>j
+noremap <A-k> <C-\><C-N><C-w>k
+noremap <A-l> <C-\><C-N><C-w>l
+noremap <A-h> <C-w>h          
+noremap <A-j> <C-w>j          
+noremap <A-k> <C-w>k          
+noremap <A-l> <C-w>l          
+map <space>x  <C-c>
