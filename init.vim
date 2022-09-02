@@ -289,17 +289,18 @@ noremap tx :r !figlet
 noremap \s :%s//g<left><left>
 
 " format python
-map <F4> :%!python -m json.tool<CR>
+" map <F4> :%!python -m json.tool<CR>
 
-" press f10 to show hlgroup
-function! SynGroup()
-	let l:s = synID(line('.'), col('.'), 1)
-	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-endfun
+" press F9 to show hlgroup
+" function! SynGroup()
+	" let l:s = synID(line('.'), col('.'), 1)
+	" echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+" endfun
+"
+" nmap <F9> :call SynGroup()<CR>
 
-nmap <F9> :call SynGroup()<CR>
 nmap <F10> ggVG=
-" nmap <F11> :call lsp#enable()<CR>
+
 nmap <F12> :call lsp#disable()<CR>
 nmap <SPACE><F12> :call lsp#enable()<CR>
 "}}}
@@ -318,7 +319,8 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug 'AlessandroYorba/Alduin'
 " Plug rakr/vim-two-firewatch
 " Plug Badacadabra/vim-archery
-" Vim Applications
+"
+" A Vim Applications Calendar
 Plug 'itchyny/calendar.vim'
 
 " Git relative
@@ -328,12 +330,14 @@ Plug 'shjinyuan/vim-fugitive'
 " vim-lsp with ccls
 " Plug 'prabirshrestha/vim-lsp'
 " Plug 'mattn/vim-lsp-settings'
-"Plug 'neovim/nvim-lspconfig'
-
-"async complete
+"
+" Plug 'neovim/nvim-lspconfig' " not used in daily life, need to config further
+"
+" async complete
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
+" code navigation
 Plug 'jsfaint/gen_tags.vim'
 Plug 'joereynolds/gtags-scope'
 
