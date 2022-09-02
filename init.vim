@@ -18,8 +18,7 @@ let g:python3_host_prog = '/usr/bin/python3'
 let &t_ut=''
 set autochdir
 
-set path+=~/sw040/1700-generated-config/**7
-set path+=~/sw040/1710-handwritten-config/**7
+" set path+=~/linuxptp/**7
 
 " Basic setting {{{
 " ===
@@ -327,8 +326,8 @@ Plug 'airblade/vim-gitgutter'
 Plug 'shjinyuan/vim-fugitive'
 
 " vim-lsp with ccls
-Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
+" Plug 'prabirshrestha/vim-lsp'
+" Plug 'mattn/vim-lsp-settings'
 "Plug 'neovim/nvim-lspconfig'
 
 "async complete
@@ -336,6 +335,7 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 Plug 'jsfaint/gen_tags.vim'
+Plug 'joereynolds/gtags-scope'
 
 " snippets
 Plug 'maralla/completor.vim' "prompt snippets
@@ -388,73 +388,71 @@ call plug#end()
 "
 "
 "
-"
+" Airline setting to show tabs ontop
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#hunks#enabled = 1
 
 
 
+""
+"" === vim-lsp with ccls setting
+""
+"if executable('ccls')
+"	au User lsp_setup call lsp#register_server({
+"				\ 'name': 'ccls',
+"				\ 'cmd': {server_info->['ccls']},
+"				\ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+"				\ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
+"				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+"				\ })
+"endif
+"" Key bindings for vim-lsp.
+"nn <silent> <M-d> :vert LspDefinition<cr>
+"nn <silent> <M-r> :vert LspReferences<cr>
+"nn <f2> :LspRename<cr>
+"nn <silent> <M-a> :LspWorkspaceSymbol<cr>
+"nn <silent> <M-l> :LspDocumentSymbol<cr>
 "
-" === vim-lsp with ccls setting
+"function! s:on_lsp_buffer_enabled() abort
+"	setlocal omnifunc=lsp#complete
+"	setlocal signcolumn=yes
+"	if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+"	nmap <buffer> gd <plug>(lsp-definition)
+"	nmap <buffer> gs <plug>(lsp-document-symbol-search)
+"	nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+"	nmap <buffer> gr <plug>(lsp-references)
+"	nmap <buffer> gi <plug>(lsp-implementation)
+"	nmap <buffer> gt <plug>(lsp-type-definition)
+"	nmap <buffer> <leader>rn <plug>(lsp-rename)
+"	nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+"	nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+"	nmap <buffer> K <plug>(lsp-hover)
+"	nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+"	nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 "
-if executable('ccls')
-	au User lsp_setup call lsp#register_server({
-				\ 'name': 'ccls',
-				\ 'cmd': {server_info->['ccls']},
-				\ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-				\ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
-				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-				\ })
-endif
-" Key bindings for vim-lsp.
-nn <silent> <M-d> :vert LspDefinition<cr>
-nn <silent> <M-r> :vert LspReferences<cr>
-nn <f2> :LspRename<cr>
-nn <silent> <M-a> :LspWorkspaceSymbol<cr>
-nn <silent> <M-l> :LspDocumentSymbol<cr>
-
-function! s:on_lsp_buffer_enabled() abort
-	setlocal omnifunc=lsp#complete
-	setlocal signcolumn=yes
-	if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-	nmap <buffer> gd <plug>(lsp-definition)
-	nmap <buffer> gs <plug>(lsp-document-symbol-search)
-	nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-	nmap <buffer> gr <plug>(lsp-references)
-	nmap <buffer> gi <plug>(lsp-implementation)
-	nmap <buffer> gt <plug>(lsp-type-definition)
-	nmap <buffer> <leader>rn <plug>(lsp-rename)
-	nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-	nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-	nmap <buffer> K <plug>(lsp-hover)
-	nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-	nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
-
-	let g:lsp_format_sync_timeout = 1000
-	autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
-
-	" refer to doc to add more commands
-endfunction
-
-augroup lsp_install
-	au!
-	" call s:on_lsp_buffer_enabled only for languages that has the server registered.
-	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-augroup END
+"	let g:lsp_format_sync_timeout = 1000
+"	" autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormAtSync')
+"
+"	" refer to doc to add more commands
+"endfunction
+"
+"augroup lsp_install
+"	au!
+"	" call s:on_lsp_buffer_enabled only for languages that has the server registered.
+"	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+"augroup END
 
 
 "
 " === gen_tags.vim setting
 "
-let g:gen_tags#ctags_auto_gen = 1
+"
 let g:gen_tags#gtags_auto_gen = 1
-
+let g:gen_tags#gtags_auto_updagen = 1
+"
 let g:gen_tags#root_marker = ".git"
-let g:gen_tags#ctags_opts = ['--c++-kinds=+px', '--c-kinds=+px']
 let g:gen_tags#ctags_opts = ['-c', '--verbose']
-autocmd User GenTags#CtagsLoaded echo "hello world"
-autocmd User GenTags#GtagsLoaded nnoremap gd <c-]>
 
 let g:gen_tags#gtags_default_map = 0
 
@@ -475,6 +473,7 @@ map <LEADER>vg :vert scs find g <C-R>=expand('<cword>')<CR><CR>
 map <LEADER>vi :vert scs find i <C-R>=expand('<cfile>')<CR><CR>
 map <LEADER>vs :vert scs find s <C-R>=expand('<cword>')<CR><CR>
 map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
+"
 "
 " NERDTREE setting
 nmap _ :NERDTreeToggle<CR>
@@ -871,3 +870,11 @@ let g:fzf_action = {
 	\ 'ctrl-x': 'split',
 	\ 'ctrl-v': 'vsplit' }
 
+" set cscopetag " 使用 cscope 作为 tags 命令
+" set cscopeprg='gtags-cscope' " 使用 gtags-cscope 代替 cscope
+"
+"
+"gtags.vim 设置项
+let GtagsCscope_Auto_Load = 1
+let CtagsCscope_Auto_Map = 1
+let GtagsCscope_Quiet = 1
