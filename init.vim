@@ -292,17 +292,20 @@ noremap \s :%s//g<left><left>
 " format python
 map <F4> :%!python -m json.tool<CR>
 
-" press f10 to show hlgroup
-function! SynGroup()
-	let l:s = synID(line('.'), col('.'), 1)
-	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-endfun
+" press F9 to show hlgroup
+" function! SynGroup()
+	" let l:s = synID(line('.'), col('.'), 1)
+	" echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+" endfun
+"
+" nmap <F9> :call SynGroup()<CR>
 
-nmap <F9> :call SynGroup()<CR>
 nmap <F10> ggVG=
-" nmap <F11> :call lsp#enable()<CR>
+
 nmap <F12> :call lsp#disable()<CR>
 nmap <SPACE><F12> :call lsp#enable()<CR>
+
+
 "}}}
 
 " ===
@@ -335,7 +338,7 @@ Plug 'mattn/vim-lsp-settings'
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-Plug 'jsfaint/gen_tags.vim'
+" Plug 'jsfaint/gen_tags.vim'
 
 " snippets
 Plug 'maralla/completor.vim' "prompt snippets
@@ -408,11 +411,11 @@ if executable('ccls')
 				\ })
 endif
 " Key bindings for vim-lsp.
-nn <silent> <M-d> :vert LspDefinition<cr>
-nn <silent> <M-r> :vert LspReferences<cr>
+nn <silent> <M-d> :vs +LspDefinition<cr>
+nn <silent> <M-r> :vs +LspReferences<cr>
 nn <f2> :LspRename<cr>
-nn <silent> <M-a> :LspWorkspaceSymbol<cr>
-nn <silent> <M-l> :LspDocumentSymbol<cr>
+nn <silent> <M-a> :vs +LspWorkspaceSymbol<cr>
+nn <silent> <M-l> :vs +LspDocumentSymbol<cr>
 
 function! s:on_lsp_buffer_enabled() abort
 	setlocal omnifunc=lsp#complete
@@ -447,11 +450,11 @@ augroup END
 "
 " === gen_tags.vim setting
 "
-let g:gen_tags#gtags_default_map = 1
-let g:gen_tags#root_marker = ".git"
-"let $GTAGSCONF = '/home/wsk/bin/gtags/data/gtags/gtags.conf'
-"let $GTAGSLABEL = 'pygments'
-
+" let g:gen_tags#gtags_default_map = 1
+" let g:gen_tags#root_marker = ".git"
+" let $GTAGSCONF = '/home/wsk/bin/gtags/data/gtags/gtags.conf'
+" let $GTAGSLABEL = 'pygments'
+"
 "
 " NERDTREE setting
 nmap _ :NERDTreeToggle<CR>
@@ -745,9 +748,6 @@ nnoremap <silent> <F8> :TagbarToggle<CR>
 autocmd! bufwritepost $HOME/.config/nvim/init.vim
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
-if &diff
-	syntax off
-endif
 "}}}
 "====================================
 "			code assist
@@ -807,10 +807,10 @@ highlight GitGutterChange guifg=Blue
 "========== Diff Mode
 " hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 " hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+highlight DiffAdd    cterm=bold ctermfg=11 ctermbg=17 gui=none guifg=black guibg=Red
+highlight DiffDelete cterm=bold ctermfg=12 ctermbg=37 gui=none guifg=black guibg=Green
+highlight DiffChange cterm=bold ctermfg=13 ctermbg=27 gui=none guifg=black guibg=Blue
+highlight DiffText   cterm=bold ctermfg=14 ctermbg=88 gui=none guifg=black guibg=Yellow
 "
 "
 "========== Menu for selection
