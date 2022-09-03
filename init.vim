@@ -149,6 +149,8 @@ noremap Q :q<CR>
 " noremap <C-q> :qa<CR>
 noremap S :w<CR>
 
+
+nn Q q<CR>
 " Open the vimrc file anytime
 noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
 
@@ -331,8 +333,8 @@ Plug 'shjinyuan/vim-fugitive'
 
 " vim-lsp with ccls
 Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
-"Plug 'neovim/nvim-lspconfig'
+" Plug 'mattn/vim-lsp-settings'  "not used and not setting
+" Plug 'neovim/nvim-lspconfig'		" need to config further to check affect
 
 "async complete
 Plug 'prabirshrestha/asyncomplete.vim'
@@ -410,12 +412,16 @@ if executable('ccls')
 				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
 				\ })
 endif
+	let g:lsp_preview_keep_focus = 0
+	let g:lsp_preview_float = 0
+	let g:lsp_preview_autoclose = 0
 " Key bindings for vim-lsp.
 nn <silent> <M-d> :vs +LspDefinition<cr>
 nn <silent> <M-r> :vs +LspReferences<cr>
+
 nn <f2> :LspRename<cr>
 nn <silent> <M-a> :vs +LspWorkspaceSymbol<cr>
-nn <silent> <M-l> :vs +LspDocumentSymbol<cr>
+nn <silent> <M-s> :vs +LspDocumentSymbol<cr>
 
 function! s:on_lsp_buffer_enabled() abort
 	setlocal omnifunc=lsp#complete
@@ -431,8 +437,8 @@ function! s:on_lsp_buffer_enabled() abort
 	nmap <buffer> [g <plug>(lsp-previous-diagnostic)
 	nmap <buffer> ]g <plug>(lsp-next-diagnostic)
 	nmap <buffer> K <plug>(lsp-hover)
-	nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-	nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+	nnoremap <buffer> <expr><c-j> lsp#scroll(+4)
+	nnoremap <buffer> <expr><c-k> lsp#scroll(-4)
 
 	let g:lsp_format_sync_timeout = 1000
 	autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
@@ -847,4 +853,107 @@ let g:fzf_action = {
 	\ 'ctrl-t': 'tab split',
 	\ 'ctrl-x': 'split',
 	\ 'ctrl-v': 'vsplit' }
+
+
+" ActiveWindow: set focus window {{{1
+"colorcolumn {{{2
+let g:AutoResizeFocusWindow=1
+function s:Set_focus_window()
+	"after entering another window, set cc=80
+	set cc=80
+	"hi CursorLineNr term=bold ctermfg=Yellow
+
+	if g:AutoResizeFocusWindow == 1
+		if bufname("%") == "__Tagbar__.1"
+		elseif bufname("%") == "NERD_tree_1"
+		else
+			"resize the focus window when the window size < 86
+			if winwidth(0) <= 86
+				vertical res 99
+				"echo "The current window has " . winwidth(0) . " columns."
+			endif
+		endif
+		" display current window's bufname, FIXME: ,f1
+		"echo bufname("%")
+	endif
+
+	augroup BgHighlight_focus
+		" Highlight the text line of the cursor with CursorLine 'hl-CursorLine'.
+		set cul
+		set relativenumber
+		set number
+	augroup END
+	checktime
+endfunction
+
+" define a shortcut key for enabling/disabling auto resize focus window:
+nnoremap  <leader>fx :exe "let g:AutoResizeFocusWindow=exists(\"g:AutoResizeFocusWindow\")?g:AutoResizeFocusWindow*-1+1:1"<CR>
+
+" NonActiveWindow
+function s:Set_lose_focus_window()
+	"before leaving a window, set cc=""
+	set cc=""
+
+	" ActiveWindow
+	augroup BgHighlight_loss_fucos
+		set nocul
+		set norelativenumber
+		set nonumber
+	augroup END
+	checktime
+endfunction
+
+" 不是 vimdiff 时，自动改变窗口大小; vimdiff 窗口不自动改变大小
+if &diff == 0
+	autocmd WinEnter,BufEnter * call s:Set_focus_window()
+	autocmd WinLeave,BufLeave * call s:Set_lose_focus_window()
+endif
+
+" set statusline color {{{2
+" default the statusline to White (black character) when entering Vim
+hi StatusLine term=reverse ctermfg=White ctermbg=Black gui=bold,reverse
+
+" Insert Mode
+function s:Set_InsertEnter_Window()
+	hi StatusLine term=reverse ctermfg=DarkMagenta ctermbg=Black gui=undercurl guisp=Magenta
+
+	" Insert mode: CursorLineNr is Cyan
+	hi CursorLineNr term=bold ctermfg=Cyan guifg=Blue
+
+	hi Cursor term=bold ctermbg=Cyan guibg=Cyan
+
+	set nornu
+
+	checktime
+
+	" Window resizing
+	"vertical res 99
+endfunction
+
+" Normal mode
+function s:Set_InsertLeave_Window()
+	hi StatusLine term=reverse cterMFG=White ctermbg=Black gui=bold,reverse
+
+	" Normal mode: CursorLineNr is Yellow
+	hi CursorLineNr term=bold ctermfg=Yellow guifg=Yellow
+
+	set rnu
+endfunction
+
+" if version >= 700
+	au InsertEnter * call s:Set_InsertEnter_Window()
+	" au InsertLeave * call s:Set_InsertLeave_Window()
+	au BufWinEnter * call s:Set_InsertEnter_Window()
+	au BufWinLeave * call s:Set_InsertLeave_Window()
+" endif
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+"It will open a vimdiff-like window with the current buffer and the underlying file highlighting all of the changes between the two.
+" :h vimrc_example
+command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+			\ | wincmd p | diffthis
+
+" :map messages output to ~/.vim/map.txt
+command -nargs=? Rmap redir! > ~/.vim/my_help/key_map.txt | silent map | redir END
 
