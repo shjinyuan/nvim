@@ -393,7 +393,8 @@ call plug#end()
 "
 "
 "
-"
+" ========= airline setting
+let g:airline_theme = 'dark'
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#hunks#enabled = 1
@@ -862,7 +863,6 @@ function s:Set_focus_window()
 	"after entering another window, set cc=80
 	set cc=80
 	"hi CursorLineNr term=bold ctermfg=Yellow
-
 	if g:AutoResizeFocusWindow == 1
 		if bufname("%") == "__Tagbar__.1"
 		elseif bufname("%") == "NERD_tree_1"
@@ -882,6 +882,7 @@ function s:Set_focus_window()
 		set cul
 		set relativenumber
 		set number
+		" syntax on
 	augroup END
 	checktime
 endfunction
@@ -899,6 +900,7 @@ function s:Set_lose_focus_window()
 		set nocul
 		set norelativenumber
 		set nonumber
+		" syntax clear
 	augroup END
 	checktime
 endfunction
@@ -909,51 +911,51 @@ if &diff == 0
 	autocmd WinLeave,BufLeave * call s:Set_lose_focus_window()
 endif
 
-" set statusline color {{{2
-" default the statusline to White (black character) when entering Vim
-hi StatusLine term=reverse ctermfg=White ctermbg=Black gui=bold,reverse
-
-" Insert Mode
-function s:Set_InsertEnter_Window()
-	hi StatusLine term=reverse ctermfg=DarkMagenta ctermbg=Black gui=undercurl guisp=Magenta
-
-	" Insert mode: CursorLineNr is Cyan
-	hi CursorLineNr term=bold ctermfg=Cyan guifg=Blue
-
-	hi Cursor term=bold ctermbg=Cyan guibg=Cyan
-
-	set nornu
-
-	checktime
-
-	" Window resizing
-	"vertical res 99
-endfunction
-
-" Normal mode
-function s:Set_InsertLeave_Window()
-	hi StatusLine term=reverse cterMFG=White ctermbg=Black gui=bold,reverse
-
-	" Normal mode: CursorLineNr is Yellow
-	hi CursorLineNr term=bold ctermfg=Yellow guifg=Yellow
-
-	set rnu
-endfunction
-
-" if version >= 700
-	au InsertEnter * call s:Set_InsertEnter_Window()
-	" au InsertLeave * call s:Set_InsertLeave_Window()
-	au BufWinEnter * call s:Set_InsertEnter_Window()
-	au BufWinLeave * call s:Set_InsertLeave_Window()
-" endif
-
-" Convenient command to see the difference between the current buffer and the
-" file it was loaded from, thus the changes you made.
-"It will open a vimdiff-like window with the current buffer and the underlying file highlighting all of the changes between the two.
-" :h vimrc_example
-command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-			\ | wincmd p | diffthis
-
-" :map messages output to ~/.vim/map.txt
-command -nargs=? Rmap redir! > ~/.vim/my_help/key_map.txt | silent map | redir END
-
+" " set statusline color {{{2
+" " default the statusline to White (black character) when entering Vim
+" hi StatusLine term=reverse ctermfg=White ctermbg=Black gui=bold,reverse
+" 
+" " Insert Mode
+" function s:Set_InsertEnter_Window()
+" 	hi StatusLine term=reverse ctermfg=DarkMagenta ctermbg=Black gui=undercurl guisp=Magenta
+" 
+" 	" Insert mode: CursorLineNr is Cyan
+" 	hi CursorLineNr term=bold ctermfg=Cyan guifg=Blue
+" 
+" 	hi Cursor term=bold ctermbg=Cyan guibg=Cyan
+" 
+" 	set nornu
+" 	checktime
+" 
+" 	" Window resizing
+" 	"vertical res 99
+" endfunction
+" 
+" " Normal mode
+" function s:Set_InsertLeave_Window()
+" 	hi StatusLine term=reverse cterMFG=White ctermbg=Black gui=bold,reverse
+" 
+" 	" Normal mode: CursorLineNr is Yellow
+" 	hi CursorLineNr term=bold ctermfg=Yellow guifg=Yellow
+" 
+" 	set rnu
+" endfunction
+" 
+" " if version >= 700
+" 	au InsertEnter * call s:Set_InsertEnter_Window()
+" 	au InsertLeave * call s:Set_InsertLeave_Window()
+" 	au BufWinEnter * call s:Set_InsertEnter_Window()
+" 	au BufWinLeave * call s:Set_InsertLeave_Window()
+" " endif
+" 
+" " Convenient command to see the difference between the current buffer and the
+" " file it was loaded from, thus the changes you made.
+" "It will open a vimdiff-like window with the current buffer and the underlying file highlighting all of the changes between the two.
+" " :h vimrc_example
+" command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+" 			\ | wincmd p | diffthis
+" 
+" " :map messages output to ~/.vim/map.txt
+" command -nargs=? Rmap redir! > ~/.vim/my_help/key_map.txt | silent map | redir END
+" 
+		hi CursorLineNr term=bold ctermfg=Cyan guifg=Blue
