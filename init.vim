@@ -325,7 +325,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug rakr/vim-two-firewatch
 " Plug Badacadabra/vim-archery
 
-" dim the inactive windows
+" An eye catching plugin that fades your inactive buffers and preserves syntax highlighting!!!!
 " Plug 'TaDaa/vimade'
 
 " This is a plugin for Vim to dim inactive windows
