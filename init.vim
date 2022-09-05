@@ -326,10 +326,10 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug Badacadabra/vim-archery
 
 " dim the inactive windows
-Plug 'TaDaa/vimade'
+" Plug 'TaDaa/vimade'
 
 " This is a plugin for Vim to dim inactive windows
-" Plug 'blueyed/vim-diminactive'
+Plug 'blueyed/vim-diminactive'
 
 " Vim Applications
 Plug 'itchyny/calendar.vim'
