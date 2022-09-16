@@ -136,7 +136,7 @@ autocmd TermOpen term://* startinsert
 tnoremap <C-N> <C-\><C-N>
 tnoremap <C-O> <C-\><C-N><C-O>
 
-nn cc :cclose<CR>
+nn <ESC><ESC> :cclose<CR>
 "{{{ === Basic Mappings
 " ===
 " ===
@@ -328,8 +328,10 @@ Plug 'airblade/vim-gitgutter'
 Plug 'shjinyuan/vim-fugitive'
 
 " vim-lsp with ccls
-" Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'
+Plug 'prabirshrestha/vim-lsp'
+Plug 'mattn/vim-lsp-settings'
+" Plug 'dense-analysis/ale'
+" Plug 'rhysd/vim-lsp-ale'
 "
 " Plug 'neovim/nvim-lspconfig' " not used in daily life, need to config further
 "
@@ -340,6 +342,12 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 " code navigation
 Plug 'jsfaint/gen_tags.vim'
 Plug 'joereynolds/gtags-scope'
+
+" Plug 'neoclide/coc.nvim'
+
+" This is a plugin for Vim to dim inactive windows
+Plug 'blueyed/vim-diminactive'
+
 
 " snippets
 Plug 'maralla/completor.vim' "prompt snippets
@@ -382,6 +390,8 @@ Plug 'bsdelf/bufferhint'
 " tagbar which repleace taglist
 Plug 'preservim/tagbar'
 
+" sliver search support
+Plug 'rking/ag.vim'
 
 call plug#end()
 
@@ -402,56 +412,60 @@ let g:airline#extensions#hunks#enabled = 1
 ""
 "" === vim-lsp with ccls setting
 ""
-"if executable('ccls')
-"	au User lsp_setup call lsp#register_server({
-"				\ 'name': 'ccls',
-"				\ 'cmd': {server_info->['ccls']},
-"				\ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
-"				\ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
-"				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-"				\ })
-"endif
-"" Key bindings for vim-lsp.
-"nn <silent> <M-d> :vert LspDefinition<cr>
-"nn <silent> <M-r> :vert LspReferences<cr>
-"nn <f2> :LspRename<cr>
-"nn <silent> <M-a> :LspWorkspaceSymbol<cr>
-"nn <silent> <M-l> :LspDocumentSymbol<cr>
-"
-"function! s:on_lsp_buffer_enabled() abort
-"	setlocal omnifunc=lsp#complete
-"	setlocal signcolumn=yes
-"	if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
-"	nmap <buffer> gd <plug>(lsp-definition)
-"	nmap <buffer> gs <plug>(lsp-document-symbol-search)
-"	nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
-"	nmap <buffer> gr <plug>(lsp-references)
-"	nmap <buffer> gi <plug>(lsp-implementation)
-"	nmap <buffer> gt <plug>(lsp-type-definition)
-"	nmap <buffer> <leader>rn <plug>(lsp-rename)
-"	nmap <buffer> [g <plug>(lsp-previous-diagnostic)
-"	nmap <buffer> ]g <plug>(lsp-next-diagnostic)
-"	nmap <buffer> K <plug>(lsp-hover)
-"	nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-"	nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
-"
-"	let g:lsp_format_sync_timeout = 1000
-"	" autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormAtSync')
-"
-"	" refer to doc to add more commands
-"endfunction
-"
-"augroup lsp_install
-"	au!
-"	" call s:on_lsp_buffer_enabled only for languages that has the server registered.
-"	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
-"augroup END
+if executable('ccls')
+	au User lsp_setup call lsp#register_server({
+				\ 'name': 'ccls',
+				\ 'cmd': {server_info->['ccls']},
+				\ 'root_uri': {server_info->lsp#utils#path_to_uri(
+				\				lsp#utils#find_nearest_parent_file_directory(
+				\								lsp#utils#get_buffer_path(),
+				\		['.ccls', 'compile_commands.json', '.git/']
+				\	))},
+				\ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
+				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+				\ })
+endif
+" Key bindings for vim-lsp.
+nn <silent> <M-d> :vert LspDefinition<cr>
+nn <silent> <M-r> :vert LspReferences<cr>
+nn <f2> :LspRename<cr>
+nn <silent> <M-a> :LspWorkspaceSymbol<cr>
+nn <silent> <M-l> :LspDocumentSymbol<cr>
+
+function! s:on_lsp_buffer_enabled() abort
+	setlocal omnifunc=lsp#complete
+	setlocal signcolumn=yes
+	if exists('+tagfunc') | setlocal tagfunc=lsp#tagfunc | endif
+	nmap <buffer> gd <plug>(lsp-definition)
+	nmap <buffer> gs <plug>(lsp-document-symbol-search)
+	nmap <buffer> gS <plug>(lsp-workspace-symbol-search)
+	nmap <buffer> gr <plug>(lsp-references)
+	nmap <buffer> gi <plug>(lsp-implementation)
+	nmap <buffer> gt <plug>(lsp-type-definition)
+	nmap <buffer> <leader>rn <plug>(lsp-rename)
+	nmap <buffer> [g <plug>(lsp-previous-diagnostic)
+	nmap <buffer> ]g <plug>(lsp-next-diagnostic)
+	nmap <buffer> K <plug>(lsp-hover)
+	nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
+	nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+
+	let g:lsp_format_sync_timeout = 1000
+	" autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormAtSync')
+
+	" refer to doc to add more commands
+endfunction
+
+augroup lsp_install
+	au!
+	" call s:on_lsp_buffer_enabled only for languages that has the server registered.
+	autocmd User lsp_buffer_enabled call s:on_lsp_buffer_enabled()
+augroup END
 
 
 "
 " === gen_tags.vim setting
 "
-"
+
 let g:gen_tags#gtags_auto_gen = 1
 let g:gen_tags#gtags_auto_updagen = 1
 "
@@ -727,7 +741,7 @@ let g:mkdp_page_title = '「${name}」'
 "
 "==== completor setting
 "
-let g:completor_clang_binary = '/usr/bin/clang'
+" let g:completor_clang_binary = '/usr/bin/clang'
 
 "
 "==== UltriSnips setting
@@ -750,13 +764,12 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "==== bufferhint setting
 "
 nnoremap - :call bufferhint#Popup()<CR>
-" nnoremap \ :call bufferhint#LoadPrevious()<CR>
 
 "
 "==== MRU setting
 "
 let MRU_Window_Height = 35
-nnoremap <space>mm :vertical botright MRUToggle<CR>
+nnoremap \ :vertical botright MRUToggle<CR>
 
 "
 "==== tagbar setting
@@ -791,7 +804,6 @@ autocmd InsertEnter,InsertLeave * set cul!
 " set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 " \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 " \,sm:block-blinkwait175-blinkoff150-blinkon175
-nnoremap \ :vertical botright MRU <CR>
 
 " autocmd InsertEnter * set cul
 " autocmd InsertLeave * set nocul
