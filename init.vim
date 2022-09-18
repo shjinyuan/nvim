@@ -21,7 +21,8 @@ set autochdir
 
 " set path+=~/sw040/1700-generated-config/**7
 " set path+=~/sw040/1710-handwritten-config/**7
-" Basic setting {{{ === === Editor behavior
+" Basic setting {{{ === Editor behavior
+" ===
 " ===
 set exrc
 set secure
