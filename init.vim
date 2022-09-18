@@ -213,6 +213,10 @@ nmap <space>wk :res -15<CR>
 
 " Disable the default s key
 noremap s <nop>
+" Disable the default q key
+noremap q <nop>
+" start/stop reocrd macro
+noremap sq q
 
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
 noremap su :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
@@ -294,7 +298,8 @@ Plug 'blueyed/vim-diminactive'
 " Vim Applications
 Plug 'itchyny/calendar.vim'
 
-
+" the silver serach support
+Plug 'vim-scripts/ag.vim'
 
 " Git relative
 Plug 'airblade/vim-gitgutter'
