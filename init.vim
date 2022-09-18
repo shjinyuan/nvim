@@ -233,17 +233,17 @@ noremap si :set splitright<CR>:vsplit<CR>
 " Create a new tab with tu
 noremap tu :tab split<CR>
 noremap tU :tabe<CR>
-" Motion around tabs with tn and ti
-noremap tn :-tabnext<CR>
-noremap ti :+tabnext<CR>
+" Motion around tabs
+noremap <A-,> :-tabnext<CR>
+noremap <A-.> :+tabnext<CR>
 " Motion the tabs with tmn and tmi
-noremap tmn :-tabmove<CR>
-noremap tmi :+tabmove<CR>
+noremap <A-j> :-tabmove<CR>
+noremap <A-k> :+tabmove<CR>
 
 " Close the tab
 noremap tc :tabclose<CR>
 
-"motion between tabs
+"motion between buffers
 nn > :bn<CR>
 nn < :bp<CR>
 
@@ -414,7 +414,6 @@ endif
 " Key bindings for vim-lsp.
 nn <silent> <M-d> :vs +LspDefinition<cr>
 nn <silent> <M-r> :vs +LspReferences<cr>
-
 nn <f2> :LspRename<cr>
 nn <silent> <M-a> :vs +LspWorkspaceSymbol<cr>
 nn <silent> <M-s> :vs +LspDocumentSymbol<cr>
@@ -638,13 +637,12 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "==== bufferhint setting
 "
 nnoremap - :call bufferhint#Popup()<CR>
-" nnoremap \ :call bufferhint#LoadPrevious()<CR>
 
 "
 "==== MRU setting
 "
 let MRU_Window_Height = 35
-nnoremap <space>mm :vertical botright MRUToggle<CR>
+nnoremap \ :vertical botright MRUToggle<CR>
 
 "
 "==== tagbar setting
@@ -676,7 +674,6 @@ autocmd InsertEnter,InsertLeave * set cul!
 " set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 " \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 " \,sm:block-blinkwait175-blinkoff150-blinkon175
-nnoremap \ :vertical botright MRU <CR>
 
 " autocmd InsertEnter * set cul
 " autocmd InsertLeave * set nocul
