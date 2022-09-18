@@ -15,15 +15,13 @@ let g:python3_host_prog = '/usr/bin/python3'
 " === System
 " ===
 "set clipboard=unnamedplus
+
 let &t_ut=''
 set autochdir
 
-set path+=~/sw040/1700-generated-config/**7
-set path+=~/sw040/1710-handwritten-config/**7
-
-" Basic setting {{{
-" ===
-" === Editor behavior
+" set path+=~/sw040/1700-generated-config/**7
+" set path+=~/sw040/1710-handwritten-config/**7
+" Basic setting {{{ === === Editor behavior
 " ===
 set exrc
 set secure
@@ -85,9 +83,7 @@ set autoread
 set autowriteall
 set mouse=a
 " set termguicolors
-" if &term =~# '^screen'
-    " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+
 " endif
 set background=dark
 " true color enable
@@ -133,11 +129,12 @@ nmap <space>dl :g/^s*$/d<CR>
 " === Terminal Behaviors
 " ===
 let g:neoterm_autoscroll = 1
+
 autocmd TermOpen term://* startinsert
 tnoremap <C-N> <C-\><C-N>
 tnoremap <C-O> <C-\><C-N><C-O>
 
-nn cc :cclose<CR>
+nn <ESC><ESC> :cclose<CR>
 "{{{ === Basic Mappings
 " ===
 " ===
@@ -150,7 +147,6 @@ noremap Q :q<CR>
 noremap S :w<CR>
 
 
-nn Q q<CR>
 " Open the vimrc file anytime
 noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
 
@@ -171,25 +167,10 @@ noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
 " nnoremap <c-n> :tabe<CR>:-tabmove<CR>:term lazynpm<CR>
 
 
-
-" U/E keys for 5 times u/e (faster navigation)
-noremap <silent> U 5k
-noremap <silent> E 5j
-
 " H key: go to the start of the line
 noremap <silent> H 0
 " L key: go to the end of the line
 noremap <silent> L $
-
-" Faster in-line navigation
-noremap W 5w
-noremap B 5b
-
-
-" Ctrl + U or E will move up/down the view port without moving the cursor
-noremap <C-U> 5<C-y>
-noremap <C-E> 5<C-e>
-
 
 " ===
 " === copy/paset between vim and system clipboard
@@ -216,26 +197,14 @@ cnoremap <C-n> <Left>
 cnoremap <C-l> <Right>
 cnoremap <C-j> <C-n>
 cnoremap <C-k> <C-p>
-"  M -> ALT
-" cnoremap <M-b> <S-Left>
-" cnoremap <M-w> <S-Right>
-
-" ===
-" === Searching
-" ===
-" noremap - N
-" noremap = n
 
 " ===
 " === Window management
 " ===
 " Use <space> + new arrow keys for moving the cursor around windows
-" noremap <LEADER>ww <C-w>w
-" noremap <LEADER>wk <C-w>k
 " noremap <LEADER>wj <C-w>j
 " noremap <LEADER>wh <C-w>h
 " noremap <LEADER>wl <C-w>l
-noremap qf <C-w>o
 nmap <space>wh :vertical res +30<CR>
 nmap <space>wl :vertical res -30<CR>
 nmap <space>wj :res +15<CR>
@@ -285,8 +254,6 @@ noremap ` ~
 " Auto change directory to current dir
 autocmd BufEnter * silent! lcd %:p:h
 
-" Call figlet
-noremap tx :r !figlet
 
 " find and replace
 noremap \s :%s//g<left><left>
@@ -294,13 +261,6 @@ noremap \s :%s//g<left><left>
 " format python
 map <F4> :%!python -m json.tool<CR>
 
-" press F9 to show hlgroup
-" function! SynGroup()
-	" let l:s = synID(line('.'), col('.'), 1)
-	" echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-" endfun
-"
-" nmap <F9> :call SynGroup()<CR>
 
 nmap <F10> ggVG=
 
@@ -408,6 +368,26 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#hunks#enabled = 1
 
+" colorscheme blue
+" colorscheme darkblue
+" colorscheme delek
+colorscheme desert
+" colorscheme elflord
+" colorscheme evening
+" colorscheme habamax
+" colorscheme industry
+" colorscheme koehler
+" colorscheme morning
+" colorscheme murphy
+" colorscheme pablo
+" colorscheme peachpuff
+" colorscheme quiet
+" colorscheme ron
+" colorscheme shine
+" colorscheme slate
+" colorscheme torte
+" colorscheme zellner
+
 
 
 "
@@ -511,8 +491,6 @@ let g:NERDToggleCheckAllLines = 1
 "                                                                                                   
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"                                                                                                                                             
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                          
-" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"                                        
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                      
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"   
 
 
@@ -569,9 +547,6 @@ au Syntax * RainbowParenthesesLoadBraces
 " === gitgutter setting
 "
 let g:gitgutter_max_signs = -1
-" let g:gitgutter_show_msg_on_hunk_jumping = 0
-" nmap ]c <Plug>(GitGutterNextHunk)
-" nmap [c <Plug>(GitGutterPrevHunk)
 function! GitStatus()
 	let [a,m,r] = GitGutterGetHunkSummary()
 	return printf('+%d ~%d -%d', a, m, r)
@@ -630,92 +605,6 @@ let g:maplocalleader = ','
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
-"
-"==== Markdonw setting
-"
-" set to 1, nvim will open the preview window after entering the markdown buffer
-" default: 0
-let g:mkdp_auto_start = 0
-
-" set to 1, the nvim will auto close current preview window when change
-" from markdown buffer to another buffer
-" default: 1
-let g:mkdp_auto_close = 1
-
-" set to 1, the vim will refresh markdown when save the buffer or
-" leave from insert mode, default 0 is auto refresh markdown as you edit or
-" move the cursor
-" default: 0
-let g:mkdp_refresh_slow = 0
-
-" set to 1, the MarkdownPreview command can be use for all files,
-" by default it can be use in markdown file
-" default: 0
-let g:mkdp_command_for_global = 0
-
-" set to 1, preview server available to others in your network
-" by default, the server listens on localhost (127.0.0.1)
-" default: 0
-let g:mkdp_open_to_the_world = 0
-
-" use custom IP to open preview page
-" useful when you work in remote vim and preview on local browser
-" more detail see: https://github.com/iamcco/markdown-preview.nvim/pull/9
-" default empty
-let g:mkdp_open_ip = ''
-
-" specify browser to open preview page
-" default: ''
-let g:mkdp_browser = 'firefox'
-
-" set to 1, echo preview page url in command line when open preview page
-" default is 0
-let g:mkdp_echo_preview_url = 0
-
-" a custom vim function name to open preview page
-" this function will receive url as param
-" default is empty
-let g:mkdp_browserfunc = ''
-
-" options for markdown render
-" mkit: markdown-it options for render
-" katex: katex options for math
-" uml: markdown-it-plantuml options
-" maid: mermaid options
-" disable_sync_scroll: if disable sync scroll, default 0
-" sync_scroll_type: 'middle', 'top' or 'relative', default value is 'middle'
-"   middle: mean the cursor position alway show at the middle of the preview page
-"   top: mean the vim top viewport alway show at the top of the preview page
-"   relative: mean the cursor position alway show at the relative positon of the preview page
-" hide_yaml_meta: if hide yaml metadata, default is 1
-" sequence_diagrams: js-sequence-diagrams options
-let g:mkdp_preview_options = {
-			\ 'mkit': {},
-			\ 'katex': {},
-			\ 'uml': {},
-			\ 'maid': {},
-			\ 'disable_sync_scroll': 0,
-			\ 'sync_scroll_type': 'middle',
-			\ 'hide_yaml_meta': 1,
-			\ 'sequence_diagrams': {},
-			\ 'flowchart_diagrams': {}
-			\ }
-
-" use a custom markdown style must be absolute path
-" like '/Users/username/markdown.css' or expand('~/markdown.css')
-let g:mkdp_markdown_css = ''
-
-" use a custom highlight style must absolute path
-" like '/Users/username/highlight.css' or expand('~/highlight.css')
-let g:mkdp_highlight_css = ''
-
-" use a custom port to start server or random for empty
-let g:mkdp_port = ''
-
-" preview page title
-" ${name} will be replace with the file name
-let g:mkdp_page_title = '「${name}」'
-
 
 "
 "==== completor setting
@@ -761,7 +650,7 @@ nnoremap <silent> <F8> :TagbarToggle<CR>
 " Plugin setting END
 "================================================================================
 "{{{ TODO check the autocmd meaning here
-autocmd! bufwritepost $HOME/.config/nvim/init.vim
+autocmd! bufwritepost $HOME/.config/nvim/init.vim  so <afile>
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
 "}}}
@@ -846,16 +735,16 @@ let g:fzf_colors =
 	\ 'prompt':  ['fg', 'Conditional'],
 	\ 'pointer': ['fg', 'Exception'],
 	\ 'marker':  ['fg', 'Keyword'],
-		\ 'spinner': ['fg', 'Label'],
-		\ 'header':  ['fg', 'Comment'] }
+	\ 'spinner': ['fg', 'Label'],
+	\ 'header':  ['fg', 'Comment'] }
 
 
 
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
-call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-copen
-cc
+	call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+	copen
+	cc
 endfunction
 
 let g:fzf_action = {
@@ -920,51 +809,50 @@ if &diff == 0
 	autocmd WinLeave,BufLeave * call s:Set_lose_focus_window()
 endif
 
-" " set statusline color {{{2
-" " default the statusline to White (black character) when entering Vim
-" hi StatusLine term=reverse ctermfg=White ctermbg=Black gui=bold,reverse
-" 
-" " Insert Mode
-" function s:Set_InsertEnter_Window()
-" 	hi StatusLine term=reverse ctermfg=DarkMagenta ctermbg=Black gui=undercurl guisp=Magenta
-" 
-" 	" Insert mode: CursorLineNr is Cyan
-" 	hi CursorLineNr term=bold ctermfg=Cyan guifg=Blue
-" 
-" 	hi Cursor term=bold ctermbg=Cyan guibg=Cyan
-" 
-" 	set nornu
-" 	checktime
-" 
-" 	" Window resizing
-" 	"vertical res 99
-" endfunction
-" 
-" " Normal mode
-" function s:Set_InsertLeave_Window()
-" 	hi StatusLine term=reverse cterMFG=White ctermbg=Black gui=bold,reverse
-" 
-" 	" Normal mode: CursorLineNr is Yellow
-" 	hi CursorLineNr term=bold ctermfg=Yellow guifg=Yellow
-" 
-" 	set rnu
-" endfunction
-" 
-" " if version >= 700
-" 	au InsertEnter * call s:Set_InsertEnter_Window()
-" 	au InsertLeave * call s:Set_InsertLeave_Window()
-" 	au BufWinEnter * call s:Set_InsertEnter_Window()
-" 	au BufWinLeave * call s:Set_InsertLeave_Window()
-" " endif
-" 
-" " Convenient command to see the difference between the current buffer and the
-" " file it was loaded from, thus the changes you made.
-" "It will open a vimdiff-like window with the current buffer and the underlying file highlighting all of the changes between the two.
-" " :h vimrc_example
-" command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
-" 			\ | wincmd p | diffthis
-" 
-" " :map messages output to ~/.vim/map.txt
-" command -nargs=? Rmap redir! > ~/.vim/my_help/key_map.txt | silent map | redir END
-" 
-		hi CursorLineNr term=bold ctermfg=Cyan guifg=Blue
+" set statusline color {{{2
+" default the statusline to White (black character) when entering Vim
+hi StatusLine term=reverse ctermfg=White ctermbg=Black gui=bold,reverse
+
+" Insert Mode
+function s:Set_InsertEnter_Window()
+	hi StatusLine term=reverse ctermfg=DarkMagenta ctermbg=Black gui=undercurl guisp=Magenta
+
+	" Insert mode: CursorLineNr is Cyan
+	hi CursorLineNr term=bold ctermfg=Cyan guifg=Blue
+
+	hi Cursor term=bold ctermbg=Cyan guibg=Cyan
+
+	set nornu
+	checktime
+
+	" Window resizing
+	"vertical res 99
+endfunction
+
+" Normal mode
+function s:Set_InsertLeave_Window()
+	hi StatusLine term=reverse cterMFG=White ctermbg=Black gui=bold,reverse
+
+	" Normal mode: CursorLineNr is Yellow
+	hi CursorLineNr term=bold ctermfg=Yellow guifg=Yellow
+
+	set rnu
+endfunction
+
+" if version >= 700
+	au InsertEnter * call s:Set_InsertEnter_Window()
+	au InsertLeave * call s:Set_InsertLeave_Window()
+	au BufWinEnter * call s:Set_InsertEnter_Window()
+	au BufWinLeave * call s:Set_InsertLeave_Window()
+" endif
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+"It will open a vimdiff-like window with the current buffer and the underlying file highlighting all of the changes between the two.
+" :h vimrc_example
+command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+			\ | wincmd p | diffthis
+
+" :map messages output to ~/.vim/map.txt
+command -nargs=? Rmap redir! > ~/.vim/my_help/key_map.txt | silent map | redir END
+
