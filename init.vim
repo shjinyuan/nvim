@@ -244,8 +244,9 @@ noremap <A-k> :+tabmove<CR>
 noremap tc :tabclose<CR>
 
 "motion between buffers
-nn > :bn<CR>
-nn < :bp<CR>
+nn <C-l> :bn<CR>
+nn <C-h> :bp<CR>
+nn <C-d> :bd<CR>
 
 " Press space twice to jump to the next '' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
