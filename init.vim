@@ -492,12 +492,12 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 
-"                                                                                                   
-" ===asyncomplete setting                                                                           
-"                                                                                                   
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"                                                                                                                                             
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                          
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"   
+"
+" ===asyncomplete setting
+"
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 
 "
@@ -702,7 +702,7 @@ let g:startify_custom_header =
 
 
 "{{{
-" custom highlight setting 
+" custom highlight setting
 "
 "
 " ======== Gitgutter sign
@@ -716,10 +716,10 @@ highlight GitGutterChange guifg=Blue
 "========== Diff Mode
 " hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 " hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-highlight DiffAdd    cterm=bold ctermfg=11 ctermbg=17 gui=none guifg=black guibg=Red
-highlight DiffDelete cterm=bold ctermfg=12 ctermbg=37 gui=none guifg=black guibg=Green
-highlight DiffChange cterm=bold ctermfg=13 ctermbg=27 gui=none guifg=black guibg=Blue
-highlight DiffText   cterm=bold ctermfg=14 ctermbg=88 gui=none guifg=black guibg=Yellow
+highlight DiffAdd    cterm=bold ctermfg=11 ctermbg=17 guifg=Black guibg=Green  gui=bold
+highlight DiffDelete cterm=bold ctermfg=12 ctermbg=37 guifg=Gray  guibg=Red
+highlight DiffChange cterm=bold ctermfg=13 ctermbg=27 guifg=black guibg=Blue
+highlight DiffText   cterm=bold ctermfg=14 ctermbg=88 guifg=black guibg=Yellow gui=italic
 "
 "
 "========== Menu for selection
