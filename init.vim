@@ -89,12 +89,12 @@ set mouse=a
 set background=dark
 " true color enable
 if has("termguicolors")
-    " enable true color
-    set termguicolors
+	" enable true color
+	set termguicolors
 endif
 if &term =~# '^screen'
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
 set foldenable
@@ -247,7 +247,8 @@ noremap tc :tabclose<CR>
 nn <C-l> :bn<CR>
 nn <C-h> :bp<CR>
 nn <C-d> :bd<CR>
-
+" Help
+"
 " Press space twice to jump to the next '' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
@@ -409,9 +410,9 @@ if executable('ccls')
 				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
 				\ })
 endif
-	let g:lsp_preview_keep_focus = 0
-	let g:lsp_preview_float = 0
-	let g:lsp_preview_autoclose = 0
+let g:lsp_preview_keep_focus = 0
+let g:lsp_preview_float = 0
+let g:lsp_preview_autoclose = 0
 " Key bindings for vim-lsp.
 nn <silent> <M-d> :vs +LspDefinition<cr>
 nn <silent> <M-r> :vs +LspReferences<cr>
@@ -452,8 +453,38 @@ augroup END
 "
 " === gen_tags.vim setting
 "
-" let g:gen_tags#gtags_default_map = 1
+" let GtagsCscope_Auto_Load = 1
+" let CtagsCscope_Auto_Map = 1
+" let GtagsCscope_Quiet = 1
+
+
+" let g:gen_tags#gtags_auto_gen = 1 #auto gen_tags on DELL have issue //TODO
+" let g:gen_tags#gtags_auto_updagen = 1
+"
 " let g:gen_tags#root_marker = ".git"
+" let g:gen_tags#ctags_opts = ['-c', '--verbose']
+"
+" let g:gen_tags#gtags_default_map = 0
+"
+" map <LEADER>sc :cs find c <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>sd :cs find d <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>se :cs find e <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>sf :cs find f <C-R>=expand('<cfile>')<CR><CR>
+" map <LEADER>sg :cs find g <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>si :cs find i <C-R>=expand('<cfile>')<CR><CR>
+" map <LEADER>ss :cs find s <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>st :cs find t <C-R>=expand('<cword>')<CR><CR>
+"
+" map <LEADER>vc :vert scs find c <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>vd :vert scs find d <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>ve :vert scs find e <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>vf :vert scs find f <C-R>=expand('<cfile>')<CR><CR>
+" map <LEADER>vg :vert scs find g <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>vi :vert scs find i <C-R>=expand('<cfile>')<CR><CR>
+" map <LEADER>vs :vert scs find s <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
+"
+" if need support more languages ,except C/C++....
 " let $GTAGSCONF = '/home/wsk/bin/gtags/data/gtags/gtags.conf'
 " let $GTAGSLABEL = 'pygments'
 "
@@ -695,7 +726,7 @@ let g:ascii = [
 			\ ''
 			\]
 " let g:startify_custom_header =
-			" \ startify#pad(g:ascii + startify#fortune#boxed())
+" \ startify#pad(g:ascii + startify#fortune#boxed())
 let g:startify_custom_header =
 			\ 'startify#pad(g:ascii)'
 
@@ -728,19 +759,19 @@ hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray guifg=White
 "}}}
 
 let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-	\ 'bg':      ['bg', 'Normal'],
-	\ 'hl':      ['fg', 'Comment'],
-	\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-	\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-	\ 'hl+':     ['fg', 'Statement'],
-	\ 'info':    ['fg', 'PreProc'],
-	\ 'border':  ['fg', 'Ignore'],
-	\ 'prompt':  ['fg', 'Conditional'],
-	\ 'pointer': ['fg', 'Exception'],
-	\ 'marker':  ['fg', 'Keyword'],
-	\ 'spinner': ['fg', 'Label'],
-	\ 'header':  ['fg', 'Comment'] }
+			\ { 'fg':      ['fg', 'Normal'],
+			\ 'bg':      ['bg', 'Normal'],
+			\ 'hl':      ['fg', 'Comment'],
+			\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+			\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+			\ 'hl+':     ['fg', 'Statement'],
+			\ 'info':    ['fg', 'PreProc'],
+			\ 'border':  ['fg', 'Ignore'],
+			\ 'prompt':  ['fg', 'Conditional'],
+			\ 'pointer': ['fg', 'Exception'],
+			\ 'marker':  ['fg', 'Keyword'],
+			\ 'spinner': ['fg', 'Label'],
+			\ 'header':  ['fg', 'Comment'] }
 
 
 
@@ -752,10 +783,10 @@ function! s:build_quickfix_list(lines)
 endfunction
 
 let g:fzf_action = {
-	\ 'ctrl-q': function('s:build_quickfix_list'),
-	\ 'ctrl-t': 'tab split',
-	\ 'ctrl-x': 'split',
-	\ 'ctrl-v': 'vsplit' }
+			\ 'ctrl-q': function('s:build_quickfix_list'),
+			\ 'ctrl-t': 'tab split',
+			\ 'ctrl-x': 'split',
+			\ 'ctrl-v': 'vsplit' }
 
 
 " ActiveWindow: set focus window {{{1
@@ -844,10 +875,10 @@ function s:Set_InsertLeave_Window()
 endfunction
 
 " if version >= 700
-	au InsertEnter * call s:Set_InsertEnter_Window()
-	au InsertLeave * call s:Set_InsertLeave_Window()
-	au BufWinEnter * call s:Set_InsertEnter_Window()
-	au BufWinLeave * call s:Set_InsertLeave_Window()
+au InsertEnter * call s:Set_InsertEnter_Window()
+au InsertLeave * call s:Set_InsertLeave_Window()
+au BufWinEnter * call s:Set_InsertEnter_Window()
+au BufWinLeave * call s:Set_InsertLeave_Window()
 " endif
 
 " Convenient command to see the difference between the current buffer and the
