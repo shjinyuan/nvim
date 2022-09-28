@@ -262,7 +262,7 @@ autocmd BufEnter * silent! lcd %:p:h
 
 
 " find and replace
-noremap \s :%s//g<left><left>
+noremap \s :%s///g<left><left><left>
 
 " format python
 map <F4> :%!python -m json.tool<CR>
