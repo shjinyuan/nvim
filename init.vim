@@ -329,7 +329,7 @@ Plug 'preservim/nerdcommenter'
 
 " system navigation
 Plug 'preservim/nerdtree'
-Plug 'yegappan/mru'
+" Plug 'yegappan/mru'
 Plug 'junegunn/fzf'
 
 " parentheses and brackets
@@ -673,8 +673,11 @@ nnoremap - :call bufferhint#Popup()<CR>
 "
 "==== MRU setting
 "
-let MRU_Window_Height = 35
-nnoremap \ :vertical botright MRUToggle<CR>
+" let MRU_Window_Height = 35
+" nnoremap \ :vertical botright MRUToggle<CR>
+nn \ :FZFMru<CR>
+nn ff :FZFMru<CR>
+
 
 "
 "==== tagbar setting
