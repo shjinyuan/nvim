@@ -344,7 +344,7 @@ Plug 'voldikss/vim-translator'
 Plug 'liuchengxu/vim-which-key'
 
 " Markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " support math latex
 " Plug 'iamcco/mathjax-support-for-mkdp'
 
@@ -410,9 +410,6 @@ if executable('ccls')
 				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
 				\ })
 endif
-let g:lsp_preview_keep_focus = 0
-let g:lsp_preview_float = 0
-let g:lsp_preview_autoclose = 0
 " Key bindings for vim-lsp.
 nn <silent> <M-d> :vs +LspDefinition<cr>
 nn <silent> <M-r> :vs +LspReferences<cr>
