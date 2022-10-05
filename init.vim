@@ -59,7 +59,7 @@ set splitbelow
 set noshowmode
 set showcmd
 set wildmenu
-set ignorecase
+set noignorecase #treat case as difference in search mode
 set smartcase
 set shortmess+=c
 set inccommand=split
@@ -672,7 +672,7 @@ nnoremap - :call bufferhint#Popup()<CR>
 "
 " let MRU_Window_Height = 35
 " nnoremap \ :vertical botright MRUToggle<CR>
-nn \ :FZFMru<CR>
+nn \ :FZF<CR>
 nn ff :FZFMru<CR>
 
 
