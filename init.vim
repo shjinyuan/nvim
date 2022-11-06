@@ -59,7 +59,7 @@ set splitbelow
 set noshowmode
 set showcmd
 set wildmenu
-set noignorecase #treat case as difference in search mode
+set noignorecase "treat case as difference in search mode
 set smartcase
 set shortmess+=c
 set inccommand=split
@@ -535,16 +535,16 @@ inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 let g:translator_default_engines = ['bing']
 " Create default mappings
 " Echo translation in the cmdline
-nmap <silent> <Leader>te <Plug>Translate<CR>
-vmap <silent> <Leader>te <Plug>TranslateV<CR>
+nmap <silent> <Leader>te <Plug>Translate
+vmap <silent> <Leader>te <Plug>TranslateV
 " Display translation in a window
-" nmap <silent> <Leader>te <Plug>TranslateW<CR>
-" vmap <silent> <Leader>te <Plug>TranslateWV<CR>
+" nmap <silent> <Leader>te <Plug>TranslateW
+" vmap <silent> <Leader>te <Plug>TranslateWV
 " Replace the text with translation
-" nmap <silent> <Leader>r <Plug>TranslateR<CR>
-" vmap <silent> <Leader>r <Plug>TranslateRV<CR>
+" nmap <silent> <Leader>r <Plug>TranslateR
+" vmap <silent> <Leader>r <Plug>TranslateRV
 " Translate the text in clipboard
-" nmap <silent> <Leader>x <Plug>TranslateX<CR>
+" nmap <silent> <Leader>x <Plug>TranslateX
 
 
 "
@@ -730,6 +730,7 @@ let g:ascii = [
 let g:startify_custom_header =
 			\ 'startify#pad(g:ascii)'
 
+let g:startify_skiplist = ["init.vim$"]
 
 
 "{{{
