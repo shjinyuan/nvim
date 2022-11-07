@@ -159,9 +159,11 @@ noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
 
 " Space to Tab
-" nnoremap <LEADER>tt :%s/    /\t/g
+nnoremap <LEADER>stt :%s/    /\t/g
 " vnoremap <LEADER>tt :s/    /\t/g
 
+" Tab to space
+nnoremap <LEADER>tts :%s/\t/    /g
 " Folding
 " noremap <silent> <LEADER>o za
 
@@ -193,6 +195,7 @@ noremap <C-E> 5<C-e>
 " ===
 map <SPACE>pp "+p
 map <SPACE>yy "+y
+vmap <SPACE>yy "+y
 
 " switch mouse state
 noremap <space>ma :set mouse=a<CR>
@@ -257,8 +260,8 @@ noremap si :set splitright<CR>:vsplit<CR>
 noremap tu :tab split<CR>
 noremap tU :tabe<CR>
 " Motion around tabs with tn and ti
-noremap tn :-tabnext<CR>
-noremap ti :+tabnext<CR>
+noremap to :-tabnext<CR>
+noremap tp :+tabnext<CR>
 " Motion the tabs with tmn and tmi
 noremap tmn :-tabmove<CR>
 noremap tmi :+tabmove<CR>
@@ -266,10 +269,10 @@ noremap tmi :+tabmove<CR>
 " Close the tab
 noremap tc :tabclose<CR>
 
-"motion between tabs
-nn > :bn<CR>
-nn < :bp<CR>
-
+"motion between buffers
+nn bn :bn<CR>
+nn bp :bp<CR>
+"
 " Press space twice to jump to the next '' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
@@ -286,7 +289,7 @@ autocmd BufEnter * silent! lcd %:p:h
 noremap tx :r !figlet
 
 " find and replace
-noremap \s :%s//g<left><left>
+noremap \s :%s///g<left><left><left>
 
 " format python
 " map <F4> :%!python -m json.tool<CR>
@@ -382,7 +385,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug '907th/vim-auto-save'
 
 " multi cursor support
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 
 "  buffer managerment
 Plug 'bsdelf/bufferhint'
@@ -494,7 +497,7 @@ map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
 "
 "
 " NERDTREE setting
-nmap _ :NERDTreeToggle<CR>
+nmap - :NERDTreeToggle<CR>
 
 "
 " === nerdcommenter setting
@@ -544,8 +547,8 @@ inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 let g:translator_default_engines = ['bing']
 " Create default mappings
 " Echo translation in the cmdline
-nmap <silent> <Leader>te <Plug>Translate<CR>
-vmap <silent> <Leader>te <Plug>TranslateV<CR>
+nmap <silent> <Leader>te <Plug>Translate
+vmap <silent> <Leader>te <Plug>TranslateV
 " Display translation in a window
 " nmap <silent> <Leader>te <Plug>TranslateW<CR>
 " vmap <silent> <Leader>te <Plug>TranslateWV<CR>
@@ -763,7 +766,7 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "
 "==== bufferhint setting
 "
-nnoremap - :call bufferhint#Popup()<CR>
+nnoremap _ :call bufferhint#Popup()<CR>
 
 "
 "==== MRU setting
@@ -845,10 +848,10 @@ highlight GitGutterChange guifg=Blue
 "========== Diff Mode
 " hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 " hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Green
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Red
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Blue
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=Yellow
 "
 "
 "========== Menu for selection
