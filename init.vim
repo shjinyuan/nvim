@@ -349,7 +349,7 @@ Plug 'joereynolds/gtags-scope'
 " Plug 'neoclide/coc.nvim'
 
 " This is a plugin for Vim to dim inactive windows
-Plug 'blueyed/vim-diminactive'
+" Plug 'blueyed/vim-diminactive'
 
 
 " snippets
@@ -900,6 +900,6 @@ let g:fzf_action = {
 let GtagsCscope_Auto_Load = 1
 let CtagsCscope_Auto_Map = 1
 let GtagsCscope_Quiet = 1
-hi CursorLine cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=revert guibg=Green
+hi CursorLine gui=underline cterm=underline guifg=revert guibg=black
 match WhitespaceEOL /\s\+$/
 highlight WhitespaceEOL ctermbg=red guibg=red
