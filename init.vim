@@ -35,9 +35,9 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set autoindent
-set nolist
-" set list
-" set listchars=tab:\|\ ,trail:▫
+" set nolist
+set list
+set listchars=tab:\|\ ,trail:▫
 "禁止产生临时文件
 "sdad
 set noundofile
@@ -531,14 +531,14 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 
-"                                                                                                   
-" ===asyncomplete setting                                                                           
-"                                                                                                   
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"                                                                                                                                             
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                          
-" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"                                        
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                      
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"   
+"
+" ===asyncomplete setting
+"
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 
 "
@@ -837,7 +837,7 @@ let g:startify_custom_header =
 
 
 "{{{
-" custom highlight setting 
+" custom highlight setting
 "
 "
 " ======== Gitgutter sign
@@ -901,3 +901,5 @@ let GtagsCscope_Auto_Load = 1
 let CtagsCscope_Auto_Map = 1
 let GtagsCscope_Quiet = 1
 hi CursorLine cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=revert guibg=Green
+match WhitespaceEOL /\s\+$/
+highlight WhitespaceEOL ctermbg=red guibg=red
