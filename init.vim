@@ -136,7 +136,7 @@ autocmd TermOpen term://* startinsert
 tnoremap <C-N> <C-\><C-N>
 tnoremap <C-O> <C-\><C-N><C-O>
 
-nn <ESC><ESC> :cclose<CR>
+nn cc :cclose<CR>
 "{{{ === Basic Mappings
 " ===
 " ===
@@ -304,8 +304,8 @@ noremap \s :%s///g<left><left><left>
 
 nmap <F10> ggVG=
 
-nmap <F12> :call lsp#disable()<CR>
-nmap <SPACE><F12> :call lsp#enable()<CR>
+nmap <SPACE><F12> :call lsp#disable()<CR>
+nmap <F12> :call lsp#enable()<CR>
 "}}}
 
 " ===
@@ -415,6 +415,7 @@ let g:airline#extensions#hunks#enabled = 1
 ""
 "" === vim-lsp with ccls setting
 ""
+let g:lsp_auto_enable = 0
 if executable('ccls')
 	au User lsp_setup call lsp#register_server({
 				\ 'name': 'ccls',
@@ -897,3 +898,4 @@ let g:fzf_action = {
 let GtagsCscope_Auto_Load = 1
 let CtagsCscope_Auto_Map = 1
 let GtagsCscope_Quiet = 1
+hi CursorLine cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=revert guibg=Green
