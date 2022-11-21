@@ -772,8 +772,10 @@ nnoremap _ :call bufferhint#Popup()<CR>
 "
 "==== MRU setting
 "
-let MRU_Window_Height = 35
-nnoremap \ :vertical botright MRUToggle<CR>
+" let MRU_Window_Height = 35
+" nnoremap \ :vertical botright MRUToggle<CR>
+let MRU_Window_Height = 15
+nnoremap \ :botright MRUToggle<CR>
 
 "
 "==== tagbar setting
