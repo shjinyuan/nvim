@@ -15,6 +15,7 @@ let g:python3_host_prog = '/usr/bin/python3'
 " === System
 " ===
 "set clipboard=unnamedplus
+
 let &t_ut=''
 set autochdir
 
@@ -22,13 +23,12 @@ set autochdir
 
 " {{{========================= Basic setting =============================
 " ===
-" === Editor behavior
 " ===
 set exrc
 set secure
-set number
-set relativenumber
-set cursorline
+" set number
+" set relativenumber
+" set cursorline
 set hidden
 set noexpandtab
 set tabstop=2
@@ -59,7 +59,7 @@ set splitbelow
 set noshowmode
 set showcmd
 set wildmenu
-set ignorecase
+set noignorecase "treat case as difference in search mode
 set smartcase
 set shortmess+=c
 set inccommand=split
@@ -76,27 +76,24 @@ if has('persistent_undo')
 	set undofile
 	set undodir=$HOME/.config/nvim/tmp/undo,.
 endif
-set colorcolumn=100
+" set colorcolumn=100 "set a line to show the recommend line length
 hi ColorColumn ctermbg=blue
 set updatetime=100
 set virtualedit=block
 set autoread
 set autowriteall
-set mouse=a
+set mouse=nv
 " set termguicolors
-" if &term =~# '^screen'
-    " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
-" endif
+
 set background=dark
 " true color enable
 if has("termguicolors")
-    " enable true color
-    set termguicolors
+	" enable true color
+	set termguicolors
 endif
 if &term =~# '^screen'
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
 set foldenable
@@ -132,11 +129,12 @@ nmap <space>dl :g/^s*$/d<CR>
 " === Terminal Behaviors
 " ===
 let g:neoterm_autoscroll = 1
+
 autocmd TermOpen term://* startinsert
 tnoremap <C-N> <C-\><C-N>
 tnoremap <C-O> <C-\><C-N><C-O>
 
-nn cc :cclose<CR>
+nn <ESC><ESC> :cclose<CR>
 "{{{ === Basic Mappings
 " ===
 " ===
@@ -147,6 +145,7 @@ let mapleader=","
 noremap Q :q<CR>
 " noremap <C-q> :qa<CR>
 noremap S :w<CR>
+
 
 " Open the vimrc file anytime
 noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
@@ -170,25 +169,10 @@ nnoremap <LEADER>tts :%s/\t/    /g
 " nnoremap <c-n> :tabe<CR>:-tabmove<CR>:term lazynpm<CR>
 
 
-
-" U/E keys for 5 times u/e (faster navigation)
-noremap <silent> U 5k
-noremap <silent> E 5j
-
 " H key: go to the start of the line
 noremap <silent> H 0
 " L key: go to the end of the line
 noremap <silent> L $
-
-" Faster in-line navigation
-noremap W 5w
-noremap B 5b
-
-
-" Ctrl + U or E will move up/down the view port without moving the cursor
-noremap <C-U> 5<C-y>
-noremap <C-E> 5<C-e>
-
 
 " ===
 " === copy/paset between vim and system clipboard
@@ -216,26 +200,14 @@ cnoremap <C-n> <Left>
 cnoremap <C-l> <Right>
 cnoremap <C-j> <C-n>
 cnoremap <C-k> <C-p>
-"  M -> ALT
-" cnoremap <M-b> <S-Left>
-" cnoremap <M-w> <S-Right>
-
-" ===
-" === Searching
-" ===
-" noremap - N
-" noremap = n
 
 " ===
 " === Window management
 " ===
 " Use <space> + new arrow keys for moving the cursor around windows
-" noremap <LEADER>ww <C-w>w
-" noremap <LEADER>wk <C-w>k
 " noremap <LEADER>wj <C-w>j
 " noremap <LEADER>wh <C-w>h
 " noremap <LEADER>wl <C-w>l
-noremap qf <C-w>o
 nmap <space>wh :vertical res +30<CR>
 nmap <space>wl :vertical res -30<CR>
 nmap <space>wj :res +15<CR>
@@ -244,6 +216,10 @@ nmap <space>wk :res -15<CR>
 
 " Disable the default s key
 noremap s <nop>
+" Disable the default q key
+noremap q <nop>
+" start/stop reocrd macro
+noremap sq q
 
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
 noremap su :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
@@ -263,8 +239,8 @@ noremap tU :tabe<CR>
 noremap to :-tabnext<CR>
 noremap tp :+tabnext<CR>
 " Motion the tabs with tmn and tmi
-noremap tmn :-tabmove<CR>
-noremap tmi :+tabmove<CR>
+noremap <A-j> :-tabmove<CR>
+noremap <A-k> :+tabmove<CR>
 
 " Close the tab
 noremap tc :tabclose<CR>
@@ -285,8 +261,6 @@ noremap ` ~
 " Auto change directory to current dir
 autocmd BufEnter * silent! lcd %:p:h
 
-" Call figlet
-noremap tx :r !figlet
 
 " find and replace
 noremap \s :%s///g<left><left><left>
@@ -325,6 +299,9 @@ Plug 'vim-airline/vim-airline-themes'
 " A Vim Applications Calendar
 Plug 'itchyny/calendar.vim'
 
+" the silver serach support
+Plug 'rking/ag.vim'
+
 " Git relative
 Plug 'airblade/vim-gitgutter'
 Plug 'shjinyuan/vim-fugitive'
@@ -361,7 +338,7 @@ Plug 'preservim/nerdcommenter'
 
 " system navigation
 Plug 'preservim/nerdtree'
-Plug 'yegappan/mru'
+" Plug 'yegappan/mru'
 Plug 'junegunn/fzf'
 
 " parentheses and brackets
@@ -376,7 +353,7 @@ Plug 'voldikss/vim-translator'
 Plug 'liuchengxu/vim-which-key'
 
 " Markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " support math latex
 " Plug 'iamcco/mathjax-support-for-mkdp'
 
@@ -405,6 +382,26 @@ let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#hunks#enabled = 1
 
+" colorscheme blue
+" colorscheme darkblue
+" colorscheme delek
+colorscheme desert
+" colorscheme elflord
+" colorscheme evening
+" colorscheme habamax
+" colorscheme industry
+" colorscheme koehler
+" colorscheme morning
+" colorscheme murphy
+" colorscheme pablo
+" colorscheme peachpuff
+" colorscheme quiet
+" colorscheme ron
+" colorscheme shine
+" colorscheme slate
+" colorscheme torte
+" colorscheme zellner
+
 
 
 ""
@@ -425,11 +422,11 @@ if executable('ccls')
 				\ })
 endif
 " Key bindings for vim-lsp.
-nn <silent> <M-d> :vert LspDefinition<cr>
-nn <silent> <M-r> :vert LspReferences<cr>
+nn <silent> <M-d> :vs +LspDefinition<cr>
+nn <silent> <M-r> :vs +LspReferences<cr>
 nn <f2> :LspRename<cr>
-nn <silent> <M-a> :LspWorkspaceSymbol<cr>
-nn <silent> <M-l> :LspDocumentSymbol<cr>
+nn <silent> <M-a> :vs +LspWorkspaceSymbol<cr>
+nn <silent> <M-s> :vs +LspDocumentSymbol<cr>
 
 function! s:on_lsp_buffer_enabled() abort
 	setlocal omnifunc=lsp#complete
@@ -445,8 +442,8 @@ function! s:on_lsp_buffer_enabled() abort
 	nmap <buffer> [g <plug>(lsp-previous-diagnostic)
 	nmap <buffer> ]g <plug>(lsp-next-diagnostic)
 	nmap <buffer> K <plug>(lsp-hover)
-	nnoremap <buffer> <expr><c-f> lsp#scroll(+4)
-	nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
+	nnoremap <buffer> <expr><c-j> lsp#scroll(+4)
+	nnoremap <buffer> <expr><c-k> lsp#scroll(-4)
 
 	let g:lsp_format_sync_timeout = 1000
 	" autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormAtSync')
@@ -548,13 +545,13 @@ let g:translator_default_engines = ['bing']
 nmap <silent> <Leader>te <Plug>Translate
 vmap <silent> <Leader>te <Plug>TranslateV
 " Display translation in a window
-" nmap <silent> <Leader>te <Plug>TranslateW<CR>
-" vmap <silent> <Leader>te <Plug>TranslateWV<CR>
+" nmap <silent> <Leader>te <Plug>TranslateW
+" vmap <silent> <Leader>te <Plug>TranslateWV
 " Replace the text with translation
-" nmap <silent> <Leader>r <Plug>TranslateR<CR>
-" vmap <silent> <Leader>r <Plug>TranslateRV<CR>
+" nmap <silent> <Leader>r <Plug>TranslateR
+" vmap <silent> <Leader>r <Plug>TranslateRV
 " Translate the text in clipboard
-" nmap <silent> <Leader>x <Plug>TranslateX<CR>
+" nmap <silent> <Leader>x <Plug>TranslateX
 
 
 "
@@ -591,9 +588,6 @@ au Syntax * RainbowParenthesesLoadBraces
 " === gitgutter setting
 "
 let g:gitgutter_max_signs = -1
-" let g:gitgutter_show_msg_on_hunk_jumping = 0
-" nmap ]c <Plug>(GitGutterNextHunk)
-" nmap [c <Plug>(GitGutterPrevHunk)
 function! GitStatus()
 	let [a,m,r] = GitGutterGetHunkSummary()
 	return printf('+%d ~%d -%d', a, m, r)
@@ -613,7 +607,6 @@ function! NextHunkAllBuffers()
 			return
 		endif
 		if !empty(GitGutterGetHunks())
-			1
 			GitGutterNextHunk
 			return
 		endif
@@ -651,92 +644,6 @@ let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
-
-"
-"==== Markdonw setting
-"
-" set to 1, nvim will open the preview window after entering the markdown buffer
-" default: 0
-let g:mkdp_auto_start = 0
-
-" set to 1, the nvim will auto close current preview window when change
-" from markdown buffer to another buffer
-" default: 1
-let g:mkdp_auto_close = 1
-
-" set to 1, the vim will refresh markdown when save the buffer or
-" leave from insert mode, default 0 is auto refresh markdown as you edit or
-" move the cursor
-" default: 0
-let g:mkdp_refresh_slow = 0
-
-" set to 1, the MarkdownPreview command can be use for all files,
-" by default it can be use in markdown file
-" default: 0
-let g:mkdp_command_for_global = 0
-
-" set to 1, preview server available to others in your network
-" by default, the server listens on localhost (127.0.0.1)
-" default: 0
-let g:mkdp_open_to_the_world = 0
-
-" use custom IP to open preview page
-" useful when you work in remote vim and preview on local browser
-" more detail see: https://github.com/iamcco/markdown-preview.nvim/pull/9
-" default empty
-let g:mkdp_open_ip = ''
-
-" specify browser to open preview page
-" default: ''
-let g:mkdp_browser = 'firefox'
-
-" set to 1, echo preview page url in command line when open preview page
-" default is 0
-let g:mkdp_echo_preview_url = 0
-
-" a custom vim function name to open preview page
-" this function will receive url as param
-" default is empty
-let g:mkdp_browserfunc = ''
-
-" options for markdown render
-" mkit: markdown-it options for render
-" katex: katex options for math
-" uml: markdown-it-plantuml options
-" maid: mermaid options
-" disable_sync_scroll: if disable sync scroll, default 0
-" sync_scroll_type: 'middle', 'top' or 'relative', default value is 'middle'
-"   middle: mean the cursor position alway show at the middle of the preview page
-"   top: mean the vim top viewport alway show at the top of the preview page
-"   relative: mean the cursor position alway show at the relative positon of the preview page
-" hide_yaml_meta: if hide yaml metadata, default is 1
-" sequence_diagrams: js-sequence-diagrams options
-let g:mkdp_preview_options = {
-			\ 'mkit': {},
-			\ 'katex': {},
-			\ 'uml': {},
-			\ 'maid': {},
-			\ 'disable_sync_scroll': 0,
-			\ 'sync_scroll_type': 'middle',
-			\ 'hide_yaml_meta': 1,
-			\ 'sequence_diagrams': {},
-			\ 'flowchart_diagrams': {}
-			\ }
-
-" use a custom markdown style must be absolute path
-" like '/Users/username/markdown.css' or expand('~/markdown.css')
-let g:mkdp_markdown_css = ''
-
-" use a custom highlight style must absolute path
-" like '/Users/username/highlight.css' or expand('~/highlight.css')
-let g:mkdp_highlight_css = ''
-
-" use a custom port to start server or random for empty
-let g:mkdp_port = ''
-
-" preview page title
-" ${name} will be replace with the file name
-let g:mkdp_page_title = '「${name}」'
 
 
 "
@@ -784,12 +691,9 @@ nnoremap <silent> <F8> :TagbarToggle<CR>
 " Plugin setting END
 "================================================================================
 "{{{ TODO check the autocmd meaning here
-autocmd! bufwritepost $HOME/.config/nvim/init.vim
+autocmd! bufwritepost $HOME/.config/nvim/init.vim  so <afile>
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
-if &diff
-	syntax off
-endif
 "}}}
 "====================================
 "			code assist
@@ -826,10 +730,11 @@ let g:ascii = [
 			\ ''
 			\]
 " let g:startify_custom_header =
-			" \ startify#pad(g:ascii + startify#fortune#boxed())
+" \ startify#pad(g:ascii + startify#fortune#boxed())
 let g:startify_custom_header =
 			\ 'startify#pad(g:ascii)'
 
+let g:startify_skiplist = ["init.vim$"]
 
 
 "{{{
@@ -840,7 +745,7 @@ let g:startify_custom_header =
 " highlight GitGutterChangeInvisible guifg=Red
 " highlight GitGutterDeleteInvisible guifg=Red
 highlight GitGutterAdd		guifg=Green
-highlight GitGutterDelete guifg=Gray
+highlight GitGutterDelete guifg=Red
 highlight GitGutterChange guifg=Blue
 "
 "
@@ -859,35 +764,100 @@ hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray guifg=White
 "}}}
 
 let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-	\ 'bg':      ['bg', 'Normal'],
-	\ 'hl':      ['fg', 'Comment'],
-	\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-	\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-	\ 'hl+':     ['fg', 'Statement'],
-	\ 'info':    ['fg', 'PreProc'],
-	\ 'border':  ['fg', 'Ignore'],
-	\ 'prompt':  ['fg', 'Conditional'],
-	\ 'pointer': ['fg', 'Exception'],
-	\ 'marker':  ['fg', 'Keyword'],
-		\ 'spinner': ['fg', 'Label'],
-		\ 'header':  ['fg', 'Comment'] }
+			\ { 'fg':      ['fg', 'Normal'],
+			\ 'bg':      ['bg', 'Normal'],
+			\ 'hl':      ['fg', 'Comment'],
+			\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+			\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+			\ 'hl+':     ['fg', 'Statement'],
+			\ 'info':    ['fg', 'PreProc'],
+			\ 'border':  ['fg', 'Ignore'],
+			\ 'prompt':  ['fg', 'Conditional'],
+			\ 'pointer': ['fg', 'Exception'],
+			\ 'marker':  ['fg', 'Keyword'],
+			\ 'spinner': ['fg', 'Label'],
+			\ 'header':  ['fg', 'Comment'] }
 
 
 
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
-call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-copen
-cc
+	call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+	copen
+	cc
 endfunction
 
 let g:fzf_action = {
-	\ 'ctrl-q': function('s:build_quickfix_list'),
-	\ 'ctrl-t': 'tab split',
-	\ 'ctrl-x': 'split',
-	\ 'ctrl-v': 'vsplit' }
+			\ 'ctrl-q': function('s:build_quickfix_list'),
+			\ 'ctrl-t': 'tab split',
+			\ 'ctrl-x': 'split',
+			\ 'ctrl-v': 'vsplit' }
 
+
+" ActiveWindow: set focus window {{{1
+"colorcolumn {{{2
+let g:AutoResizeFocusWindow=1
+" ActiveWindow
+function s:Set_focus_window()
+	"after entering another window, set cc=80
+	" set cc=80
+	"hi CursorLineNr term=bold ctermfg=Yellow
+	if g:AutoResizeFocusWindow == 1
+		if bufname("%") == "__Tagbar__.1"
+		elseif bufname("%") == "NERD_tree_1"
+		else
+			"resize the focus window when the window size < 86
+			if winwidth(0) <= 86
+				vertical res 99
+				"echo "The current window has " . winwidth(0) . " columns."
+			endif
+		endif
+		" display current window's bufname, FIXME: ,f1
+		"echo bufname("%")
+	endif
+
+	augroup BgHighlight_focus
+		" Highlight the text line of the cursor with CursorLine 'hl-CursorLine'.
+		set cul
+		set cuc
+		set relativenumber
+		set number
+		syntax on
+	augroup END
+	checktime
+endfunction
+
+
+" NonActiveWindow
+function s:Set_lose_focus_window()
+	augroup BgHighlight_loss_fucos
+		set nocul
+		set nocuc
+		set norelativenumber
+		set nonumber
+		syntax clear
+	augroup END
+	checktime
+endfunction
+
+" define a shortcut key for enabling/disabling auto resize focus window:
+nnoremap  <leader>fx :exe "let g:AutoResizeFocusWindow=exists(\"g:AutoResizeFocusWindow\")?g:AutoResizeFocusWindow*-1+1:1"<CR>
+
+" 不是 vimdiff 时，自动改变窗口大小; vimdiff 窗口不自动改变大小
+if &diff == 0
+	autocmd WinEnter,BufEnter * call s:Set_focus_window()
+	autocmd WinLeave,BufLeave * call s:Set_lose_focus_window()
+endif
+
+" Convenient command to see the difference between the current buffer and the
+" file it was loaded from, thus the changes you made.
+"It will open a vimdiff-like window with the current buffer and the underlying file highlighting all of the changes between the two.
+" :h vimrc_example
+command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
+			\ | wincmd p | diffthis
+
+" :map messages output to ~/.vim/map.txt
+command -nargs=? Rmap redir! > ~/.vim/my_help/key_map.txt | silent map | redir END
 
 " set cscopetag " 使用 cscope 作为 tags 命令
 " set cscopeprg='gtags-cscope' " 使用 gtags-cscope 代替 cscope
@@ -897,6 +867,10 @@ let g:fzf_action = {
 let GtagsCscope_Auto_Load = 1
 let CtagsCscope_Auto_Map = 1
 let GtagsCscope_Quiet = 1
+
 hi CursorLine gui=underline cterm=underline guifg=revert guibg=black
 match WhitespaceEOL /\s\+$/
 highlight WhitespaceEOL ctermbg=red guibg=red
+
+source ~/.config/nvim/enhance/self_quotaSelect.vim
+
