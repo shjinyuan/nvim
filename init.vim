@@ -19,9 +19,9 @@ let g:python3_host_prog = '/usr/bin/python3'
 let &t_ut=''
 set autochdir
 
-" set path+=~/sw040/1700-generated-config/**7
-" set path+=~/sw040/1710-handwritten-config/**7
-" Basic setting {{{ === Editor behavior
+" set path+=~/linuxptp/**7
+
+" {{{========================= Basic setting =============================
 " ===
 " ===
 set exrc
@@ -35,9 +35,9 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set autoindent
-set nolist
-" set list
-" set listchars=tab:\|\ ,trail:▫
+" set nolist
+set list
+set listchars=tab:\|\ ,trail:▫
 "禁止产生临时文件
 "sdad
 set noundofile
@@ -158,9 +158,11 @@ noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
 
 " Space to Tab
-" nnoremap <LEADER>tt :%s/    /\t/g
+nnoremap <LEADER>stt :%s/    /\t/g
 " vnoremap <LEADER>tt :s/    /\t/g
 
+" Tab to space
+nnoremap <LEADER>tts :%s/\t/    /g
 " Folding
 " noremap <silent> <LEADER>o za
 
@@ -177,6 +179,7 @@ noremap <silent> L $
 " ===
 map <SPACE>pp "+p
 map <SPACE>yy "+y
+vmap <SPACE>yy "+y
 
 " switch mouse state
 noremap <space>ma :set mouse=a<CR>
@@ -232,9 +235,9 @@ noremap si :set splitright<CR>:vsplit<CR>
 " Create a new tab with tu
 noremap tu :tab split<CR>
 noremap tU :tabe<CR>
-" Motion around tabs
-noremap <A-,> :-tabnext<CR>
-noremap <A-.> :+tabnext<CR>
+" Motion around tabs with tn and ti
+noremap to :-tabnext<CR>
+noremap tp :+tabnext<CR>
 " Motion the tabs with tmn and tmi
 noremap <A-j> :-tabmove<CR>
 noremap <A-k> :+tabmove<CR>
@@ -243,10 +246,8 @@ noremap <A-k> :+tabmove<CR>
 noremap tc :tabclose<CR>
 
 "motion between buffers
-nn <C-l> :bn<CR>
-nn <C-h> :bp<CR>
-nn <C-d> :bd<CR>
-" Help
+nn bn :bn<CR>
+nn bp :bp<CR>
 "
 " Press space twice to jump to the next '' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
@@ -262,26 +263,28 @@ autocmd BufEnter * silent! lcd %:p:h
 
 
 " find and replace
-
 noremap \s :%s///g<left><left><left>
 
-
 " format python
-map <F4> :%!python -m json.tool<CR>
+" map <F4> :%!python -m json.tool<CR>
 
+" press F9 to show hlgroup
+" function! SynGroup()
+	" let l:s = synID(line('.'), col('.'), 1)
+	" echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+" endfun
+"
+" nmap <F9> :call SynGroup()<CR>
 
 nmap <F10> ggVG=
 
-nmap <F12> :call lsp#disable()<CR>
-nmap <SPACE><F12> :call lsp#enable()<CR>
-
+nmap <SPACE><F12> :call lsp#disable()<CR>
+nmap <F12> :call lsp#enable()<CR>
 
 "}}}
 
-" ===
-" === Install Plugins with Vim-Plug
-" ===
-
+"{{{ ========================= Install Plugins with Vim-Plug =============================
+"
 call plug#begin('$HOME/.config/nvim/plugged')
 " Welcome page change
 Plug 'mhinz/vim-startify'
@@ -292,18 +295,12 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug 'AlessandroYorba/Alduin'
 " Plug rakr/vim-two-firewatch
 " Plug Badacadabra/vim-archery
-
-" An eye catching plugin that fades your inactive buffers and preserves syntax highlighting!!!!
-" Plug 'TaDaa/vimade'
-
-" This is a plugin for Vim to dim inactive windows
-" Plug 'blueyed/vim-diminactive'
-
-" Vim Applications
+"
+" A Vim Applications Calendar
 Plug 'itchyny/calendar.vim'
 
 " the silver serach support
-Plug 'vim-scripts/ag.vim'
+Plug 'rking/ag.vim'
 
 " Git relative
 Plug 'airblade/vim-gitgutter'
@@ -311,14 +308,25 @@ Plug 'shjinyuan/vim-fugitive'
 
 " vim-lsp with ccls
 Plug 'prabirshrestha/vim-lsp'
-" Plug 'mattn/vim-lsp-settings'  "not used and not setting
-" Plug 'neovim/nvim-lspconfig'		" need to config further to check affect
-
-"async complete
+Plug 'mattn/vim-lsp-settings'
+" Plug 'dense-analysis/ale'
+" Plug 'rhysd/vim-lsp-ale'
+"
+" Plug 'neovim/nvim-lspconfig' " not used in daily life, need to config further
+"
+" async complete
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
-" Plug 'jsfaint/gen_tags.vim'
+" code navigation
+Plug 'jsfaint/gen_tags.vim'
+Plug 'joereynolds/gtags-scope'
+
+" Plug 'neoclide/coc.nvim'
+
+" This is a plugin for Vim to dim inactive windows
+" Plug 'blueyed/vim-diminactive'
+
 
 " snippets
 Plug 'maralla/completor.vim' "prompt snippets
@@ -353,7 +361,7 @@ Plug 'liuchengxu/vim-which-key'
 Plug '907th/vim-auto-save'
 
 " multi cursor support
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 
 "  buffer managerment
 Plug 'bsdelf/bufferhint'
@@ -361,18 +369,15 @@ Plug 'bsdelf/bufferhint'
 " tagbar which repleace taglist
 Plug 'preservim/tagbar'
 
+" sliver search support
+Plug 'rking/ag.vim'
 
 call plug#end()
+"}}}
 
-
-"================================================================================
-" Plugin setting START
-"================================================================================
+"{{{ ========================= Plugin Setting and Key Mappings =====================================
 "
-"
-"
-" ========= airline setting
-let g:airline_theme = 'dark'
+" Airline setting to show tabs ontop
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#hunks#enabled = 1
@@ -399,14 +404,19 @@ colorscheme desert
 
 
 
-"
-" === vim-lsp with ccls setting
-"
+""
+"" === vim-lsp with ccls setting
+""
+let g:lsp_auto_enable = 0
 if executable('ccls')
 	au User lsp_setup call lsp#register_server({
 				\ 'name': 'ccls',
 				\ 'cmd': {server_info->['ccls']},
-				\ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+				\ 'root_uri': {server_info->lsp#utils#path_to_uri(
+				\				lsp#utils#find_nearest_parent_file_directory(
+				\								lsp#utils#get_buffer_path(),
+				\		['.ccls', 'compile_commands.json', '.git/']
+				\	))},
 				\ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
 				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
 				\ })
@@ -436,7 +446,7 @@ function! s:on_lsp_buffer_enabled() abort
 	nnoremap <buffer> <expr><c-k> lsp#scroll(-4)
 
 	let g:lsp_format_sync_timeout = 1000
-	autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+	" autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormAtSync')
 
 	" refer to doc to add more commands
 endfunction
@@ -452,46 +462,37 @@ augroup END
 " === gen_tags.vim setting
 "
 
-" let GtagsCscope_Auto_Load = 1
-" let CtagsCscope_Auto_Map = 1
-" let GtagsCscope_Quiet = 1
+let g:gen_tags#gtags_auto_gen = 1
+let g:gen_tags#gtags_auto_updagen = 1
+"
+let g:gen_tags#root_marker = ".git"
+let g:gen_tags#ctags_opts = ['-c', '--verbose']
 
+let g:gen_tags#gtags_default_map = 0
 
-" let g:gen_tags#gtags_auto_gen = 1 #auto gen_tags on DELL have issue //TODO
-" let g:gen_tags#gtags_auto_updagen = 1
-"
-" let g:gen_tags#root_marker = ".git"
-" let g:gen_tags#ctags_opts = ['-c', '--verbose']
-"
-" let g:gen_tags#gtags_default_map = 0
-"
-" map <LEADER>sc :cs find c <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>sd :cs find d <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>se :cs find e <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>sf :cs find f <C-R>=expand('<cfile>')<CR><CR>
-" map <LEADER>sg :cs find g <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>si :cs find i <C-R>=expand('<cfile>')<CR><CR>
-" map <LEADER>ss :cs find s <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>st :cs find t <C-R>=expand('<cword>')<CR><CR>
-"
-" map <LEADER>vc :vert scs find c <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>vd :vert scs find d <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>ve :vert scs find e <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>vf :vert scs find f <C-R>=expand('<cfile>')<CR><CR>
-" map <LEADER>vg :vert scs find g <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>vi :vert scs find i <C-R>=expand('<cfile>')<CR><CR>
-" map <LEADER>vs :vert scs find s <C-R>=expand('<cword>')<CR><CR>
-" map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
-"
-" if need support more languages ,except C/C++....
-" let $GTAGSCONF = '/home/wsk/bin/gtags/data/gtags/gtags.conf'
-" let $GTAGSLABEL = 'pygments'
-"
+map <LEADER>sc :cs find c <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>sd :cs find d <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>se :cs find e <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>sf :cs find f <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>sg :cs find g <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>si :cs find i <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>ss :cs find s <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>st :cs find t <C-R>=expand('<cword>')<CR><CR>
 
+map <LEADER>vc :vert scs find c <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vd :vert scs find d <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>ve :vert scs find e <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vf :vert scs find f <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>vg :vert scs find g <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vi :vert scs find i <C-R>=expand('<cfile>')<CR><CR>
+map <LEADER>vs :vert scs find s <C-R>=expand('<cword>')<CR><CR>
+map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
+"
 "
 " NERDTREE setting
-nmap _ :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
+
+nmap - :NERDTreeToggle<CR>
+
 
 "
 " === nerdcommenter setting
@@ -529,6 +530,8 @@ let g:NERDToggleCheckAllLines = 1
 "
 inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 
@@ -646,7 +649,7 @@ nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 "
 "==== completor setting
 "
-let g:completor_clang_binary = '/usr/bin/clang'
+" let g:completor_clang_binary = '/usr/bin/clang'
 
 "
 "==== UltriSnips setting
@@ -668,16 +671,15 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "
 "==== bufferhint setting
 "
-nnoremap - :call bufferhint#Popup()<CR>
+nnoremap _ :call bufferhint#Popup()<CR>
 
 "
 "==== MRU setting
 "
 " let MRU_Window_Height = 35
 " nnoremap \ :vertical botright MRUToggle<CR>
-nn \ :FZF<CR>
-nn ff :FZFMru<CR>
-
+let MRU_Window_Height = 15
+nnoremap \ :botright MRUToggle<CR>
 
 "
 "==== tagbar setting
@@ -750,10 +752,10 @@ highlight GitGutterChange guifg=Blue
 "========== Diff Mode
 " hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 " hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-highlight DiffAdd    cterm=bold ctermfg=11 ctermbg=17 guifg=Black guibg=Green  gui=bold
-highlight DiffDelete cterm=bold ctermfg=12 ctermbg=37 guifg=Gray  guibg=Red
-highlight DiffChange cterm=bold ctermfg=13 ctermbg=27 guifg=black guibg=Blue
-highlight DiffText   cterm=bold ctermfg=14 ctermbg=88 guifg=black guibg=Yellow gui=italic
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Green
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Red
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Blue
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=Yellow
 "
 "
 "========== Menu for selection
@@ -857,4 +859,18 @@ command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
 " :map messages output to ~/.vim/map.txt
 command -nargs=? Rmap redir! > ~/.vim/my_help/key_map.txt | silent map | redir END
 
+" set cscopetag " 使用 cscope 作为 tags 命令
+" set cscopeprg='gtags-cscope' " 使用 gtags-cscope 代替 cscope
+"
+"
+"gtags.vim 设置项
+let GtagsCscope_Auto_Load = 1
+let CtagsCscope_Auto_Map = 1
+let GtagsCscope_Quiet = 1
+
+hi CursorLine gui=underline cterm=underline guifg=revert guibg=black
+match WhitespaceEOL /\s\+$/
+highlight WhitespaceEOL ctermbg=red guibg=red
+
 source ~/.config/nvim/enhance/self_quotaSelect.vim
+
