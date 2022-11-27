@@ -20,7 +20,7 @@ set autochdir
 
 " set path+=~/linuxptp/**7
 
-" Basic setting {{{
+" {{{========================= Basic setting =============================
 " ===
 " === Editor behavior
 " ===
@@ -306,12 +306,11 @@ nmap <F10> ggVG=
 
 nmap <SPACE><F12> :call lsp#disable()<CR>
 nmap <F12> :call lsp#enable()<CR>
+
 "}}}
 
-" ===
-" === Install Plugins with Vim-Plug
-" ===
-
+"{{{ ========================= Install Plugins with Vim-Plug =============================
+"
 call plug#begin('$HOME/.config/nvim/plugged')
 " Welcome page change
 Plug 'mhinz/vim-startify'
@@ -397,13 +396,9 @@ Plug 'preservim/tagbar'
 Plug 'rking/ag.vim'
 
 call plug#end()
+"}}}
 
-
-"================================================================================
-" Plugin setting START
-"================================================================================
-"
-"
+"{{{ ========================= Plugin Setting and Key Mappings =====================================
 "
 " Airline setting to show tabs ontop
 let g:airline#extensions#tabline#enabled = 1
@@ -498,7 +493,9 @@ map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
 "
 "
 " NERDTREE setting
+
 nmap - :NERDTreeToggle<CR>
+
 
 "
 " === nerdcommenter setting
@@ -821,7 +818,6 @@ autocmd InsertEnter,InsertLeave * set cul!
 ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
 
 
-
 let g:ascii = [
 			\ '        __',
 			\ '.--.--.|__|.--------.',
@@ -891,6 +887,7 @@ let g:fzf_action = {
 	\ 'ctrl-t': 'tab split',
 	\ 'ctrl-x': 'split',
 	\ 'ctrl-v': 'vsplit' }
+
 
 " set cscopetag " 使用 cscope 作为 tags 命令
 " set cscopeprg='gtags-cscope' " 使用 gtags-cscope 代替 cscope
