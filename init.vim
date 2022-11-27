@@ -18,8 +18,7 @@ let g:python3_host_prog = '/usr/bin/python3'
 let &t_ut=''
 set autochdir
 
-set path+=~/sw040/1700-generated-config/**7
-set path+=~/sw040/1710-handwritten-config/**7
+" set path+=~/linuxptp/**7
 
 " {{{========================= Basic setting =============================
 " ===
@@ -36,9 +35,9 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set autoindent
-set nolist
-" set list
-" set listchars=tab:\|\ ,trail:▫
+" set nolist
+set list
+set listchars=tab:\|\ ,trail:▫
 "禁止产生临时文件
 "sdad
 set noundofile
@@ -103,7 +102,211 @@ endif
 set foldenable
 set foldmethod=marker
 
-filetype plugin on
+filetype plugin on"}}}
+
+" Restore the last quit position when open file.
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" 设置跳出自动补全的括号 {{{
+func SkipPair()
+	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
+		return "\<ESC>la"
+	else
+		return "\t"
+	endif
+endfunc
+
+inoremap jj <c-r>=SkipPair()<CR>
+"}}}
+" 常规模式下输入清除行尾 ^M 符号{{{
+nmap <space>dM :%s/\r$//g<CR>:noh<CR>
+"}}}
+" 删除行尾空格 和 Tab{{{
+nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
+"}}}
+" 删除空行{{{
+nmap <space>dl :g/^s*$/d<CR>
+"}}}
+
+" ===
+" === Terminal Behaviors
+" ===
+let g:neoterm_autoscroll = 1
+autocmd TermOpen term://* startinsert
+tnoremap <C-N> <C-\><C-N>
+tnoremap <C-O> <C-\><C-N><C-O>
+
+nn cc :cclose<CR>
+"{{{ === Basic Mappings
+" ===
+" ===
+" Set <LEADER>
+let mapleader=","
+
+" Save & quit
+noremap Q :q<CR>
+" noremap <C-q> :qa<CR>
+noremap S :w<CR>
+
+" Open the vimrc file anytime
+noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
+
+" Open README.md
+noremap <leader>he :vs $HOME/.config/nvim/README.md<CR>
+noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
+
+" Adjacent duplicate words
+" noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
+
+" Space to Tab
+nnoremap <LEADER>stt :%s/    /\t/g
+" vnoremap <LEADER>tt :s/    /\t/g
+
+" Tab to space
+nnoremap <LEADER>tts :%s/\t/    /g
+" Folding
+" noremap <silent> <LEADER>o za
+
+" nnoremap <c-n> :tabe<CR>:-tabmove<CR>:term lazynpm<CR>
+
+
+
+" U/E keys for 5 times u/e (faster navigation)
+noremap <silent> U 5k
+noremap <silent> E 5j
+
+" H key: go to the start of the line
+noremap <silent> H 0
+" L key: go to the end of the line
+noremap <silent> L $
+
+" Faster in-line navigation
+noremap W 5w
+noremap B 5b
+
+
+" Ctrl + U or E will move up/down the view port without moving the cursor
+noremap <C-U> 5<C-y>
+noremap <C-E> 5<C-e>
+
+
+" ===
+" === copy/paset between vim and system clipboard
+" ===
+map <SPACE>pp "+p
+map <SPACE>yy "+y
+vmap <SPACE>yy "+y
+
+" switch mouse state
+noremap <space>ma :set mouse=a<CR>
+noremap <space>mv :set mouse=v<CR>
+
+" ===
+" === Insert Mode Cursor Movement
+" ===
+inoremap <C-a> <ESC>A
+
+
+" ===
+" === Command Mode Cursor Movement
+" ===
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-n> <Left>
+cnoremap <C-l> <Right>
+cnoremap <C-j> <C-n>
+cnoremap <C-k> <C-p>
+"  M -> ALT
+" cnoremap <M-b> <S-Left>
+" cnoremap <M-w> <S-Right>
+
+" ===
+" === Searching
+" ===
+" noremap - N
+" noremap = n
+
+" ===
+" === Window management
+" ===
+" Use <space> + new arrow keys for moving the cursor around windows
+" noremap <LEADER>ww <C-w>w
+" noremap <LEADER>wk <C-w>k
+" noremap <LEADER>wj <C-w>j
+" noremap <LEADER>wh <C-w>h
+" noremap <LEADER>wl <C-w>l
+noremap qf <C-w>o
+nmap <space>wh :vertical res +30<CR>
+nmap <space>wl :vertical res -30<CR>
+nmap <space>wj :res +15<CR>
+nmap <space>wk :res -15<CR>
+
+
+" Disable the default s key
+noremap s <nop>
+
+" split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
+noremap su :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+noremap se :set splitbelow<CR>:split<CR>
+noremap sn :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+noremap si :set splitright<CR>:vsplit<CR>
+
+
+
+" ===
+" === Tab management
+" ===
+" Create a new tab with tu
+noremap tu :tab split<CR>
+noremap tU :tabe<CR>
+" Motion around tabs with tn and ti
+noremap to :-tabnext<CR>
+noremap tp :+tabnext<CR>
+" Motion the tabs with tmn and tmi
+noremap tmn :-tabmove<CR>
+noremap tmi :+tabmove<CR>
+
+" Close the tab
+noremap tc :tabclose<CR>
+
+"motion between buffers
+nn bn :bn<CR>
+nn bp :bp<CR>
+"
+" Press space twice to jump to the next '' and edit it
+noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
+
+" Spelling Check with <space>sc
+noremap <LEADER>sc :set spell!<CR>
+
+" Press ` to change case (instead of ~)
+noremap ` ~
+
+" Auto change directory to current dir
+autocmd BufEnter * silent! lcd %:p:h
+
+" Call figlet
+noremap tx :r !figlet
+
+" find and replace
+noremap \s :%s///g<left><left><left>
+
+" format python
+" map <F4> :%!python -m json.tool<CR>
+
+" press F9 to show hlgroup
+" function! SynGroup()
+	" let l:s = synID(line('.'), col('.'), 1)
+	" echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+" endfun
+"
+" nmap <F9> :call SynGroup()<CR>
+
+nmap <F10> ggVG=
+
+nmap <SPACE><F12> :call lsp#disable()<CR>
+nmap <F12> :call lsp#enable()<CR>
+
 "}}}
 
 "{{{ ========================= Install Plugins with Vim-Plug =============================
@@ -118,7 +321,8 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug 'AlessandroYorba/Alduin'
 " Plug rakr/vim-two-firewatch
 " Plug Badacadabra/vim-archery
-" Vim Applications
+"
+" A Vim Applications Calendar
 Plug 'itchyny/calendar.vim'
 
 " Git relative
@@ -128,13 +332,24 @@ Plug 'shjinyuan/vim-fugitive'
 " vim-lsp with ccls
 Plug 'prabirshrestha/vim-lsp'
 Plug 'mattn/vim-lsp-settings'
-"Plug 'neovim/nvim-lspconfig'
-
-"async complete
+" Plug 'dense-analysis/ale'
+" Plug 'rhysd/vim-lsp-ale'
+"
+" Plug 'neovim/nvim-lspconfig' " not used in daily life, need to config further
+"
+" async complete
 Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
+" code navigation
 Plug 'jsfaint/gen_tags.vim'
+Plug 'joereynolds/gtags-scope'
+
+" Plug 'neoclide/coc.nvim'
+
+" This is a plugin for Vim to dim inactive windows
+" Plug 'blueyed/vim-diminactive'
+
 
 " snippets
 Plug 'maralla/completor.vim' "prompt snippets
@@ -169,7 +384,7 @@ Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 Plug '907th/vim-auto-save'
 
 " multi cursor support
-Plug 'terryma/vim-multiple-cursors'
+" Plug 'terryma/vim-multiple-cursors'
 
 "  buffer managerment
 Plug 'bsdelf/bufferhint'
@@ -177,27 +392,34 @@ Plug 'bsdelf/bufferhint'
 " tagbar which repleace taglist
 Plug 'preservim/tagbar'
 
+" sliver search support
+Plug 'rking/ag.vim'
 
 call plug#end()
 "}}}
 
 "{{{ ========================= Plugin Setting and Key Mappings =====================================
 "
-"
+" Airline setting to show tabs ontop
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#buffer_nr_show = 1
 let g:airline#extensions#hunks#enabled = 1
 
 
 
-"
-" === vim-lsp with ccls setting
-"
+""
+"" === vim-lsp with ccls setting
+""
+let g:lsp_auto_enable = 0
 if executable('ccls')
 	au User lsp_setup call lsp#register_server({
 				\ 'name': 'ccls',
 				\ 'cmd': {server_info->['ccls']},
-				\ 'root_uri': {server_info->lsp#utils#path_to_uri(lsp#utils#find_nearest_parent_file_directory(lsp#utils#get_buffer_path(), 'compile_commands.json'))},
+				\ 'root_uri': {server_info->lsp#utils#path_to_uri(
+				\				lsp#utils#find_nearest_parent_file_directory(
+				\								lsp#utils#get_buffer_path(),
+				\		['.ccls', 'compile_commands.json', '.git/']
+				\	))},
 				\ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
 				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
 				\ })
@@ -227,7 +449,7 @@ function! s:on_lsp_buffer_enabled() abort
 	nnoremap <buffer> <expr><c-d> lsp#scroll(-4)
 
 	let g:lsp_format_sync_timeout = 1000
-	autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormatSync')
+	" autocmd! BufWritePre *.rs,*.go call execute('LspDocumentFormAtSync')
 
 	" refer to doc to add more commands
 endfunction
@@ -242,14 +464,12 @@ augroup END
 "
 " === gen_tags.vim setting
 "
-let g:gen_tags#ctags_auto_gen = 1
-let g:gen_tags#gtags_auto_gen = 1
 
+let g:gen_tags#gtags_auto_gen = 1
+let g:gen_tags#gtags_auto_updagen = 1
+"
 let g:gen_tags#root_marker = ".git"
-let g:gen_tags#ctags_opts = ['--c++-kinds=+px', '--c-kinds=+px']
 let g:gen_tags#ctags_opts = ['-c', '--verbose']
-autocmd User GenTags#CtagsLoaded echo "hello world"
-autocmd User GenTags#GtagsLoaded nnoremap gd <c-]>
 
 let g:gen_tags#gtags_default_map = 0
 
@@ -271,9 +491,11 @@ map <LEADER>vi :vert scs find i <C-R>=expand('<cfile>')<CR><CR>
 map <LEADER>vs :vert scs find s <C-R>=expand('<cword>')<CR><CR>
 map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
 "
+"
 " NERDTREE setting
-nmap _ :NERDTreeToggle<CR>
-let NERDTreeShowHidden=1
+
+nmap - :NERDTreeToggle<CR>
+
 
 "
 " === nerdcommenter setting
@@ -323,8 +545,8 @@ inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 let g:translator_default_engines = ['bing']
 " Create default mappings
 " Echo translation in the cmdline
-nmap <silent> <Leader>te <Plug>Translate<CR>
-vmap <silent> <Leader>te <Plug>TranslateV<CR>
+nmap <silent> <Leader>te <Plug>Translate
+vmap <silent> <Leader>te <Plug>TranslateV
 " Display translation in a window
 " nmap <silent> <Leader>te <Plug>TranslateW<CR>
 " vmap <silent> <Leader>te <Plug>TranslateWV<CR>
@@ -520,7 +742,7 @@ let g:mkdp_page_title = '「${name}」'
 "
 "==== completor setting
 "
-let g:completor_clang_binary = '/usr/bin/clang'
+" let g:completor_clang_binary = '/usr/bin/clang'
 
 "
 "==== UltriSnips setting
@@ -542,14 +764,15 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "
 "==== bufferhint setting
 "
-nnoremap - :call bufferhint#Popup()<CR>
-" nnoremap \ :call bufferhint#LoadPrevious()<CR>
+nnoremap _ :call bufferhint#Popup()<CR>
 
 "
 "==== MRU setting
 "
-let MRU_Window_Height = 35
-nnoremap <space>mm :vertical botright MRUToggle<CR>
+" let MRU_Window_Height = 35
+" nnoremap \ :vertical botright MRUToggle<CR>
+let MRU_Window_Height = 15
+nnoremap \ :botright MRUToggle<CR>
 
 "
 "==== tagbar setting
@@ -584,7 +807,6 @@ autocmd InsertEnter,InsertLeave * set cul!
 " set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
 " \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 " \,sm:block-blinkwait175-blinkoff150-blinkon175
-nnoremap \ :vertical botright MRU <CR>
 
 " autocmd InsertEnter * set cul
 " autocmd InsertLeave * set nocul
@@ -625,10 +847,10 @@ highlight GitGutterChange guifg=Blue
 "========== Diff Mode
 " hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 " hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=bg guibg=Red
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=bg guibg=Red
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Green
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Red
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Blue
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=Yellow
 "
 "
 "========== Menu for selection
@@ -667,221 +889,14 @@ let g:fzf_action = {
 	\ 'ctrl-v': 'vsplit' }
 
 
-" ======================Plugin Setting END=============================
-"}}}
-
-"{{{ ========================= Customer Mappings ============================
-" Restore the last quit position when open file.
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-" 设置跳出自动补全的括号 {{{
-func SkipPair()
-	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
-		return "\<ESC>la"
-	else
-		return "\t"
-	endif
-endfunc
-
-inoremap jj <c-r>=SkipPair()<CR>
-"}}}
-" 常规模式下输入清除行尾 ^M 符号{{{
-nmap <space>dM :%s/\r$//g<CR>:noh<CR>
-"}}}
-" 删除行尾空格 和 Tab{{{
-nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
-"}}}
-" 删除空行{{{
-nmap <space>dl :g/^s*$/d<CR>
-"}}}
-
-" ===
-" === Terminal Behaviors
-" ===
-let g:neoterm_autoscroll = 1
-autocmd TermOpen term://* startinsert
-tnoremap <C-N> <C-\><C-N>
-tnoremap <C-O> <C-\><C-N><C-O>
-
-"{{{ === Basic Mappings
-" ===
-" ===
-" Set <LEADER>
-let mapleader=","
-
-" Save & quit
-noremap Q :q<CR>
-" noremap <C-q> :qa<CR>
-noremap S :w<CR>
-
-" Open the vimrc file anytime
-noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
-
-" Open README.md
-noremap <leader>he :vs $HOME/.config/nvim/README.md<CR>
-noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
-
-" Adjacent duplicate words
-" noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
-
-" Space to Tab
-" nnoremap <LEADER>tt :%s/    /\t/g
-" vnoremap <LEADER>tt :s/    /\t/g
-
-" Folding
-" noremap <silent> <LEADER>o za
-
-" nnoremap <c-n> :tabe<CR>:-tabmove<CR>:term lazynpm<CR>
-
-
-
-" U/E keys for 5 times u/e (faster navigation)
-noremap <silent> U 5k
-noremap <silent> E 5j
-
-" H key: go to the start of the line
-noremap <silent> H 0
-" L key: go to the end of the line
-noremap <silent> L $
-
-" Faster in-line navigation
-noremap W 5w
-noremap B 5b
-
-
-" Ctrl + U or E will move up/down the view port without moving the cursor
-noremap <C-U> 5<C-y>
-noremap <C-E> 5<C-e>
-
-
-" ===
-" === copy/paset between vim and system clipboard
-" ===
-map <SPACE>pp "+p
-map <SPACE>yy "+y
-
-" switch mouse state
-noremap <space>ma :set mouse=a<CR>
-noremap <space>mv :set mouse=v<CR>
-
-" ===
-" === Insert Mode Cursor Movement
-" ===
-inoremap <C-a> <ESC>A
-
-
-" ===
-" === Command Mode Cursor Movement
-" ===
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-n> <Left>
-cnoremap <C-l> <Right>
-cnoremap <C-j> <C-n>
-cnoremap <C-k> <C-p>
-"  M -> ALT
-" cnoremap <M-b> <S-Left>
-" cnoremap <M-w> <S-Right>
-
-" ===
-" === Searching
-" ===
-" noremap - N
-" noremap = n
-
-" ===
-" === Window management
-" ===
-" Use <space> + new arrow keys for moving the cursor around windows
-" noremap <LEADER>ww <C-w>w
-" noremap <LEADER>wk <C-w>k
-" noremap <LEADER>wj <C-w>j
-" noremap <LEADER>wh <C-w>h
-" noremap <LEADER>wl <C-w>l
-noremap qf <C-w>o
-nmap <space>wh :vertical res +30<CR>
-nmap <space>wl :vertical res -30<CR>
-nmap <space>wj :res +15<CR>
-nmap <space>wk :res -15<CR>
-
-
-" Disable the default s key
-noremap s <nop>
-
-" split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
-noremap su :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
-noremap se :set splitbelow<CR>:split<CR>
-noremap sn :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
-noremap si :set splitright<CR>:vsplit<CR>
-
-
-
-" ===
-" === Tab management
-" ===
-" Create a new tab with tu
-noremap tu :tab split<CR>
-noremap tU :tabe<CR>
-" Motion around tabs with tn and ti
-noremap tn :-tabnext<CR>
-noremap ti :+tabnext<CR>
-" Motion the tabs with tmn and tmi
-noremap tmn :-tabmove<CR>
-noremap tmi :+tabmove<CR>
-
-" Close the tab
-noremap tc :tabclose<CR>
-
-"motion between tabs
-nn > :bn<CR>
-nn < :bp<CR>
-
-" Press space twice to jump to the next '' and edit it
-noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
-
-" Spelling Check with <space>sc
-noremap <LEADER>sc :set spell!<CR>
-
-" Press ` to change case (instead of ~)
-noremap ` ~
-
-" Auto change directory to current dir
-autocmd BufEnter * silent! lcd %:p:h
-
-" Call figlet
-noremap tx :r !figlet
-
-" find and replace
-noremap \s :%s//<left><left>
-
-" format python
-map <F4> :%!python -m json.tool<CR>
-
-" press f10 to show hlgroup
-function! SynGroup()
-	let l:s = synID(line('.'), col('.'), 1)
-	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-endfun
-
-nmap <F9> :call SynGroup()<CR>
-nmap <F10> ggVG=
-" nmap <F11> :call lsp#enable()<CR>
-nmap <F12> :call lsp#disable()<CR>
-nmap <SPACE><F12> :call lsp#enable()<CR>
-"}}}
-" using ALT +hjkl to motion among windows
-tnoremap <A-h> <C-\><C-N><C-w>h
-tnoremap <A-j> <C-\><C-N><C-w>j
-tnoremap <A-k> <C-\><C-N><C-w>k
-tnoremap <A-l> <C-\><C-N><C-w>l
-noremap <A-h> <C-\><C-N><C-w>h
-noremap <A-j> <C-\><C-N><C-w>j
-noremap <A-k> <C-\><C-N><C-w>k
-noremap <A-l> <C-\><C-N><C-w>l
-noremap <A-h> <C-w>h
-noremap <A-j> <C-w>j
-noremap <A-k> <C-w>k
-noremap <A-l> <C-w>l
-map <space>x  <C-c>
-nn <space>cc :cclose<CR>
-"}}}
+" set cscopetag " 使用 cscope 作为 tags 命令
+" set cscopeprg='gtags-cscope' " 使用 gtags-cscope 代替 cscope
+"
+"
+"gtags.vim 设置项
+let GtagsCscope_Auto_Load = 1
+let CtagsCscope_Auto_Map = 1
+let GtagsCscope_Quiet = 1
+hi CursorLine gui=underline cterm=underline guifg=revert guibg=black
+match WhitespaceEOL /\s\+$/
+highlight WhitespaceEOL ctermbg=red guibg=red
