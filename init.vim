@@ -21,7 +21,7 @@ set autochdir
 set path+=~/sw040/1700-generated-config/**7
 set path+=~/sw040/1710-handwritten-config/**7
 
-" Basic setting {{{
+" {{{========================= Basic setting =============================
 " ===
 " === Editor behavior
 " ===
@@ -103,212 +103,11 @@ endif
 set foldenable
 set foldmethod=marker
 
-filetype plugin on"}}}
-
-" Restore the last quit position when open file.
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-" 设置跳出自动补全的括号 {{{
-func SkipPair()
-	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
-		return "\<ESC>la"
-	else
-		return "\t"
-	endif
-endfunc
-
-inoremap jj <c-r>=SkipPair()<CR>
-"}}}
-" 常规模式下输入清除行尾 ^M 符号{{{
-nmap <space>dM :%s/\r$//g<CR>:noh<CR>
-"}}}
-" 删除行尾空格 和 Tab{{{
-nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
-"}}}
-" 删除空行{{{
-nmap <space>dl :g/^s*$/d<CR>
+filetype plugin on
 "}}}
 
-" ===
-" === Terminal Behaviors
-" ===
-let g:neoterm_autoscroll = 1
-autocmd TermOpen term://* startinsert
-tnoremap <C-N> <C-\><C-N>
-tnoremap <C-O> <C-\><C-N><C-O>
-
-nn cc :cclose<CR>
-"{{{ === Basic Mappings
-" ===
-" ===
-" Set <LEADER>
-let mapleader=","
-
-" Save & quit
-noremap Q :q<CR>
-" noremap <C-q> :qa<CR>
-noremap S :w<CR>
-
-" Open the vimrc file anytime
-noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
-
-" Open README.md
-noremap <leader>he :vs $HOME/.config/nvim/README.md<CR>
-noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
-
-" Adjacent duplicate words
-" noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
-
-" Space to Tab
-" nnoremap <LEADER>tt :%s/    /\t/g
-" vnoremap <LEADER>tt :s/    /\t/g
-
-" Folding
-" noremap <silent> <LEADER>o za
-
-" nnoremap <c-n> :tabe<CR>:-tabmove<CR>:term lazynpm<CR>
-
-
-
-" U/E keys for 5 times u/e (faster navigation)
-noremap <silent> U 5k
-noremap <silent> E 5j
-
-" H key: go to the start of the line
-noremap <silent> H 0
-" L key: go to the end of the line
-noremap <silent> L $
-
-" Faster in-line navigation
-noremap W 5w
-noremap B 5b
-
-
-" Ctrl + U or E will move up/down the view port without moving the cursor
-noremap <C-U> 5<C-y>
-noremap <C-E> 5<C-e>
-
-
-" ===
-" === copy/paset between vim and system clipboard
-" ===
-map <SPACE>pp "+p
-map <SPACE>yy "+y
-
-" switch mouse state
-noremap <space>ma :set mouse=a<CR>
-noremap <space>mv :set mouse=v<CR>
-
-" ===
-" === Insert Mode Cursor Movement
-" ===
-inoremap <C-a> <ESC>A
-
-
-" ===
-" === Command Mode Cursor Movement
-" ===
-cnoremap <C-a> <Home>
-cnoremap <C-e> <End>
-cnoremap <C-n> <Left>
-cnoremap <C-l> <Right>
-cnoremap <C-j> <C-n>
-cnoremap <C-k> <C-p>
-"  M -> ALT
-" cnoremap <M-b> <S-Left>
-" cnoremap <M-w> <S-Right>
-
-" ===
-" === Searching
-" ===
-" noremap - N
-" noremap = n
-
-" ===
-" === Window management
-" ===
-" Use <space> + new arrow keys for moving the cursor around windows
-" noremap <LEADER>ww <C-w>w
-" noremap <LEADER>wk <C-w>k
-" noremap <LEADER>wj <C-w>j
-" noremap <LEADER>wh <C-w>h
-" noremap <LEADER>wl <C-w>l
-noremap qf <C-w>o
-nmap <space>wh :vertical res +30<CR>
-nmap <space>wl :vertical res -30<CR>
-nmap <space>wj :res +15<CR>
-nmap <space>wk :res -15<CR>
-
-
-" Disable the default s key
-noremap s <nop>
-
-" split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
-noremap su :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
-noremap se :set splitbelow<CR>:split<CR>
-noremap sn :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
-noremap si :set splitright<CR>:vsplit<CR>
-
-
-
-" ===
-" === Tab management
-" ===
-" Create a new tab with tu
-noremap tu :tab split<CR>
-noremap tU :tabe<CR>
-" Motion around tabs with tn and ti
-noremap tn :-tabnext<CR>
-noremap ti :+tabnext<CR>
-" Motion the tabs with tmn and tmi
-noremap tmn :-tabmove<CR>
-noremap tmi :+tabmove<CR>
-
-" Close the tab
-noremap tc :tabclose<CR>
-
-"motion between tabs
-nn > :bn<CR>
-nn < :bp<CR>
-
-" Press space twice to jump to the next '' and edit it
-noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
-
-" Spelling Check with <space>sc
-noremap <LEADER>sc :set spell!<CR>
-
-" Press ` to change case (instead of ~)
-noremap ` ~
-
-" Auto change directory to current dir
-autocmd BufEnter * silent! lcd %:p:h
-
-" Call figlet
-noremap tx :r !figlet
-
-" find and replace
-noremap \s :%s//<left><left>
-
-" format python
-map <F4> :%!python -m json.tool<CR>
-
-" press f10 to show hlgroup
-function! SynGroup()
-	let l:s = synID(line('.'), col('.'), 1)
-	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
-endfun
-
-nmap <F9> :call SynGroup()<CR>
-nmap <F10> ggVG=
-" nmap <F11> :call lsp#enable()<CR>
-nmap <F12> :call lsp#disable()<CR>
-nmap <SPACE><F12> :call lsp#enable()<CR>
-"}}}
-
-" ===
-" === Install Plugins with Vim-Plug
-" ===
-
+"{{{ ========================= Install Plugins with Vim-Plug =============================
+"
 call plug#begin('$HOME/.config/nvim/plugged')
 " Welcome page change
 Plug 'mhinz/vim-startify'
@@ -380,13 +179,9 @@ Plug 'preservim/tagbar'
 
 
 call plug#end()
+"}}}
 
-
-"================================================================================
-" Plugin setting START
-"================================================================================
-"
-"
+"{{{ ========================= Plugin Setting and Key Mappings =====================================
 "
 "
 let g:airline#extensions#tabline#enabled = 1
@@ -511,14 +306,14 @@ let g:NERDTrimTrailingWhitespace = 1
 let g:NERDToggleCheckAllLines = 1
 
 
-"                                                                                                   
-" ===asyncomplete setting                                                                           
-"                                                                                                   
-inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"                                                                                                                                             
-inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                          
-" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"                                        
-" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"                                      
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"   
+"
+" ===asyncomplete setting
+"
+inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
+inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+" inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
+" inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
+inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 
 "
@@ -816,7 +611,7 @@ let g:startify_custom_header =
 
 
 "{{{
-" custom highlight setting 
+" custom highlight setting
 "
 "
 " ======== Gitgutter sign
@@ -871,6 +666,209 @@ let g:fzf_action = {
 	\ 'ctrl-x': 'split',
 	\ 'ctrl-v': 'vsplit' }
 
+
+" ======================Plugin Setting END=============================
+"}}}
+
+"{{{ ========================= Customer Mappings ============================
+" Restore the last quit position when open file.
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+" 设置跳出自动补全的括号 {{{
+func SkipPair()
+	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
+		return "\<ESC>la"
+	else
+		return "\t"
+	endif
+endfunc
+
+inoremap jj <c-r>=SkipPair()<CR>
+"}}}
+" 常规模式下输入清除行尾 ^M 符号{{{
+nmap <space>dM :%s/\r$//g<CR>:noh<CR>
+"}}}
+" 删除行尾空格 和 Tab{{{
+nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
+"}}}
+" 删除空行{{{
+nmap <space>dl :g/^s*$/d<CR>
+"}}}
+
+" ===
+" === Terminal Behaviors
+" ===
+let g:neoterm_autoscroll = 1
+autocmd TermOpen term://* startinsert
+tnoremap <C-N> <C-\><C-N>
+tnoremap <C-O> <C-\><C-N><C-O>
+
+"{{{ === Basic Mappings
+" ===
+" ===
+" Set <LEADER>
+let mapleader=","
+
+" Save & quit
+noremap Q :q<CR>
+" noremap <C-q> :qa<CR>
+noremap S :w<CR>
+
+" Open the vimrc file anytime
+noremap <space>rc :e $HOME/.config/nvim/init.vim<CR>
+
+" Open README.md
+noremap <leader>he :vs $HOME/.config/nvim/README.md<CR>
+noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
+
+" Adjacent duplicate words
+" noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
+
+" Space to Tab
+" nnoremap <LEADER>tt :%s/    /\t/g
+" vnoremap <LEADER>tt :s/    /\t/g
+
+" Folding
+" noremap <silent> <LEADER>o za
+
+" nnoremap <c-n> :tabe<CR>:-tabmove<CR>:term lazynpm<CR>
+
+
+
+" U/E keys for 5 times u/e (faster navigation)
+noremap <silent> U 5k
+noremap <silent> E 5j
+
+" H key: go to the start of the line
+noremap <silent> H 0
+" L key: go to the end of the line
+noremap <silent> L $
+
+" Faster in-line navigation
+noremap W 5w
+noremap B 5b
+
+
+" Ctrl + U or E will move up/down the view port without moving the cursor
+noremap <C-U> 5<C-y>
+noremap <C-E> 5<C-e>
+
+
+" ===
+" === copy/paset between vim and system clipboard
+" ===
+map <SPACE>pp "+p
+map <SPACE>yy "+y
+
+" switch mouse state
+noremap <space>ma :set mouse=a<CR>
+noremap <space>mv :set mouse=v<CR>
+
+" ===
+" === Insert Mode Cursor Movement
+" ===
+inoremap <C-a> <ESC>A
+
+
+" ===
+" === Command Mode Cursor Movement
+" ===
+cnoremap <C-a> <Home>
+cnoremap <C-e> <End>
+cnoremap <C-n> <Left>
+cnoremap <C-l> <Right>
+cnoremap <C-j> <C-n>
+cnoremap <C-k> <C-p>
+"  M -> ALT
+" cnoremap <M-b> <S-Left>
+" cnoremap <M-w> <S-Right>
+
+" ===
+" === Searching
+" ===
+" noremap - N
+" noremap = n
+
+" ===
+" === Window management
+" ===
+" Use <space> + new arrow keys for moving the cursor around windows
+" noremap <LEADER>ww <C-w>w
+" noremap <LEADER>wk <C-w>k
+" noremap <LEADER>wj <C-w>j
+" noremap <LEADER>wh <C-w>h
+" noremap <LEADER>wl <C-w>l
+noremap qf <C-w>o
+nmap <space>wh :vertical res +30<CR>
+nmap <space>wl :vertical res -30<CR>
+nmap <space>wj :res +15<CR>
+nmap <space>wk :res -15<CR>
+
+
+" Disable the default s key
+noremap s <nop>
+
+" split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
+noremap su :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
+noremap se :set splitbelow<CR>:split<CR>
+noremap sn :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
+noremap si :set splitright<CR>:vsplit<CR>
+
+
+
+" ===
+" === Tab management
+" ===
+" Create a new tab with tu
+noremap tu :tab split<CR>
+noremap tU :tabe<CR>
+" Motion around tabs with tn and ti
+noremap tn :-tabnext<CR>
+noremap ti :+tabnext<CR>
+" Motion the tabs with tmn and tmi
+noremap tmn :-tabmove<CR>
+noremap tmi :+tabmove<CR>
+
+" Close the tab
+noremap tc :tabclose<CR>
+
+"motion between tabs
+nn > :bn<CR>
+nn < :bp<CR>
+
+" Press space twice to jump to the next '' and edit it
+noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
+
+" Spelling Check with <space>sc
+noremap <LEADER>sc :set spell!<CR>
+
+" Press ` to change case (instead of ~)
+noremap ` ~
+
+" Auto change directory to current dir
+autocmd BufEnter * silent! lcd %:p:h
+
+" Call figlet
+noremap tx :r !figlet
+
+" find and replace
+noremap \s :%s//<left><left>
+
+" format python
+map <F4> :%!python -m json.tool<CR>
+
+" press f10 to show hlgroup
+function! SynGroup()
+	let l:s = synID(line('.'), col('.'), 1)
+	echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+endfun
+
+nmap <F9> :call SynGroup()<CR>
+nmap <F10> ggVG=
+" nmap <F11> :call lsp#enable()<CR>
+nmap <F12> :call lsp#disable()<CR>
+nmap <SPACE><F12> :call lsp#enable()<CR>
+"}}}
 " using ALT +hjkl to motion among windows
 tnoremap <A-h> <C-\><C-N><C-w>h
 tnoremap <A-j> <C-\><C-N><C-w>j
@@ -880,8 +878,10 @@ noremap <A-h> <C-\><C-N><C-w>h
 noremap <A-j> <C-\><C-N><C-w>j
 noremap <A-k> <C-\><C-N><C-w>k
 noremap <A-l> <C-\><C-N><C-w>l
-noremap <A-h> <C-w>h          
-noremap <A-j> <C-w>j          
-noremap <A-k> <C-w>k          
-noremap <A-l> <C-w>l          
+noremap <A-h> <C-w>h
+noremap <A-j> <C-w>j
+noremap <A-k> <C-w>k
+noremap <A-l> <C-w>l
 map <space>x  <C-c>
+nn <space>cc :cclose<CR>
+"}}}
