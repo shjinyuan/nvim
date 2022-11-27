@@ -262,7 +262,9 @@ autocmd BufEnter * silent! lcd %:p:h
 
 
 " find and replace
+
 noremap \s :%s///g<left><left><left>
+
 
 " format python
 map <F4> :%!python -m json.tool<CR>
@@ -449,6 +451,7 @@ augroup END
 "
 " === gen_tags.vim setting
 "
+
 " let GtagsCscope_Auto_Load = 1
 " let CtagsCscope_Auto_Map = 1
 " let GtagsCscope_Quiet = 1
@@ -484,9 +487,11 @@ augroup END
 " let $GTAGSCONF = '/home/wsk/bin/gtags/data/gtags/gtags.conf'
 " let $GTAGSLABEL = 'pygments'
 "
+
 "
 " NERDTREE setting
 nmap _ :NERDTreeToggle<CR>
+let NERDTreeShowHidden=1
 
 "
 " === nerdcommenter setting
@@ -713,7 +718,6 @@ autocmd InsertEnter,InsertLeave * set cul!
 "===================================
 " insert time
 ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
-
 
 
 let g:ascii = [
