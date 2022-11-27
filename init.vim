@@ -26,9 +26,9 @@ set autochdir
 " ===
 set exrc
 set secure
-set number
-set relativenumber
-set cursorline
+" set number
+" set relativenumber
+" set cursorline
 set hidden
 set noexpandtab
 set tabstop=2
@@ -76,16 +76,15 @@ if has('persistent_undo')
 	set undofile
 	set undodir=$HOME/.config/nvim/tmp/undo,.
 endif
-set colorcolumn=100
+" set colorcolumn=100 "set a line to show the recommend line length
 hi ColorColumn ctermbg=blue
 set updatetime=100
 set virtualedit=block
 set autoread
 set autowriteall
-set mouse=a
+set mouse=nv
 " set termguicolors
 
-" endif
 set background=dark
 " true color enable
 if has("termguicolors")
@@ -296,7 +295,7 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug 'TaDaa/vimade'
 
 " This is a plugin for Vim to dim inactive windows
-Plug 'blueyed/vim-diminactive'
+" Plug 'blueyed/vim-diminactive'
 
 " Vim Applications
 Plug 'itchyny/calendar.vim'
@@ -600,7 +599,6 @@ function! NextHunkAllBuffers()
 			return
 		endif
 		if !empty(GitGutterGetHunks())
-			1
 			GitGutterNextHunk
 			return
 		endif
@@ -741,7 +739,7 @@ let g:startify_skiplist = ["init.vim$"]
 " highlight GitGutterChangeInvisible guifg=Red
 " highlight GitGutterDeleteInvisible guifg=Red
 highlight GitGutterAdd		guifg=Green
-highlight GitGutterDelete guifg=Gray
+highlight GitGutterDelete guifg=Red
 highlight GitGutterChange guifg=Blue
 "
 "
@@ -793,9 +791,10 @@ let g:fzf_action = {
 " ActiveWindow: set focus window {{{1
 "colorcolumn {{{2
 let g:AutoResizeFocusWindow=1
+" ActiveWindow
 function s:Set_focus_window()
 	"after entering another window, set cc=80
-	set cc=80
+	" set cc=80
 	"hi CursorLineNr term=bold ctermfg=Yellow
 	if g:AutoResizeFocusWindow == 1
 		if bufname("%") == "__Tagbar__.1"
@@ -814,9 +813,23 @@ function s:Set_focus_window()
 	augroup BgHighlight_focus
 		" Highlight the text line of the cursor with CursorLine 'hl-CursorLine'.
 		set cul
+		set cuc
 		set relativenumber
 		set number
-		" syntax on
+		syntax on
+	augroup END
+	checktime
+endfunction
+
+
+" NonActiveWindow
+function s:Set_lose_focus_window()
+	augroup BgHighlight_loss_fucos
+		set nocul
+		set nocuc
+		set norelativenumber
+		set nonumber
+		syntax clear
 	augroup END
 	checktime
 endfunction
@@ -824,63 +837,11 @@ endfunction
 " define a shortcut key for enabling/disabling auto resize focus window:
 nnoremap  <leader>fx :exe "let g:AutoResizeFocusWindow=exists(\"g:AutoResizeFocusWindow\")?g:AutoResizeFocusWindow*-1+1:1"<CR>
 
-" NonActiveWindow
-function s:Set_lose_focus_window()
-	"before leaving a window, set cc=""
-	set cc=""
-
-	" ActiveWindow
-	augroup BgHighlight_loss_fucos
-		set nocul
-		set norelativenumber
-		set nonumber
-		" syntax clear
-	augroup END
-	checktime
-endfunction
-
 " 不是 vimdiff 时，自动改变窗口大小; vimdiff 窗口不自动改变大小
 if &diff == 0
 	autocmd WinEnter,BufEnter * call s:Set_focus_window()
 	autocmd WinLeave,BufLeave * call s:Set_lose_focus_window()
 endif
-
-" set statusline color {{{2
-" default the statusline to White (black character) when entering Vim
-hi StatusLine term=reverse ctermfg=White ctermbg=Black gui=bold,reverse
-
-" Insert Mode
-function s:Set_InsertEnter_Window()
-	hi StatusLine term=reverse ctermfg=DarkMagenta ctermbg=Black gui=undercurl guisp=Magenta
-
-	" Insert mode: CursorLineNr is Cyan
-	hi CursorLineNr term=bold ctermfg=Cyan guifg=Blue
-
-	hi Cursor term=bold ctermbg=Cyan guibg=Cyan
-
-	set nornu
-	checktime
-
-	" Window resizing
-	"vertical res 99
-endfunction
-
-" Normal mode
-function s:Set_InsertLeave_Window()
-	hi StatusLine term=reverse cterMFG=White ctermbg=Black gui=bold,reverse
-
-	" Normal mode: CursorLineNr is Yellow
-	hi CursorLineNr term=bold ctermfg=Yellow guifg=Yellow
-
-	set rnu
-endfunction
-
-" if version >= 700
-au InsertEnter * call s:Set_InsertEnter_Window()
-au InsertLeave * call s:Set_InsertLeave_Window()
-au BufWinEnter * call s:Set_InsertEnter_Window()
-au BufWinLeave * call s:Set_InsertLeave_Window()
-" endif
 
 " Convenient command to see the difference between the current buffer and the
 " file it was loaded from, thus the changes you made.
@@ -892,3 +853,4 @@ command DiffOrig vert new | set bt=nofile | r ++edit # | 0d_ | diffthis
 " :map messages output to ~/.vim/map.txt
 command -nargs=? Rmap redir! > ~/.vim/my_help/key_map.txt | silent map | redir END
 
+source ~/.config/nvim/enhance/self_quotaSelect.vim
