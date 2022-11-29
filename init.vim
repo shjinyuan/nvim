@@ -76,8 +76,8 @@ if has('persistent_undo')
 	set undofile
 	set undodir=$HOME/.config/nvim/tmp/undo,.
 endif
-set colorcolumn=100
-hi ColorColumn ctermbg=blue
+" set colorcolumn
+" hi ColorColumn ctermbg=blue
 set updatetime=100
 set virtualedit=block
 set autoread
@@ -85,18 +85,18 @@ set autowriteall
 set mouse=a
 " set termguicolors
 " if &term =~# '^screen'
-    " let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    " let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+" let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+" let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 " endif
 set background=dark
 " true color enable
 if has("termguicolors")
-    " enable true color
-    set termguicolors
+	" enable true color
+	set termguicolors
 endif
 if &term =~# '^screen'
-    let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
-    let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
+	let &t_8f = "\<Esc>[38;2;%lu;%lu;%lum"
+	let &t_8b = "\<Esc>[48;2;%lu;%lu;%lum"
 endif
 
 set foldenable
@@ -298,8 +298,8 @@ noremap \s :%s///g<left><left><left>
 
 " press F9 to show hlgroup
 " function! SynGroup()
-	" let l:s = synID(line('.'), col('.'), 1)
-	" echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
+" let l:s = synID(line('.'), col('.'), 1)
+" echo synIDattr(l:s, 'name') . ' -> ' . synIDattr(synIDtrans(l:s), 'name')
 " endfun
 "
 " nmap <F9> :call SynGroup()<CR>
@@ -476,7 +476,7 @@ let g:gen_tags#gtags_auto_gen = 1
 let g:gen_tags#gtags_auto_updagen = 1
 "
 let g:gen_tags#root_marker = ".git"
-let g:gen_tags#ctags_opts = ['-c', '--verbose']
+let g:gen_tags#gtags_opts = ['-c', '--verbose']
 
 let g:gen_tags#gtags_default_map = 0
 
@@ -832,7 +832,7 @@ let g:ascii = [
 			\ ''
 			\]
 " let g:startify_custom_header =
-			" \ startify#pad(g:ascii + startify#fortune#boxed())
+" \ startify#pad(g:ascii + startify#fortune#boxed())
 let g:startify_custom_header =
 			\ 'startify#pad(g:ascii)'
 
@@ -857,6 +857,8 @@ highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Red
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Blue
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=Yellow
+" for v mode selection
+highlight Visual     cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=white
 "
 "
 "========== Menu for selection
@@ -865,34 +867,34 @@ hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray guifg=White
 "}}}
 
 let g:fzf_colors =
-\ { 'fg':      ['fg', 'Normal'],
-	\ 'bg':      ['bg', 'Normal'],
-	\ 'hl':      ['fg', 'Comment'],
-	\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-	\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-	\ 'hl+':     ['fg', 'Statement'],
-	\ 'info':    ['fg', 'PreProc'],
-	\ 'border':  ['fg', 'Ignore'],
-	\ 'prompt':  ['fg', 'Conditional'],
-	\ 'pointer': ['fg', 'Exception'],
-	\ 'marker':  ['fg', 'Keyword'],
-		\ 'spinner': ['fg', 'Label'],
-		\ 'header':  ['fg', 'Comment'] }
+			\ { 'fg':      ['fg', 'Normal'],
+			\ 'bg':      ['bg', 'Normal'],
+			\ 'hl':      ['fg', 'Comment'],
+			\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+			\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
+			\ 'hl+':     ['fg', 'Statement'],
+			\ 'info':    ['fg', 'PreProc'],
+			\ 'border':  ['fg', 'Ignore'],
+			\ 'prompt':  ['fg', 'Conditional'],
+			\ 'pointer': ['fg', 'Exception'],
+			\ 'marker':  ['fg', 'Keyword'],
+			\ 'spinner': ['fg', 'Label'],
+			\ 'header':  ['fg', 'Comment'] }
 
 
 
 " An action can be a reference to a function that processes selected lines
 function! s:build_quickfix_list(lines)
-call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
-copen
-cc
+	call setqflist(map(copy(a:lines), '{ "filename": v:val }'))
+	copen
+	cc
 endfunction
 
 let g:fzf_action = {
-	\ 'ctrl-q': function('s:build_quickfix_list'),
-	\ 'ctrl-t': 'tab split',
-	\ 'ctrl-x': 'split',
-	\ 'ctrl-v': 'vsplit' }
+			\ 'ctrl-q': function('s:build_quickfix_list'),
+			\ 'ctrl-t': 'tab split',
+			\ 'ctrl-x': 'split',
+			\ 'ctrl-v': 'vsplit' }
 
 " set cscopetag " 使用 cscope 作为 tags 命令
 " set cscopeprg='gtags-cscope' " 使用 gtags-cscope 代替 cscope
@@ -902,258 +904,259 @@ let g:fzf_action = {
 let GtagsCscope_Auto_Load = 1
 let CtagsCscope_Auto_Map = 1
 let GtagsCscope_Quiet = 1
+
 hi CursorLine gui=underline cterm=underline guifg=revert guibg=black
 match WhitespaceEOL /\s\+$/
 highlight WhitespaceEOL ctermbg=red guibg=red
 
 vnoremap <expr><CR> ConTract()
 function! ConTract()
-  if (col(".")-col("v")>0)
-    return "holo"
-  endif
-  return "loh"
+	if (col(".")-col("v")>0)
+		return "holo"
+	endif
+	return "loh"
 endfunction
 
 noremap <expr>s Mat()
 function! Mat()
-  let buf=getline(".")
-  let q1=0
-  let q2=0
-  let p1=0
-  let p2=0
-  let n=0
-  let qlist=[]
-  while 1
-    let c=buf[n]
-    if c is ''
-      break
-    endif
-    if c is '"'
-      let q1+=1
-      if q1%2==0
-        call add(qlist,p1)
-        call add(qlist,n)
-        if p2>p1
-          let q2=0
-        endif
-      endif
-      let p1=n
-    elseif c is "'"
-      let q2+=1
-      if q2%2==0
-        call add(qlist,p2)
-        call add(qlist,n)
-        if p1>p2
-          let q1=0
-        endif
-      endif
-      let p2=n
-    endif
-    let n+=1
-  endwhile
-  let md=mode()
-  if md is# 'v'
-    let mf=''
-    let oft=1
-  elseif md is# 'n'
-    let mf='v'
-    let oft=0
-  else
-    return ''
-  endif
-  let bpos=col("v")-1
-  let epos=col(".")-1
-  let endl=col("$")-2
-  let f1=0
-  let f2=0
-  let f3=0
-  let f4=0
-  let n=oft
-  while bpos-n>=0
-    let c=buf[bpos-n]
-    if c is ')' && n>0
-      let f1-=1
-    elseif c is '('
-      let f1+=1
-      if f1==1
-        let m=oft
-        while m+epos<=endl
-          let s=buf[m+epos]
-          if s is '(' && m>0
-            let f1+=1
-          elseif s is ')'
-            let f1-=1
-            if f1==0
-              if m==0
-                return printf("v%dho",n)
-              elseif n==0
-                return printf("v%dl",m)
-              else
-                return printf(mf."%dlo%dho",m,n)
-              endif
-            endif
-          elseif s is '"' || s is "'"
-            let k=0
-            for item in qlist
-              if epos+m==item
-                if k%2
-                  return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
-                else
-                  let m+=qlist[k+1]-item
-                endif
-                break
-              endif
-              let k+=1
-            endfor
-          endif
-          let m+=1
-        endwhile
-      endif
-    elseif c is ']' && n>0
-      let f2-=1
-    elseif c is '['
-      let f2+=1
-      if f2==1
-        let m=oft
-        while m+epos<=endl
-          let s=buf[m+epos]
-          if s is '[' && m>0
-            let f2+=1
-          elseif s is ']'
-            let f2-=1
-            if f2==0
-              if m==0
-                return printf("v%dho",n)
-              elseif n==0
-                return printf("v%dl",m)
-              else
-                return printf(mf."%dlo%dho",m,n)
-              endif
-            endif
-          elseif s is '"' || s is "'"
-            let k=0
-            for item in qlist
-              if epos+m==item
-                if k%2
-                  return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
-                else
-                  let m+=qlist[k+1]-item
-                endif
-                break
-              endif
-              let k+=1
-            endfor
-          endif
-          let m+=1
-        endwhile
-      endif
-    elseif c is '}' && n>0
-      let f3-=1
-    elseif c is '{'
-      let f3+=1
-      if f3==1
-        let m=oft
-        while m+epos<=endl
-          let s=buf[m+epos]
-          if s is '{' && m>0
-            let f3+=1
-          elseif s is '}'
-            let f3-=1
-            if f3==0
-              if m==0
-                return printf("v%dho",n)
-              elseif n==0
-                return printf("v%dl",m)
-              else
-                return printf(mf."%dlo%dho",m,n)
-              endif
-            endif
-          elseif s is '"' || s is "'"
-            let k=0
-            for item in qlist
-              if epos+m==item
-                if k%2
-                  return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
-                else
-                  let m+=qlist[k+1]-item
-                endif
-                break
-              endif
-              let k+=1
-            endfor
-          endif
-          let m+=1
-        endwhile
-      endif
-    elseif c is '>' && n>0
-      let f4-=1
-    elseif c is '<'
-      let f4+=1
-      if f4==1
-        let m=oft
-        while m+epos<=endl
-          let s=buf[m+epos]
-          if s is '<' && m>0
-            let f4+=1
-          elseif s is '>'
-            let f4-=1
-            if f4==0
-              if m==0
-                return printf("v%dho",n)
-              elseif n==0
-                return printf("v%dl",m)
-              else
-                return printf(mf."%dlo%dho",m,n)
-              endif
-            endif
-          elseif s is '"' || s is "'"
-            let k=0
-            for item in qlist
-              if epos+m==item
-                if k%2
-                  return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
-                else
-                  let m+=qlist[k+1]-item
-                endif
-                break
-              endif
-              let k+=1
-            endfor
-          endif
-          let m+=1
-        endwhile
-      endif
-    elseif c is '"' || c is "'"
-      if n==0
-        let k=0
-        for item in qlist
-          if epos==item
-            if k%2
-              return printf("v%dho",epos-qlist[k-1])
-            else
-              return printf("v%dl",qlist[k+1]-epos)
-            endif
-          endif
-          let k+=1
-        endfor
-      else
-        let k=0
-        for item in qlist
-          if bpos-n==item
-            if k%2
-              let n+=item-qlist[k-1]
-            else
-              return printf(mf."%dlo%dho",qlist[k+1]-epos,bpos-item)
-            endif
-            break
-          endif
-          let k+=1
-        endfor
-      endif
-    endif
-    let n+=1
-  endwhile
-  return ''
+	let buf=getline(".")
+	let q1=0
+	let q2=0
+	let p1=0
+	let p2=0
+	let n=0
+	let qlist=[]
+	while 1
+		let c=buf[n]
+		if c is ''
+			break
+		endif
+		if c is '"'
+			let q1+=1
+			if q1%2==0
+				call add(qlist,p1)
+				call add(qlist,n)
+				if p2>p1
+					let q2=0
+				endif
+			endif
+			let p1=n
+		elseif c is "'"
+			let q2+=1
+			if q2%2==0
+				call add(qlist,p2)
+				call add(qlist,n)
+				if p1>p2
+					let q1=0
+				endif
+			endif
+			let p2=n
+		endif
+		let n+=1
+	endwhile
+	let md=mode()
+	if md is# 'v'
+		let mf=''
+		let oft=1
+	elseif md is# 'n'
+		let mf='v'
+		let oft=0
+	else
+		return ''
+	endif
+	let bpos=col("v")-1
+	let epos=col(".")-1
+	let endl=col("$")-2
+	let f1=0
+	let f2=0
+	let f3=0
+	let f4=0
+	let n=oft
+	while bpos-n>=0
+		let c=buf[bpos-n]
+		if c is ')' && n>0
+			let f1-=1
+		elseif c is '('
+			let f1+=1
+			if f1==1
+				let m=oft
+				while m+epos<=endl
+					let s=buf[m+epos]
+					if s is '(' && m>0
+						let f1+=1
+					elseif s is ')'
+						let f1-=1
+						if f1==0
+							if m==0
+								return printf("v%dho",n)
+							elseif n==0
+								return printf("v%dl",m)
+							else
+								return printf(mf."%dlo%dho",m,n)
+							endif
+						endif
+					elseif s is '"' || s is "'"
+						let k=0
+						for item in qlist
+							if epos+m==item
+								if k%2
+									return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
+								else
+									let m+=qlist[k+1]-item
+								endif
+								break
+							endif
+							let k+=1
+						endfor
+					endif
+					let m+=1
+				endwhile
+			endif
+		elseif c is ']' && n>0
+			let f2-=1
+		elseif c is '['
+			let f2+=1
+			if f2==1
+				let m=oft
+				while m+epos<=endl
+					let s=buf[m+epos]
+					if s is '[' && m>0
+						let f2+=1
+					elseif s is ']'
+						let f2-=1
+						if f2==0
+							if m==0
+								return printf("v%dho",n)
+							elseif n==0
+								return printf("v%dl",m)
+							else
+								return printf(mf."%dlo%dho",m,n)
+							endif
+						endif
+					elseif s is '"' || s is "'"
+						let k=0
+						for item in qlist
+							if epos+m==item
+								if k%2
+									return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
+								else
+									let m+=qlist[k+1]-item
+								endif
+								break
+							endif
+							let k+=1
+						endfor
+					endif
+					let m+=1
+				endwhile
+			endif
+		elseif c is '}' && n>0
+			let f3-=1
+		elseif c is '{'
+			let f3+=1
+			if f3==1
+				let m=oft
+				while m+epos<=endl
+					let s=buf[m+epos]
+					if s is '{' && m>0
+						let f3+=1
+					elseif s is '}'
+						let f3-=1
+						if f3==0
+							if m==0
+								return printf("v%dho",n)
+							elseif n==0
+								return printf("v%dl",m)
+							else
+								return printf(mf."%dlo%dho",m,n)
+							endif
+						endif
+					elseif s is '"' || s is "'"
+						let k=0
+						for item in qlist
+							if epos+m==item
+								if k%2
+									return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
+								else
+									let m+=qlist[k+1]-item
+								endif
+								break
+							endif
+							let k+=1
+						endfor
+					endif
+					let m+=1
+				endwhile
+			endif
+		elseif c is '>' && n>0
+			let f4-=1
+		elseif c is '<'
+			let f4+=1
+			if f4==1
+				let m=oft
+				while m+epos<=endl
+					let s=buf[m+epos]
+					if s is '<' && m>0
+						let f4+=1
+					elseif s is '>'
+						let f4-=1
+						if f4==0
+							if m==0
+								return printf("v%dho",n)
+							elseif n==0
+								return printf("v%dl",m)
+							else
+								return printf(mf."%dlo%dho",m,n)
+							endif
+						endif
+					elseif s is '"' || s is "'"
+						let k=0
+						for item in qlist
+							if epos+m==item
+								if k%2
+									return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
+								else
+									let m+=qlist[k+1]-item
+								endif
+								break
+							endif
+							let k+=1
+						endfor
+					endif
+					let m+=1
+				endwhile
+			endif
+		elseif c is '"' || c is "'"
+			if n==0
+				let k=0
+				for item in qlist
+					if epos==item
+						if k%2
+							return printf("v%dho",epos-qlist[k-1])
+						else
+							return printf("v%dl",qlist[k+1]-epos)
+						endif
+					endif
+					let k+=1
+				endfor
+			else
+				let k=0
+				for item in qlist
+					if bpos-n==item
+						if k%2
+							let n+=item-qlist[k-1]
+						else
+							return printf(mf."%dlo%dho",qlist[k+1]-epos,bpos-item)
+						endif
+						break
+					endif
+					let k+=1
+				endfor
+			endif
+		endif
+		let n+=1
+	endwhile
+	return ''
 endfunction
 "abrev
 iabbr nnp nnoremap
