@@ -82,7 +82,8 @@ set updatetime=100
 set virtualedit=block
 set autoread
 set autowriteall
-set mouse=nv
+set mouse=nvi
+" set mouse=ni
 " set termguicolors
 
 set background=dark
@@ -299,9 +300,6 @@ Plug 'vim-airline/vim-airline-themes'
 " A Vim Applications Calendar
 Plug 'itchyny/calendar.vim'
 
-" the silver serach support
-Plug 'rking/ag.vim'
-
 " Git relative
 Plug 'airblade/vim-gitgutter'
 Plug 'shjinyuan/vim-fugitive'
@@ -320,7 +318,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " code navigation
 Plug 'jsfaint/gen_tags.vim'
-Plug 'joereynolds/gtags-scope'
+" Plug 'joereynolds/gtags-scope'
 
 " Plug 'neoclide/coc.nvim'
 
@@ -338,7 +336,7 @@ Plug 'preservim/nerdcommenter'
 
 " system navigation
 Plug 'preservim/nerdtree'
-" Plug 'yegappan/mru'
+Plug 'yegappan/mru'
 Plug 'junegunn/fzf'
 
 " parentheses and brackets
@@ -864,13 +862,523 @@ command -nargs=? Rmap redir! > ~/.vim/my_help/key_map.txt | silent map | redir E
 "
 "
 "gtags.vim 设置项
-let GtagsCscope_Auto_Load = 1
-let CtagsCscope_Auto_Map = 1
-let GtagsCscope_Quiet = 1
+" let GtagsCscope_Auto_Load = 1
+" let CtagsCscope_Auto_Map = 1
+" let GtagsCscope_Quiet = 1
 
-hi CursorLine gui=underline cterm=underline guifg=revert guibg=black
+hi CursorLine gui=underline cterm=underline guifg=revert
 match WhitespaceEOL /\s\+$/
 highlight WhitespaceEOL ctermbg=red guibg=red
 
-source ~/.config/nvim/enhance/self_quotaSelect.vim
+" source $HOME/.config/nvim/enhance/self_quotaSelect.vim
 
+vnoremap <C-S> "+y
+
+" inoremap <Leader>y <C-R>=@+<CR>
+inoremap <Leader>y <C-R>=Mypf()<CR>
+function! Mypf()
+	return printf("clipboard=%s",@+)
+endfunction
+
+inoremap <CR> <C-R>=Caculate()<CR>
+let s:caculate_dict={}
+function s:callback(jd,data,event) dict
+  let msg=join(a:data)
+  let self.data .= msg
+endfunction
+let s:caculate_dict.on_stdout=function("s:callback")
+" on_stderr on_exit
+function! Caculate()
+  let buf=getline(".")
+  let n=2
+  let ps=col(".")-1
+  'expr=
+  if (ps<4 || buf[ps-1] isnot '=')
+    return "\<CR>"
+  endif
+  while( 1 )
+    if( ps-n<0||buf[ps-n] is "'" )
+      break
+    endif
+    let n+=1
+  endwhile
+  let expr=buf[ps-n+1:ps-2]
+  let cmd="wolframscript -code "."'".expr."'"
+  let s:caculate_dict.data=""
+  let job_id=jobstart(cmd,s:caculate_dict)
+  let status=jobwait([job_id],20000)[0]==-1
+  if status
+    return "timeout"
+  endif
+  return s:caculate_dict.data
+endfunction
+
+set expandtab
+set cursorcolumn
+set ofu=syntaxcomplete#Complete
+highlight mycolor1 ctermfg=blue ctermbg=yellow
+highlight mycolor2 ctermfg=160 ctermbg=119
+highlight cg1 ctermfg=yellow
+highlight cg2 ctermfg=3
+highlight cg3 ctermfg=13
+highlight cg4 ctermfg=228
+highlight cg5 ctermfg=white
+highlight cg6 ctermfg=blue
+call matchadd("cg1","Vimscript")
+call matchadd("cg2","⇒ ")
+call matchadd("cg3","→ ")
+call matchadd("cg4","☞ ")
+call matchadd("cg5","(",100)
+call matchadd("cg6",")",100)
+inoremap <silent>` <C-X><C-O>
+augroup newrc
+  autocmd!
+  autocmd BufRead * highlight Comment ctermfg=green ctermbg=NONE
+augroup END
+highlight MsgArea ctermbg=4
+highlight cursorline   cterm=NONE ctermbg=240 ctermfg=NONE
+highlight CursorColumn cterm=NONE ctermbg=240 ctermfg=NONE
+highlight Visual term=reverse ctermbg=191 ctermfg=blue
+let g:bufcount=0
+function! SwitchBuf()
+  if g:bufcount%2==0
+    w
+    bn
+  else
+    w
+    bp
+  endif
+  let g:bufcount+=1
+endfunction
+inoremap <expr> <CR> pumvisible()? "\<C-n>":"\<CR>"
+noremap t :call SwitchBuf()<CR>
+
+function! Delspace(ch)
+  let c=nr2char(getchar(0))
+  return (c =~ a:ch)?'':c
+endfunction
+
+let g:snippt_list=[]
+
+inoremap <tab> <C-R>=SnipptTaggle()<CR>
+inoremap <F9> <C-R>=<SID>snippt_navigate()<CR>
+vnoremap <expr><CR> ConTract()
+function! ConTract()
+  if (col(".")-col("v")>0)
+    return "holo"
+  endif
+  return "loh"
+endfunction
+function! SnipptTaggle()
+  let buf=getline(".")
+  let ln=col(".")-2
+  let n=1
+  let c=''
+  while ln>=0 && n<=3
+    let c=buf[ln].c
+    if n==1
+      "\Note\
+    elseif n==2
+      if c is# "if"
+        call s:snippt_if()
+        call <SID>snippt_navigate()
+        break
+      elseif c is# "fu"
+        call s:snippt_func()
+        call <SID>snippt_navigate()
+        break
+      elseif c is# "wh"
+        call s:snippt_while()
+        call <SID>snippt_navigate()
+        break
+      elseif c is# "fo"
+        call s:snippt_for()
+        call <SID>snippt_navigate()
+        break
+      elseif c is# "fe"
+        call s:snippt_fe()
+        call <SID>snippt_navigate()
+        break
+      endif
+    else
+      "\Note\
+    endif
+    let ln-=1
+    let n+=1
+  endwhile
+  return ''
+endfunction
+
+function s:snippt_if()
+  let ln=line(".")
+  let snippt_dict={}
+  let snippt_dict.total=3
+  let snippt_dict.complnum=0
+  let snippt_dict.limit=5
+  let snippt_dict.content=
+\ [["|condition|",10],["|text|",5],
+\ ["|text_else|",10]]
+  call add(g:snippt_list,snippt_dict)
+  let idt=indent(ln)
+  let idt_string=''
+  while idt>0
+    let idt_string.=' '
+    let idt-=1
+  endwhile
+  call setline(ln,idt_string . "if( |condition| )")
+  call append(ln,[idt_string."  |text|",idt_string."else",idt_string."  |text_else|",idt_string."endif"])
+endfunction
+
+function s:snippt_func()
+  let ln=line(".")
+  let snippt_dict={}
+  let snippt_dict.total=2
+  let snippt_dict.complnum=0
+  let snippt_dict.limit=3
+  let snippt_dict.content=
+\ [["|fname|",6],["|content|",8]]
+  call add(g:snippt_list,snippt_dict)
+  call setline(ln,"function! |fname|")
+  call append(ln,["  |content|","endfunction"])
+endfunction
+
+function s:snippt_while()
+  let ln=line(".")
+  let snippt_dict={}
+  let snippt_dict.total=2
+  let snippt_dict.complnum=0
+  let snippt_dict.limit=3
+  let snippt_dict.content=
+\ [["|condition|",10],["|content|",8]]
+  call add(g:snippt_list,snippt_dict)
+  let idt=indent(ln)
+  let idt_string=''
+  while idt>0
+    let idt_string.=' '
+    let idt-=1
+  endwhile
+  call setline(ln,idt_string."while( |condition| )")
+  call append(ln,[idt_string."  |content|",idt_string."endwhile"])
+endfunction
+
+function s:snippt_for()
+  let ln=line(".")
+  let snippt_dict={}
+  let snippt_dict.total=2
+  let snippt_dict.complnum=0
+  let snippt_dict.limit=3
+  let snippt_dict.content=
+\ [["|List|",5],["|content|",8]]
+  call add(g:snippt_list,snippt_dict)
+  let idt=indent(ln)
+  let idt_string=''
+  while idt>0
+    let idt_string.=' '
+    let idt-=1
+  endwhile
+  call setline(ln,idt_string."for item in |List|")
+  call append(ln,[idt_string."  |content|",idt_string."endfor"])
+endfunction
+
+function s:snippt_fe()
+  let ln=line(".")
+  let snippt_dict={}
+  let snippt_dict.total=2
+  let snippt_dict.complnum=0
+  let snippt_dict.limit=3
+  let snippt_dict.content=
+\ [["|condition|",10],["|content|",8]]
+  call add(g:snippt_list,snippt_dict)
+  let idt=indent(ln)
+  let idt_string=''
+  while idt>0
+    let idt_string.=' '
+    let idt-=1
+  endwhile
+  call setline(ln,idt_string."if( |condition| )")
+  call append(ln,[idt_string."  |content|",idt_string."endif"])
+endfunction
+
+function <SID>snippt_navigate()
+  if len(g:snippt_list)==0
+    return "<F9>"
+  endif
+  let snippt_item=g:snippt_list[-1]
+  let ln=line(".")
+  let lmax=line("$")
+  let expr=snippt_item.content[snippt_item.complnum][0]
+  let idn=snippt_item.content[snippt_item.complnum][1]
+  let snippt_item.complnum+=1
+  while ln<=lmax
+    let tmp=match(getline(ln),expr)
+    if tmp>0
+      call feedkeys("\<ESC>")
+      call cursor(ln,tmp+2)
+      call feedkeys(printf("v%dl\<C-g>",idn))
+      break
+    else
+      let ln+=1
+    endif
+  endwhile
+  if snippt_item.complnum>=snippt_item.total
+    call remove(g:snippt_list,-1)
+  endif
+  return ''
+endfunction
+
+call matchadd("mycolor2","|condition|")
+call matchadd("mycolor1","|text|")
+call matchadd("mycolor1","|text_else|")
+call matchadd("mycolor2","|fname|")
+call matchadd("mycolor1","|content|")
+call matchadd("mycolor2","|List|")
+noremap <expr>s Mat()
+function! Mat()
+  let buf=getline(".")
+  let q1=0
+  let q2=0
+  let p1=0
+  let p2=0
+  let n=0
+  let qlist=[]
+  while 1
+    let c=buf[n]
+    if c is ''
+      break
+    endif
+    if c is '"'
+      let q1+=1
+      if q1%2==0
+        call add(qlist,p1)
+        call add(qlist,n)
+        if p2>p1
+          let q2=0
+        endif
+      endif
+      let p1=n
+    elseif c is "'"
+      let q2+=1
+      if q2%2==0
+        call add(qlist,p2)
+        call add(qlist,n)
+        if p1>p2
+          let q1=0
+        endif
+      endif
+      let p2=n
+    endif
+    let n+=1
+  endwhile
+  let md=mode()
+  if md is# 'v'
+    let mf=''
+    let oft=1
+  elseif md is# 'n'
+    let mf='v'
+    let oft=0
+  else
+    return ''
+  endif
+  let bpos=col("v")-1
+  let epos=col(".")-1
+  let endl=col("$")-2
+  let f1=0
+  let f2=0
+  let f3=0
+  let f4=0
+  let n=oft
+  while bpos-n>=0
+    let c=buf[bpos-n]
+    if c is ')' && n>0
+      let f1-=1
+    elseif c is '('
+      let f1+=1
+      if f1==1
+        let m=oft
+        while m+epos<=endl
+          let s=buf[m+epos]
+          if s is '(' && m>0
+            let f1+=1
+          elseif s is ')'
+            let f1-=1
+            if f1==0
+              if m==0
+                return printf("v%dho",n)
+              elseif n==0
+                return printf("v%dl",m)
+              else
+                return printf(mf."%dlo%dho",m,n)
+              endif
+            endif
+          elseif s is '"' || s is "'"
+            let k=0
+            for item in qlist
+              if epos+m==item
+                if k%2
+                  return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
+                else
+                  let m+=qlist[k+1]-item
+                endif
+                break
+              endif
+              let k+=1
+            endfor
+          endif
+          let m+=1
+        endwhile
+      endif
+    elseif c is ']' && n>0
+      let f2-=1
+    elseif c is '['
+      let f2+=1
+      if f2==1
+        let m=oft
+        while m+epos<=endl
+          let s=buf[m+epos]
+          if s is '[' && m>0
+            let f2+=1
+          elseif s is ']'
+            let f2-=1
+            if f2==0
+              if m==0
+                return printf("v%dho",n)
+              elseif n==0
+                return printf("v%dl",m)
+              else
+                return printf(mf."%dlo%dho",m,n)
+              endif
+            endif
+          elseif s is '"' || s is "'"
+            let k=0
+            for item in qlist
+              if epos+m==item
+                if k%2
+                  return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
+                else
+                  let m+=qlist[k+1]-item
+                endif
+                break
+              endif
+              let k+=1
+            endfor
+          endif
+          let m+=1
+        endwhile
+      endif
+    elseif c is '}' && n>0
+      let f3-=1
+    elseif c is '{'
+      let f3+=1
+      if f3==1
+        let m=oft
+        while m+epos<=endl
+          let s=buf[m+epos]
+          if s is '{' && m>0
+            let f3+=1
+          elseif s is '}'
+            let f3-=1
+            if f3==0
+              if m==0
+                return printf("v%dho",n)
+              elseif n==0
+                return printf("v%dl",m)
+              else
+                return printf(mf."%dlo%dho",m,n)
+              endif
+            endif
+          elseif s is '"' || s is "'"
+            let k=0
+            for item in qlist
+              if epos+m==item
+                if k%2
+                  return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
+                else
+                  let m+=qlist[k+1]-item
+                endif
+                break
+              endif
+              let k+=1
+            endfor
+          endif
+          let m+=1
+        endwhile
+      endif
+    elseif c is '>' && n>0
+      let f4-=1
+    elseif c is '<'
+      let f4+=1
+      if f4==1
+        let m=oft
+        while m+epos<=endl
+          let s=buf[m+epos]
+          if s is '<' && m>0
+            let f4+=1
+          elseif s is '>'
+            let f4-=1
+            if f4==0
+              if m==0
+                return printf("v%dho",n)
+              elseif n==0
+                return printf("v%dl",m)
+              else
+                return printf(mf."%dlo%dho",m,n)
+              endif
+            endif
+          elseif s is '"' || s is "'"
+            let k=0
+            for item in qlist
+              if epos+m==item
+                if k%2
+                  return printf(mf."%dlo%dho",item-epos,bpos-qlist[k-1])
+                else
+                  let m+=qlist[k+1]-item
+                endif
+                break
+              endif
+              let k+=1
+            endfor
+          endif
+          let m+=1
+        endwhile
+      endif
+    elseif c is '"' || c is "'"
+      if n==0
+        let k=0
+        for item in qlist
+          if epos==item
+            if k%2
+              return printf("v%dho",epos-qlist[k-1])
+            else
+              return printf("v%dl",qlist[k+1]-epos)
+            endif
+          endif
+          let k+=1
+        endfor
+      else
+        let k=0
+        for item in qlist
+          if bpos-n==item
+            if k%2
+              let n+=item-qlist[k-1]
+            else
+              return printf(mf."%dlo%dho",qlist[k+1]-epos,bpos-item)
+            endif
+            break
+          endif
+          let k+=1
+        endfor
+      endif
+    endif
+    let n+=1
+  endwhile
+  return ''
+endfunction
+"abrev
+iabbr nnp nnoremap
+iabbr vp vnoremap
+iabbr np noremap
+iabbr cd col(".")<C-R>=Delspace('\s')<CR>
+iabbr cv col("v")<C-R>=Delspace('\s')<CR>
+iabbr gl getline()<Left><C-R>=Delspace('\s')<CR>
+iabbr ep <expr><C-R>=Delspace('\s')<CR>
+iabbr re return
