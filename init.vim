@@ -318,7 +318,7 @@ Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " code navigation
 Plug 'jsfaint/gen_tags.vim'
-" Plug 'joereynolds/gtags-scope'
+Plug 'joereynolds/gtags-scope'
 
 " Plug 'neoclide/coc.nvim'
 
@@ -464,7 +464,7 @@ let g:gen_tags#gtags_auto_gen = 1
 let g:gen_tags#gtags_auto_updagen = 1
 "
 let g:gen_tags#root_marker = ".git"
-let g:gen_tags#ctags_opts = ['-c', '--verbose']
+let g:gen_tags#gtags_opts = ['-c', '--verbose']
 
 let g:gen_tags#gtags_default_map = 0
 
