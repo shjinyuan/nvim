@@ -29,6 +29,7 @@ set secure
 set number
 set relativenumber
 set cursorline
+set cursorcolumn
 set hidden
 set noexpandtab
 set tabstop=2
@@ -813,8 +814,6 @@ autocmd InsertEnter,InsertLeave * set cul!
 " \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
 " \,sm:block-blinkwait175-blinkoff150-blinkon175
 
-" autocmd InsertEnter * set cul
-" autocmd InsertLeave * set nocul
 "
 "===================================
 " Cool tricks
@@ -843,16 +842,12 @@ let g:startify_custom_header =
 "
 "
 " ======== Gitgutter sign
-" highlight GitGutterChangeInvisible guifg=Red
-" highlight GitGutterDeleteInvisible guifg=Red
 highlight GitGutterAdd		guifg=Green
 highlight GitGutterDelete guifg=Gray
 highlight GitGutterChange guifg=Blue
 "
 "
 "========== Diff Mode
-" hi DiffAdded cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
-" hi DiffRemoved cterm=bold ctermfg=6 ctermbg=0  gui=none guifg=0 guibg=white
 highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Green
 highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Red
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Blue
@@ -906,6 +901,7 @@ let CtagsCscope_Auto_Map = 1
 let GtagsCscope_Quiet = 1
 
 hi CursorLine gui=underline cterm=underline guifg=revert guibg=black
+hi CursorColumn gui=None cterm=None guifg=revert guibg=gray
 match WhitespaceEOL /\s\+$/
 highlight WhitespaceEOL ctermbg=red guibg=red
 
@@ -1167,3 +1163,6 @@ iabbr cv col("v")<C-R>=Delspace('\s')<CR>
 iabbr gl getline()<Left><C-R>=Delspace('\s')<CR>
 iabbr ep <expr><C-R>=Delspace('\s')<CR>
 iabbr re return
+
+au WinLeave * set nocursorline nocursorcolumn
+au WinEnter * set cursorline cursorcolumn
