@@ -399,6 +399,8 @@ Plug 'preservim/tagbar'
 " sliver search support
 Plug 'rking/ag.vim'
 
+" Autoformat
+Plug 'Chiel92/vim-autoformat'
 call plug#end()
 
 
@@ -406,7 +408,11 @@ call plug#end()
 " Plugin setting START
 "================================================================================
 "
-"
+" Autoformat setting
+let g:formatdef_allman = '"astyle --style=allman -k3 -A3 -t -F -z2"'
+let g:formatters_cpp = ['allman']
+let g:formatters_c = ['allman']
+
 "
 " Airline setting to show tabs ontop
 let g:airline#extensions#tabline#enabled = 1
@@ -598,58 +604,58 @@ au Syntax * RainbowParenthesesLoadBraces
 "
 let g:gitgutter_max_signs = -1
 " let g:gitgutter_show_msg_on_hunk_jumping = 0
-" nmap ]c <Plug>(GitGutterNextHunk)
-" nmap [c <Plug>(GitGutterPrevHunk)
-function! GitStatus()
-	let [a,m,r] = GitGutterGetHunkSummary()
-	return printf('+%d ~%d -%d', a, m, r)
-endfunction
-set statusline+=%{GitStatus()}
-function! NextHunkAllBuffers()
-	let line = line('.')
-	GitGutterNextHunk
-	if line('.') != line
-		return
-	endif
-
-	let bufnr = bufnr('')
-	while 1
-		bnext
-		if bufnr('') == bufnr
-			return
-		endif
-		if !empty(GitGutterGetHunks())
-			1
-			GitGutterNextHunk
-			return
-		endif
-	endwhile
-endfunction
-
-function! PrevHunkAllBuffers()
-	let line = line('.')
-	GitGutterPrevHunk
-	if line('.') != line
-		return
-	endif
-
-	let bufnr = bufnr('')
-	while 1
-		bprevious
-		if bufnr('') == bufnr
-			return
-		endif
-		if !empty(GitGutterGetHunks())
-			normal! G
-			GitGutterPrevHunk
-			return
-		endif
-	endwhile
-endfunction
-
-nmap <silent> ]c :call NextHunkAllBuffers()<CR>
-nmap <silent> [c :call PrevHunkAllBuffers()<CR>
-
+nmap ]c <Plug>(GitGutterNextHunk)
+nmap [c <Plug>(GitGutterPrevHunk)
+" function! GitStatus()
+	" let [a,m,r] = GitGutterGetHunkSummary()
+	" return printf('+%d ~%d -%d', a, m, r)
+" endfunction
+" set statusline+=%{GitStatus()}
+" function! NextHunkAllBuffers()
+	" let line = line('.')
+	" GitGutterNextHunk
+	" if line('.') != line
+		" return
+	" endif
+"
+	" let bufnr = bufnr('')
+	" while 1
+		" bnext
+		" if bufnr('') == bufnr
+			" return
+		" endif
+		" if !empty(GitGutterGetHunks())
+			" 1
+			" GitGutterNextHunk
+			" return
+		" endif
+	" endwhile
+" endfunction
+"
+" function! PrevHunkAllBuffers()
+	" let line = line('.')
+	" GitGutterPrevHunk
+	" if line('.') != line
+		" return
+	" endif
+"
+	" let bufnr = bufnr('')
+	" while 1
+		" bprevious
+		" if bufnr('') == bufnr
+			" return
+		" endif
+		" if !empty(GitGutterGetHunks())
+			" normal! G
+			" GitGutterPrevHunk
+			" return
+		" endif
+	" endwhile
+" endfunction
+"
+" nmap <silent> ]c :call NextHunkAllBuffers()<CR>
+" nmap <silent> [c :call PrevHunkAllBuffers()<CR>
+"
 "
 " === vim-which-key setting
 "
@@ -901,7 +907,7 @@ let CtagsCscope_Auto_Map = 1
 let GtagsCscope_Quiet = 1
 
 hi CursorLine gui=underline cterm=underline guifg=revert guibg=black
-hi CursorColumn gui=None cterm=None guifg=revert guibg=gray
+hi CursorColumn gui=bold guibg=darkmagenta
 match WhitespaceEOL /\s\+$/
 highlight WhitespaceEOL ctermbg=red guibg=red
 
@@ -1155,14 +1161,19 @@ function! Mat()
 	return ''
 endfunction
 "abrev
-iabbr nnp nnoremap
-iabbr vp vnoremap
-iabbr np noremap
-iabbr cd col(".")<C-R>=Delspace('\s')<CR>
-iabbr cv col("v")<C-R>=Delspace('\s')<CR>
-iabbr gl getline()<Left><C-R>=Delspace('\s')<CR>
-iabbr ep <expr><C-R>=Delspace('\s')<CR>
-iabbr re return
+" iabbr nnp nnoremap
+" iabbr vp vnoremap
+" iabbr np noremap
+" iabbr cd col(".")<C-R>=Delspace('\s')<CR>
+" iabbr cv col("v")<C-R>=Delspace('\s')<CR>
+" iabbr gl getline()<Left><C-R>=Delspace('\s')<CR>
+" iabbr ep <expr><C-R>=Delspace('\s')<CR>
+" iabbr re return
+"
+"
+" replace for git merget
+" :%s/<<<<<<< HEAD\_.\{-}=======\n//
+" :%s/>>>>>>>.*\n//
 
 au WinLeave * set nocursorline nocursorcolumn
 au WinEnter * set cursorline cursorcolumn
