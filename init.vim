@@ -424,20 +424,20 @@ let g:airline#extensions#hunks#enabled = 1
 ""
 "" === vim-lsp with ccls setting
 ""
-let g:lsp_auto_enable = 0
-if executable('ccls')
-	au User lsp_setup call lsp#register_server({
-				\ 'name': 'ccls',
-				\ 'cmd': {server_info->['ccls']},
-				\ 'root_uri': {server_info->lsp#utils#path_to_uri(
-				\				lsp#utils#find_nearest_parent_file_directory(
-				\								lsp#utils#get_buffer_path(),
-				\		['.ccls', 'compile_commands.json', '.git/']
-				\	))},
-				\ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
-				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-				\ })
-endif
+let g:lsp_auto_enable = 1
+" if executable('ccls')
+	" au User lsp_setup call lsp#register_server({
+				" \ 'name': 'ccls',
+				" \ 'cmd': {server_info->['ccls']},
+				" \ 'root_uri': {server_info->lsp#utils#path_to_uri(
+				" \				lsp#utils#find_nearest_parent_file_directory(
+				" \								lsp#utils#get_buffer_path(),
+				" \		['.ccls', 'compile_commands.json', '.git/']
+				" \	))},
+				" \ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
+				" \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+				" \ })
+" endif
 " Key bindings for vim-lsp.
 nn <silent> <M-d> :vert LspDefinition<cr>
 nn <silent> <M-r> :vert LspReferences<cr>
