@@ -175,8 +175,8 @@ nnoremap <LEADER>tts :%s/\t/    /g
 
 
 " U/E keys for 5 times u/e (faster navigation)
-noremap <silent> U 5k
-noremap <silent> E 5j
+noremap <silent> U 5kzz
+noremap <silent> E 5jzz
 
 " H key: go to the start of the line
 noremap <silent> H 0
