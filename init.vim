@@ -1,4 +1,4 @@
-" __  ____   __  _   ___     _____ __  __ ____   ____
+" __  ____   __  _   ___	 _____ __  __ ____   ____
 "|  \/  \ \ / / | \ | \ \   / /_ _|  \/  |  _ \ / ___|
 "| |\/| |\ V /  |  \| |\ \ / / | || |\/| | |_) | |
 "| |  | | | |   | |\  | \ V /  | || |  | |  _ <| |___
@@ -32,13 +32,13 @@ set cursorline
 set cursorcolumn
 set hidden
 set noexpandtab
-set tabstop=2
-set shiftwidth=2
-set softtabstop=2
+set tabstop=4
+set softtabstop=4
+set shiftwidth=4
 set autoindent
-" set nolist
-set list
-set listchars=tab:\|\ ,trail:▫
+set nolist
+" set list
+" set listchars=tab:\|\ ,trail:▫
 "禁止产生临时文件
 "sdad
 set noundofile
@@ -163,11 +163,11 @@ noremap <leader>hd :vs $HOME/.config/nvim/Man<CR>
 " noremap <LEADER>dw /\(\<\w\+\>\)\_s*\1
 
 " Space to Tab
-nnoremap <LEADER>stt :%s/    /\t/g
-" vnoremap <LEADER>tt :s/    /\t/g
+nnoremap <LEADER>stt :%s/	/\t/g
+" vnoremap <LEADER>tt :s/	/\t/g
 
 " Tab to space
-nnoremap <LEADER>tts :%s/\t/    /g
+nnoremap <LEADER>tts :%s/\t/	/g
 " Folding
 " noremap <silent> <LEADER>o za
 
@@ -525,8 +525,8 @@ let g:NERDCompactSexyComs = 1
 " Align line-wise comment delimiters flush left instead of following code indentation
 let g:NERDDefaultAlign = 'left'
 
-" Set a language to use its alternate delimiters by default
-let g:NERDAltDelims_java = 1
+" Set C to use its alternate delimiters by default: //
+let g:NERDAltDelims_c= 1
 
 " Add your own custom formats or override the defaults
 " let g:NERDCustomDelimiters = { 'c': { 'left': '/**','right': '*/' } }
@@ -548,7 +548,7 @@ inoremap <expr> <C-j> pumvisible() ? "\<C-n>" : "\<Tab>"
 inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
-inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
+inoremap <expr> <cr>	pumvisible() ? asyncomplete#close_popup() : "\<cr>"
 
 
 "
@@ -574,22 +574,22 @@ vmap <silent> <Leader>te <Plug>TranslateV
 " === rainbow_parentheses.vim setting
 "
 let g:rbpt_colorpairs = [
-			\ ['brown',       'RoyalBlue3'],
-			\ ['Darkblue',    'SeaGreen3'],
-			\ ['darkgray',    'DarkOrchid3'],
+			\ ['brown',	   'RoyalBlue3'],
+			\ ['Darkblue',	'SeaGreen3'],
+			\ ['darkgray',	'DarkOrchid3'],
 			\ ['darkgreen',   'firebrick3'],
-			\ ['darkcyan',    'RoyalBlue3'],
-			\ ['darkred',     'SeaGreen3'],
+			\ ['darkcyan',	'RoyalBlue3'],
+			\ ['darkred',	 'SeaGreen3'],
 			\ ['darkmagenta', 'DarkOrchid3'],
-			\ ['brown',       'firebrick3'],
-			\ ['gray',        'RoyalBlue3'],
-			\ ['black',       'SeaGreen3'],
+			\ ['brown',	   'firebrick3'],
+			\ ['gray',		'RoyalBlue3'],
+			\ ['black',	   'SeaGreen3'],
 			\ ['darkmagenta', 'DarkOrchid3'],
-			\ ['Darkblue',    'firebrick3'],
+			\ ['Darkblue',	'firebrick3'],
 			\ ['darkgreen',   'RoyalBlue3'],
-			\ ['darkcyan',    'SeaGreen3'],
-			\ ['darkred',     'DarkOrchid3'],
-			\ ['red',         'firebrick3'],
+			\ ['darkcyan',	'SeaGreen3'],
+			\ ['darkred',	 'DarkOrchid3'],
+			\ ['red',		 'firebrick3'],
 			\ ]
 
 let g:rbpt_max = 16
@@ -662,7 +662,7 @@ nmap [c <Plug>(GitGutterPrevHunk)
 "
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
-nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
+nnoremap <silent> <leader>	  :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
 "
@@ -777,7 +777,7 @@ let g:auto_save_events = ["InsertLeave", "CompleteDone"]
 "
 "==== bufferhint setting
 "
-nnoremap _ :call bufferhint#Popup()<CR>
+nnoremap ,= :call bufferhint#Popup()<CR>
 
 "
 "==== MRU setting
@@ -831,9 +831,9 @@ ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
 
 
 let g:ascii = [
-			\ '        __',
+			\ '		   __',
 			\ '.--.--.|__|.--------.',
-			\ '|  |  ||  ||        |',
+			\ '|  |  ||  ||		   |',
 			\ ' \___/ |__||__|__|__|',
 			\ ''
 			\]
@@ -860,7 +860,7 @@ highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg
 highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Blue
 highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=Yellow
 " for v mode selection
-highlight Visual     cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=white
+highlight Visual	 cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=white
 "
 "
 "========== Menu for selection
@@ -869,12 +869,12 @@ hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray guifg=White
 "}}}
 
 let g:fzf_colors =
-			\ { 'fg':      ['fg', 'Normal'],
-			\ 'bg':      ['bg', 'Normal'],
-			\ 'hl':      ['fg', 'Comment'],
-			\ 'fg+':     ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
-			\ 'bg+':     ['bg', 'CursorLine', 'CursorColumn'],
-			\ 'hl+':     ['fg', 'Statement'],
+			\ { 'fg':	 ['fg', 'Normal'],
+			\ 'bg':	     ['bg', 'Normal'],
+			\ 'hl':	     ['fg', 'Comment'],
+			\ 'fg+':	 ['fg', 'CursorLine', 'CursorColumn', 'Normal'],
+			\ 'bg+':	 ['bg', 'CursorLine', 'CursorColumn'],
+			\ 'hl+':	 ['fg', 'Statement'],
 			\ 'info':    ['fg', 'PreProc'],
 			\ 'border':  ['fg', 'Ignore'],
 			\ 'prompt':  ['fg', 'Conditional'],

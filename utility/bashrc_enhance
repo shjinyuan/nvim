@@ -108,6 +108,13 @@ esac
 alias vi='/usr/local/bin/nvim'
 alias vih='vi ~/.config/nvim/Man'
 
+alias vi='func() { $(echo "/usr/local/bin/nvim $@" | sed "s/:/ +/"); }; func'
+alias bakup='func() { cp -rf $1 $1_bak; }; func'
+alias cbakup='func() { cp -rf $1_bak $1; }; func'
+alias tat='tmux attach -t'
+alias tls='tmux ls'
+alias bwgsr="ssh -p '28090' 'root@104.225.238.10'"
+
 alias mgrep='grep --exclude={cscope*,tags*}'
 alias week='date +%V.%u'
 alias gl='git log --graph --decorate --pretty=oneline --abbrev-commit --all'
