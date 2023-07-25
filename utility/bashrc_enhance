@@ -122,8 +122,8 @@ alias gh='echo "gl, gls, glm, glf, glfr, gle"'
 alias hs='python -m SimpleHTTPServer 8001 &'
 alias mhs='python ~/.config/nvim/Man/tools/MTHTTPServerWFM.py &'
 
-alias bak='func() { cp $@ $@.bak; }; func'
-alias bak2='func() { file=$1; mv ${file} ${file%.*}; };func'
+alias bak='func() { for i in $@; do cp $i $i.bak; done; }; func'
+alias bak2='func() { for i in $@; do  file=$i; mv ${file} ${file%.*}; done ; };func'
 
 # git commit -a 提交代码时，编辑器默认为vim的另一种方法
 #export EDITOR=/usr/bin/vim
