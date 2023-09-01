@@ -19,6 +19,8 @@ let &t_ut=''
 set autochdir
 
 " set path+=~/linuxptp/**7
+" 添加默认头文件搜索路径
+set path=.,/usr/include**7,/data/toolchains/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/
 
 " Basic setting {{{
 " ===
@@ -36,9 +38,9 @@ set tabstop=2
 set shiftwidth=2
 set softtabstop=2
 set autoindent
-" set nolist
-set list
-set listchars=tab:\|\ ,trail:▫
+set nolist
+" set list
+" set listchars=tab:\|\ ,trail:▫
 "禁止产生临时文件
 "sdad
 set noundofile
@@ -60,7 +62,7 @@ set splitbelow
 set noshowmode
 set showcmd
 set wildmenu
-set ignorecase
+" set ignorecase
 set smartcase
 set shortmess+=c
 set inccommand=split
@@ -336,7 +338,7 @@ Plug 'shjinyuan/vim-fugitive'
 
 " vim-lsp with ccls
 Plug 'prabirshrestha/vim-lsp'
-Plug 'mattn/vim-lsp-settings'
+" Plug 'mattn/vim-lsp-settings'
 " Plug 'dense-analysis/ale'
 " Plug 'rhysd/vim-lsp-ale'
 "
@@ -347,8 +349,8 @@ Plug 'prabirshrestha/asyncomplete.vim'
 Plug 'prabirshrestha/asyncomplete-lsp.vim'
 
 " code navigation
-Plug 'jsfaint/gen_tags.vim'
-Plug 'joereynolds/gtags-scope'
+" Plug 'jsfaint/gen_tags.vim'
+" Plug 'joereynolds/gtags-scope'
 
 " Plug 'neoclide/coc.nvim'
 
@@ -426,19 +428,28 @@ let g:airline#extensions#hunks#enabled = 1
 "" === vim-lsp with ccls setting
 ""
 let g:lsp_auto_enable = 1
-" if executable('ccls')
-	" au User lsp_setup call lsp#register_server({
-				" \ 'name': 'ccls',
-				" \ 'cmd': {server_info->['ccls']},
-				" \ 'root_uri': {server_info->lsp#utils#path_to_uri(
-				" \				lsp#utils#find_nearest_parent_file_directory(
-				" \								lsp#utils#get_buffer_path(),
-				" \		['.ccls', 'compile_commands.json', '.git/']
-				" \	))},
-				" \ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
-				" \ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
-				" \ })
+if executable('ccls')
+	au User lsp_setup call lsp#register_server({
+				\ 'name': 'ccls',
+				\ 'cmd': {server_info->['ccls']},
+				\ 'root_uri': {server_info->lsp#utils#path_to_uri(
+				\				lsp#utils#find_nearest_parent_file_directory(
+				\								lsp#utils#get_buffer_path(),
+				\		['.ccls', 'compile_commands.json', '.git/']
+				\	))},
+				\ 'initialization_options': {'cache': {'directory': expand('~/.cache/ccls') }},
+				\ 'allowlist': ['c', 'cpp', 'objc', 'objcpp', 'cc'],
+				\ })
+endif
+
+" if executable('clangd')
+    " au User lsp_setup call lsp#register_server({
+        " \ 'name': 'clangd',
+        " \ 'cmd': {server_info->['clangd', '-background-index']},
+        " \ 'whitelist': ['c', 'cpp', 'objc', 'objcpp'],
+        " \ })
 " endif
+				"
 " Key bindings for vim-lsp.
 nn <silent> <M-d> :vert LspDefinition<cr>
 nn <silent> <M-r> :vert LspReferences<cr>
@@ -480,31 +491,31 @@ augroup END
 " === gen_tags.vim setting
 "
 
-let g:gen_tags#gtags_auto_gen = 1
-let g:gen_tags#gtags_auto_updagen = 1
+" let g:gen_tags#gtags_auto_gen = 1
+" let g:gen_tags#gtags_auto_updagen = 1
 "
-let g:gen_tags#root_marker = ".git"
-let g:gen_tags#gtags_opts = ['-c', '--verbose']
+" let g:gen_tags#root_marker = ".git"
+" let g:gen_tags#gtags_opts = ['-c', '--verbose']
+"
+" let g:gen_tags#gtags_default_map = 0
 
-let g:gen_tags#gtags_default_map = 0
-
-map <LEADER>sc :cs find c <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>sd :cs find d <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>se :cs find e <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>sf :cs find f <C-R>=expand('<cfile>')<CR><CR>
-map <LEADER>sg :cs find g <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>si :cs find i <C-R>=expand('<cfile>')<CR><CR>
-map <LEADER>ss :cs find s <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>st :cs find t <C-R>=expand('<cword>')<CR><CR>
-
-map <LEADER>vc :vert scs find c <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>vd :vert scs find d <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>ve :vert scs find e <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>vf :vert scs find f <C-R>=expand('<cfile>')<CR><CR>
-map <LEADER>vg :vert scs find g <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>vi :vert scs find i <C-R>=expand('<cfile>')<CR><CR>
-map <LEADER>vs :vert scs find s <C-R>=expand('<cword>')<CR><CR>
-map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>sc :cs find c <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>sd :cs find d <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>se :cs find e <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>sf :cs find f <C-R>=expand('<cfile>')<CR><CR>
+" map <LEADER>sg :cs find g <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>si :cs find i <C-R>=expand('<cfile>')<CR><CR>
+" map <LEADER>ss :cs find s <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>st :cs find t <C-R>=expand('<cword>')<CR><CR>
+"
+" map <LEADER>vc :vert scs find c <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>vd :vert scs find d <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>ve :vert scs find e <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>vf :vert scs find f <C-R>=expand('<cfile>')<CR><CR>
+" map <LEADER>vg :vert scs find g <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>vi :vert scs find i <C-R>=expand('<cfile>')<CR><CR>
+" map <LEADER>vs :vert scs find s <C-R>=expand('<cword>')<CR><CR>
+" map <LEADER>vt :vert scs find t <C-R>=expand('<cword>')<CR><CR>
 "
 "
 " NERDTREE setting
@@ -791,6 +802,7 @@ nnoremap \ :botright MRUToggle<CR>
 "==== tagbar setting
 "
 let g:tagbar_position = 'leftabove vertical'
+autocmd FileType c,cpp nested :TagbarOpen
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
 "================================================================================
