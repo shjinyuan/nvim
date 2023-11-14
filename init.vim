@@ -4,9 +4,7 @@
 "| |  | | | |   | |\  | \ V /  | || |  | |  _ <| |___
 "|_|  |_| |_|   |_| \_|  \_/  |___|_|  |_|_| \_\\____|
 
-
 let g:python3_host_prog = '/usr/bin/python3'
-
 
 " ====================
 " === Editor Setup ===
@@ -16,17 +14,18 @@ let g:python3_host_prog = '/usr/bin/python3'
 " ===
 "set clipboard=unnamedplus
 let &t_ut=''
-set autochdir
 
+" 添加默认头文件搜索路径{{{
 " set path+=~/linuxptp/**7
-" 添加默认头文件搜索路径
 set path=.,/usr/include**7,/data/toolchains/gcc-linaro-7.3.1-2018.05-x86_64_aarch64-linux-gnu/aarch64-linux-gnu/libc/usr/include/
+" }}}
 
 " Basic setting {{{
 " ===
 " === Editor behavior
 " ===
 set exrc
+set autochdir
 set secure
 set number
 set relativenumber
@@ -41,8 +40,8 @@ set autoindent
 set nolist
 " set list
 " set listchars=tab:\|\ ,trail:▫
+
 "禁止产生临时文件
-"sdad
 set noundofile
 set nobackup
 set noswapfile
@@ -50,6 +49,7 @@ set noswapfile
 set scrolloff=4
 set timeoutlen=500
 set viewoptions=cursor,folds,slash,unix
+" 行的内容超过一定长度 不换行
 set nowrap
 set tw=0
 set indentexpr=
@@ -105,41 +105,9 @@ endif
 set foldenable
 set foldmethod=marker
 
-filetype plugin on"}}}
-
-" Restore the last quit position when open file.
-au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
-
-" 设置跳出自动补全的括号 {{{
-func SkipPair()
-	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
-		return "\<ESC>la"
-	else
-		return "\t"
-	endif
-endfunc
-
-inoremap jj <c-r>=SkipPair()<CR>
-"}}}
-" 常规模式下输入清除行尾 ^M 符号{{{
-nmap <space>dM :%s/\r$//g<CR>:noh<CR>
-"}}}
-" 删除行尾空格 和 Tab{{{
-nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
-"}}}
-" 删除空行{{{
-nmap <space>dl :g/^s*$/d<CR>
+filetype plugin on
 "}}}
 
-" ===
-" === Terminal Behaviors
-" ===
-let g:neoterm_autoscroll = 1
-autocmd TermOpen term://* startinsert
-tnoremap <C-N> <C-\><C-N>
-tnoremap <C-O> <C-\><C-N><C-O>
-
-nn cc :cclose<CR>
 "{{{ === Basic Mappings
 " ===
 " ===
@@ -210,7 +178,8 @@ noremap <space>mv :set mouse=v<CR>
 " ===
 " === Insert Mode Cursor Movement
 " ===
-inoremap <C-a> <ESC>A
+inoremap <C-a> <ESC>I
+inoremap <C-e> <ESC>A
 
 
 " ===
@@ -218,7 +187,7 @@ inoremap <C-a> <ESC>A
 " ===
 cnoremap <C-a> <Home>
 cnoremap <C-e> <End>
-cnoremap <C-n> <Left>
+cnoremap <C-h> <Left>
 cnoremap <C-l> <Right>
 cnoremap <C-j> <C-n>
 cnoremap <C-k> <C-p>
@@ -226,21 +195,6 @@ cnoremap <C-k> <C-p>
 " cnoremap <M-b> <S-Left>
 " cnoremap <M-w> <S-Right>
 
-" ===
-" === Searching
-" ===
-" noremap - N
-" noremap = n
-
-" ===
-" === Window management
-" ===
-" Use <space> + new arrow keys for moving the cursor around windows
-" noremap <LEADER>ww <C-w>w
-" noremap <LEADER>wk <C-w>k
-" noremap <LEADER>wj <C-w>j
-" noremap <LEADER>wh <C-w>h
-" noremap <LEADER>wl <C-w>l
 noremap qf <C-w>o
 nmap <space>wh :vertical res +30<CR>
 nmap <space>wl :vertical res -30<CR>
@@ -249,7 +203,7 @@ nmap <space>wk :res -15<CR>
 
 
 " Disable the default s key
-" noremap s <nop>
+noremap s <nop>
 
 " split the screens to up (horizontal), down (horizontal), left (vertical), right (vertical)
 noremap sk :set nosplitbelow<CR>:split<CR>:set splitbelow<CR>
@@ -279,10 +233,10 @@ noremap tc :tabclose<CR>
 nn bn :bn<CR>
 nn bp :bp<CR>
 "
-" Press space twice to jump to the next '' and edit it
+" Double-Press leader key to jump to the next '' and edit it
 noremap <LEADER><LEADER> <Esc>/<++><CR>:nohlsearch<CR>c4l
 
-" Spelling Check with <space>sc
+" Double-Spelling Check with <space>sc
 noremap <LEADER>sc :set spell!<CR>
 
 " Press ` to change case (instead of ~)
@@ -291,11 +245,11 @@ noremap ` ~
 " Auto change directory to current dir
 autocmd BufEnter * silent! lcd %:p:h
 
-" Call figlet
+" Call figlet, - display large characters made up of ordinary screen characters
 noremap tx :r !figlet
 
 " find and replace
-noremap \s :%s///g<left><left><left>
+noremap \s :%s//g<left><left>
 
 " format python
 " map <F4> :%!python -m json.tool<CR>
@@ -310,10 +264,32 @@ noremap \s :%s///g<left><left><left>
 
 nmap <F10> ggVG=
 
-nmap <SPACE><F12> :call lsp#disable()<CR>
-nmap <F12> :call lsp#enable()<CR>
+nmap <SPACE>lsp :call lsp#disable()<CR>
+nmap lsp<F12> :call lsp#enable()<CR>
 "}}}
 
+" 设置跳出自动补全的括号 ----------------------------------------------------------{{{
+func SkipPair()
+	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
+		return "\<ESC>la"
+	else
+		return "\t"
+	endif
+endfunc
+
+inoremap jj <c-r>=SkipPair()<CR>
+"}}}
+
+"{{{Terminal Behaviors
+let g:neoterm_autoscroll = 1
+autocmd TermOpen term://* startinsert
+" into Normal Mode
+tnoremap <C-N> <C-\><C-N>
+" Return back to preview mode
+tnoremap <C-O> <C-\><C-N><C-O>
+"""}}}
+
+"Plugin managerment{{{
 " ===
 " === Install Plugins with Vim-Plug
 " ===
@@ -402,11 +378,16 @@ Plug 'preservim/tagbar'
 " sliver search support
 Plug 'rking/ag.vim'
 
+" run shell commands in the background and read the output in the quickfix window in realtime
+Plug 'skywind3000/asyncrun.vim'
+
 " Autoformat
 Plug 'Chiel92/vim-autoformat'
 call plug#end()
+"
+"}}}
 
-
+"Plugin setting-----------------------------------------{{{
 "================================================================================
 " Plugin setting START
 "================================================================================
@@ -560,7 +541,6 @@ inoremap <expr> <C-k> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 " inoremap <expr> <tab>   pumvisible() ? "\<C-n>" : "\<Tab>"
 " inoremap <expr> <S-Tab> pumvisible() ? "\<C-p>" : "\<S-Tab>"
 inoremap <expr> <cr>    pumvisible() ? asyncomplete#close_popup() : "\<cr>"
-
 
 "
 " === translater setting
@@ -795,52 +775,25 @@ nnoremap _ :call bufferhint#Popup()<CR>
 "
 " let MRU_Window_Height = 35
 " nnoremap \ :vertical botright MRUToggle<CR>
-let MRU_Window_Height = 15
-nnoremap \ :botright MRUToggle<CR>
+" let MRU_Window_Height = 15
+" nnoremap \ :botright MRUToggle<CR>
+"
+"following map cause <CR> map to FZF, not expected, disable it
+" nmap <S-m> :FZF
+" nmap <C-m> :FZFMru
 
 "
 "==== tagbar setting
 "
 let g:tagbar_position = 'leftabove vertical'
-autocmd FileType c,cpp nested :TagbarOpen
+let g:tagbar_width = 20
+" autocmd FileType c,cpp nested :TagbarOpen
 nnoremap <silent> <F8> :TagbarToggle<CR>
 
-"================================================================================
-" Plugin setting END
-"================================================================================
-"{{{ TODO check the autocmd meaning here
-autocmd! bufwritepost $HOME/.config/nvim/init.vim
-autocmd FilterWritePre * if &diff | setlocal wrap< | endif
-
-if &diff
-	syntax off
-endif
-"}}}
-"====================================
-"			code assist
-"====================================
-execute 'source ~/.config/nvim/utility/setTitle.vim'
-" change cursor mode ,not work in nvim
-" - entered insert mode
-" let &t_SI = "^[[5 q^[]12;Magenta\007" " blinking bar (Ss) in magenta (Cs)
-" - entered replace mode
-" let &t_SR = "^[[0 q^[]12;Red\007" " blinking block (Ss) in red (Cs)
-" - leaving insert/replace mode
-" let &t_EI = "^[[2 q^[]112\007" " terminal power-on style (Se) and colour (Cr)
-autocmd InsertEnter,InsertLeave * set cul!
-" set guicursor+=n-v-c:blinkon0
-" set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-" \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-" \,sm:block-blinkwait175-blinkoff150-blinkon175
 
 "
-"===================================
-" Cool tricks
-"===================================
-" insert time
-ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
-
-
+"==== vim-startify setting
+"
 
 let g:ascii = [
 			\ '        __',
@@ -855,31 +808,22 @@ let g:startify_custom_header =
 			\ 'startify#pad(g:ascii)'
 
 
+"
+"==== gtags.vim setting
+"
+" set cscopetag " 使用 cscope 作为 tags 命令
+" set cscopeprg='gtags-cscope' " 使用 gtags-cscope 代替 cscope
+"
+"
+"gtags.vim 设置项 not use gtags.vim, disable it
+" let GtagsCscope_Auto_Load = 1
+" let CtagsCscope_Auto_Map = 1
+" let GtagsCscope_Quiet = 1
 
-"{{{
-" custom highlight setting
-"
-"
-" ======== Gitgutter sign
-highlight GitGutterAdd		guifg=Green
-highlight GitGutterDelete guifg=Gray
-highlight GitGutterChange guifg=Blue
-"
-"
-"========== Diff Mode
-highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Green
-highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Red
-highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Blue
-highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=Yellow
-" for v mode selection
-highlight Visual     cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=white
-"
-"
-"========== Menu for selection
-hi Pmenu ctermfg=10 ctermbg=17 guibg=Black guifg=Green
-hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray guifg=White
-"}}}
 
+"
+"==== fzf setting
+"
 let g:fzf_colors =
 			\ { 'fg':      ['fg', 'Normal'],
 			\ 'bg':      ['bg', 'Normal'],
@@ -910,20 +854,93 @@ let g:fzf_action = {
 			\ 'ctrl-x': 'split',
 			\ 'ctrl-v': 'vsplit' }
 
-" set cscopetag " 使用 cscope 作为 tags 命令
-" set cscopeprg='gtags-cscope' " 使用 gtags-cscope 代替 cscope
 "
+"==== asyncrun setting
 "
-"gtags.vim 设置项
-let GtagsCscope_Auto_Load = 1
-let CtagsCscope_Auto_Map = 1
-let GtagsCscope_Quiet = 1
+let g:asyncrun_rootmarks = ['.svn', '.git']
+" :echo asyncrun#get_root('%')
 
-hi CursorLine gui=underline cterm=underline guifg=revert guibg=black
-hi CursorColumn gui=bold guibg=darkmagenta
-match WhitespaceEOL /\s\+$/
+nmap <space>bb :copen<CR>:AsyncRun $(VIM_ROOT)/build.sh<CR>
+
+"{{{ quickfix jump to error
+nmap <space>j :cn<CR>
+nmap <space>k :cp<CR>
+nnoremap <space><space> :cclose<CR>
+
+"}}}
+
+"
+
+"================================================================================
+" Plugin setting END
+"================================================================================
+"}}}
+
+"{{{ 想配置保存后，自动生效, 配置后有问题，先不用
+" autocmd bufwritepost $HOME/.config/nvim/init.vim  "source  $HOME/.config/nvim/init.vim
+
+
+" bash 自动加执行权限
+autocmd BufWritePost *.sh :!chmod u+x <afile>
+
+" diff 模式下超长行自动换行
+autocmd FilterWritePre * if &diff | setlocal wrap< | endif
+
+if &diff
+	syntax off
+endif
+"}}}
+
+"	{{{code assist ====================================
+execute 'source ~/.config/nvim/utility/setTitle.vim'
+" change cursor mode ,not work in nvim
+" - entered insert mode
+" let &t_SI = "^[[5 q^[]12;Magenta\007" " blinking bar (Ss) in magenta (Cs)
+" - entered replace mode
+" let &t_SR = "^[[0 q^[]12;Red\007" " blinking block (Ss) in red (Cs)
+" - leaving insert/replace mode
+" let &t_EI = "^[[2 q^[]112\007" " terminal power-on style (Se) and colour (Cr)
+" set guicursor+=n-v-c:blinkon0
+" set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
+" \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
+" \,sm:block-blinkwait175-blinkoff150-blinkon175
+"}}}
+
+"{{{ custom highlight setting
+"
+	highlight Folded guibg=Green
+"
+" ======== Gitgutter sign
+highlight GitGutterAdd		guifg=Green
+highlight GitGutterDelete guifg=Gray
+highlight GitGutterChange guifg=Blue
+"
+"
+" ========= Diff Mode
+highlight DiffAdd    cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Green
+highlight DiffDelete cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Red
+highlight DiffChange cterm=bold ctermfg=10 ctermbg=17 gui=none guifg=black guibg=Yellow
+highlight DiffText   cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=Gray
+"
+"
+" ======== for v mode selection
+highlight Visual     cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg=white
+"
+"
+" ========= Menu for selection
+hi Pmenu    ctermfg=10 ctermbg=17 guibg=Black guifg=Green
+hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray  guifg=White
+
+hi CursorLine   gui=underline cterm=underline guifg=revert guibg=black
+hi CursorColumn gui=bold						                       guibg=darkmagenta
+
+"
+" ========= for the space end of line 
 highlight WhitespaceEOL ctermbg=red guibg=red
+match WhitespaceEOL /\s\+$/
+"}}}
 
+"{{{  some self function from bilibili
 vnoremap <expr><CR> ConTract()
 function! ConTract()
 	if (col(".")-col("v")>0)
@@ -1173,7 +1190,10 @@ function! Mat()
 	endwhile
 	return ''
 endfunction
-"abrev
+"
+"}}}
+
+"{{{======abrev for vim script
 " iabbr nnp nnoremap
 " iabbr vp vnoremap
 " iabbr np noremap
@@ -1182,14 +1202,62 @@ endfunction
 " iabbr gl getline()<Left><C-R>=Delspace('\s')<CR>
 " iabbr ep <expr><C-R>=Delspace('\s')<CR>
 " iabbr re return
-"
+" insert time
+ab xtime <c-r>=strftime("%Y-%m-%d %H:%M:%S")<cr>
+"}}}
+
+"{{{ ======== Replace trick
+
+"" 常规模式下输入清除行尾 ^M 符号{{{
+nmap <space>dM :%s/\r$//g<CR>:noh<CR>
+"}}}
+
+" 删除行尾空格 和 Tab{{{
+nmap <space>ds :%s/\s\+$//g<CR>:noh<CR>
+"}}}
+
+" 删除空行{{{
+nmap <space>dl :g/^s*$/d<CR>
+"}}}
 "
 " replace for git merget
 " :%s/<<<<<<< HEAD\_.\{-}=======\n//
 " :%s/>>>>>>>.*\n//
 
+"}}}
+
+"{{{custom's autocmd setting------------------------------------------
+" Restore the last quit position when open file.
+au BufReadPost * if line("'\"") > 1 && line("'\"") <= line("$") | exe "normal! g'\"" | endif
+
+au InsertEnter,InsertLeave * set cul!
+
+" Only show cursor focus in actived window
 au WinLeave * set nocursorline nocursorcolumn
 au WinEnter * set cursorline cursorcolumn
-"cursor style configure
-set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
+"}}}
 
+"cursor style configure {{{
+set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor,sm:block-blinkwait175-blinkoff150-blinkon175
+"}}}
+
+"{{{ let the search result show in the middle
+function! CenterSearch()
+  let cmdtype = getcmdtype()
+  if cmdtype == '/' || cmdtype == '?'
+    return "\<enter>zz"
+  endif
+  return "\<enter>"
+endfunction
+"
+"
+"
+cnoremap <expr> <enter> CenterSearch()
+"}}}
+
+"{{{ 自动把配置显示在屏幕中间， 不是很好用的感觉，先注释了
+" nmap * *zz
+" nmap # #zz
+" nmap n nzz
+" nmap N Nzz
+" }}}
