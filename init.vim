@@ -211,7 +211,8 @@ noremap sj :set splitbelow<CR>:split<CR>
 noremap sh :set nosplitright<CR>:vsplit<CR>:set splitright<CR>
 noremap sl :set splitright<CR>:vsplit<CR>
 
-
+nn cu gUaw
+nn cd guaw
 
 " ===
 " === Tab management
@@ -264,13 +265,27 @@ noremap \s :%s//g<left><left>
 
 nmap <F10> ggVG=
 
-nmap <SPACE>lsp :call lsp#disable()<CR>
-nmap lsp<F12> :call lsp#enable()<CR>
+let g:SwichLspStatus=1
+
+function s:Set_Lsp_Service()
+if g:SwichLspStatus == 1
+	call lsp#disable()
+else
+	call lsp#enable()
+endif
+endfunction
+
+
+nnoremap  <SPACE>lsp :exe "let g:SwichLspStatus=exists(\"g:SwichLspStatus\")?g:SwichLspStatus*-1+1:1"<CR>
+" nmap <SPACE>lsp :call lsp#disable()<CR>
+" nmap lsp<F12> :call lsp#enable()<CR>
+autocmd WinEnter,BufEnter * call s:Set_Lsp_Service()
+
 "}}}
 
 " 设置跳出自动补全的括号 ----------------------------------------------------------{{{
 func SkipPair()
-	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == '>' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getli
+	if getline('.')[col('.') - 1] == ')' || getline('.')[col('.') - 1] == ']' || getline('.')[col('.') - 1] == '"' || getline('.')[col('.') - 1] == "'" || getline('.')[col('.') - 1] == '}'
 		return "\<ESC>la"
 	else
 		return "\t"
@@ -306,7 +321,8 @@ Plug 'vim-airline/vim-airline-themes'
 " Plug Badacadabra/vim-archery
 "
 " A Vim Applications Calendar
-Plug 'itchyny/calendar.vim'
+" Plug 'itchyny/calendar.vim'
+
 
 " Git relative
 Plug 'airblade/vim-gitgutter'
@@ -359,7 +375,7 @@ Plug 'voldikss/vim-translator'
 Plug 'liuchengxu/vim-which-key'
 
 " Markdown
-Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
+" Plug 'iamcco/markdown-preview.nvim', { 'do': 'cd app & yarn install'  }
 " support math latex
 " Plug 'iamcco/mathjax-support-for-mkdp'
 
@@ -383,10 +399,14 @@ Plug 'skywind3000/asyncrun.vim'
 
 " Autoformat
 Plug 'Chiel92/vim-autoformat'
+
+" Displays function signatures from completions in the command line.
+" Plug 'Shougo/echodoc.vim'   "not work as the setting of readme
+
 call plug#end()
 "
 "}}}
-
+"
 "Plugin setting-----------------------------------------{{{
 "================================================================================
 " Plugin setting START
@@ -650,9 +670,11 @@ nmap [c <Plug>(GitGutterPrevHunk)
 "
 "
 " === vim-which-key setting
-"
+" main leader key changed to <space>; localleadkey is ','
 let g:mapleader = "\<Space>"
 let g:maplocalleader = ','
+
+" not display promtion without following setting
 nnoremap <silent> <leader>      :<c-u>WhichKey '<Space>'<CR>
 nnoremap <silent> <localleader> :<c-u>WhichKey  ','<CR>
 
@@ -776,7 +798,7 @@ nnoremap _ :call bufferhint#Popup()<CR>
 " let MRU_Window_Height = 35
 " nnoremap \ :vertical botright MRUToggle<CR>
 " let MRU_Window_Height = 15
-" nnoremap \ :botright MRUToggle<CR>
+nnoremap <localleader>m :botright MRUToggle<CR>
 "
 "following map cause <CR> map to FZF, not expected, disable it
 " nmap <S-m> :FZF
@@ -866,6 +888,7 @@ nmap <space>bb :copen<CR>:AsyncRun $(VIM_ROOT)/build.sh<CR>
 nmap <space>j :cn<CR>
 nmap <space>k :cp<CR>
 nnoremap <space><space> :cclose<CR>
+nnoremap <space>o :copen<CR>
 
 "}}}
 
@@ -876,39 +899,53 @@ nnoremap <space><space> :cclose<CR>
 "================================================================================
 "}}}
 
+"""{{{ag 搜索
+"sudo  apt-get   install    silversearcher-ag
+"
+"让光标停留在单词的第一个字母上， 然后输入yw拷贝该单词， 然后输入 / (Ctrl + R) 0 （即 /”0），回车， 就查找到了第一个匹配的单词， 并且可以通过 n  或  N 进行上一个或下一个的匹配。
+" 解释一下： Ctrl + r 是指使用寄存器 ， 你会发现先输入/ ,然后输入 Ctrl + r , 会立刻变为 “ ， 即寄存器的前缀， 然后 ”0 就可以理解了吧？ 合起来就是 /“0， 就是查找刚才复制的那个单词.
+"
+" for easy using sliver search
+nmap <localleader>f :vsplit<ESC>:norm yiw<CR>:Ag! -t -Q "<C-R>""<CR>
+
+nmap <localleader>r :norm yiw<CR>:Ag! -t "\b<C-R>"\b"<CR>
+" Locate and return character above current cursor position.
+function! LookUpwards()
+    let column_num = virtcol('.')
+    let target_pattern = '\%' . column_num . 'v.'
+    let target_line_num = search(target_pattern . '*\S', 'bnW')
+		echo target_pattern . '*\S'
+    if !target_line_num
+        return ""
+    else
+        return matchstr(getline(target_line_num), target_pattern)
+    endif
+endfunction
+" imap <silent> <C-Y> <C-R><C-R>=LookUpwards()<CR>
+
 "{{{ 想配置保存后，自动生效, 配置后有问题，先不用
 " autocmd bufwritepost $HOME/.config/nvim/init.vim  "source  $HOME/.config/nvim/init.vim
 
 
 " bash 自动加执行权限
-autocmd BufWritePost *.sh :!chmod u+x <afile>
+autocmd BufWritePost *.sh :!chmod u+x <afile><CR>
 
 " diff 模式下超长行自动换行
 autocmd FilterWritePre * if &diff | setlocal wrap< | endif
 
 if &diff
 	syntax off
+	let g:lsp_auto_enable = 0
 endif
 "}}}
 
 "	{{{code assist ====================================
 execute 'source ~/.config/nvim/utility/setTitle.vim'
-" change cursor mode ,not work in nvim
-" - entered insert mode
-" let &t_SI = "^[[5 q^[]12;Magenta\007" " blinking bar (Ss) in magenta (Cs)
-" - entered replace mode
-" let &t_SR = "^[[0 q^[]12;Red\007" " blinking block (Ss) in red (Cs)
-" - leaving insert/replace mode
-" let &t_EI = "^[[2 q^[]112\007" " terminal power-on style (Se) and colour (Cr)
-" set guicursor+=n-v-c:blinkon0
-" set guicursor=n-v-c:block,i-ci-ve:ver25,r-cr:hor20,o:hor50
-" \,a:blinkwait700-blinkoff400-blinkon250-Cursor/lCursor
-" \,sm:block-blinkwait175-blinkoff150-blinkon175
 "}}}
 
 "{{{ custom highlight setting
 "
-	highlight Folded guibg=Green
+highlight Folded guibg=Green
 "
 " ======== Gitgutter sign
 highlight GitGutterAdd		guifg=Green
@@ -932,16 +969,25 @@ hi Pmenu    ctermfg=10 ctermbg=17 guibg=Black guifg=Green
 hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray  guifg=White
 
 hi CursorLine   gui=underline cterm=underline guifg=revert guibg=black
-hi CursorColumn gui=bold						                       guibg=darkmagenta
+hi CursorColumn gui=bold																	 guibg=darkmagenta
 
 "
-" ========= for the space end of line 
+" ========= for the space end of line
 highlight WhitespaceEOL ctermbg=red guibg=red
 match WhitespaceEOL /\s\+$/
 "}}}
 
+
+" function CombineParamOneLine()
+" let match = search('(', 'z'))
+" if
+" start_position = line(".")
+" endfunction
+
 "{{{  some self function from bilibili
+" Press enter key to select content in "",(), etc
 vnoremap <expr><CR> ConTract()
+
 function! ConTract()
 	if (col(".")-col("v")>0)
 		return "holo"
@@ -949,6 +995,7 @@ function! ConTract()
 	return "loh"
 endfunction
 
+" Select block for "", (), etc
 noremap <expr>s Mat()
 function! Mat()
 	let buf=getline(".")
@@ -1221,8 +1268,11 @@ nmap <space>dl :g/^s*$/d<CR>
 "}}}
 "
 " replace for git merget
-" :%s/<<<<<<< HEAD\_.\{-}=======\n//
-" :%s/>>>>>>>.*\n//
+"  delete HEAD part
+"nmap dhd :%s/<<<<<<< HEAD\_.\{-}=======\n//
+"
+"  delete not HEAD part
+"nmap dnhd :%s/=======_.{-}_^>>>>>>> _.{-}$//
 
 "}}}
 
@@ -1256,8 +1306,8 @@ cnoremap <expr> <enter> CenterSearch()
 "}}}
 
 "{{{ 自动把配置显示在屏幕中间， 不是很好用的感觉，先注释了
-" nmap * *zz
-" nmap # #zz
-" nmap n nzz
-" nmap N Nzz
+nmap * *zz
+nmap # #zz
+nmap n nzz
+nmap N Nzz
 " }}}
