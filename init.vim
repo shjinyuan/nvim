@@ -975,7 +975,7 @@ hi CursorColumn gui=bold																	 guibg=darkmagenta
 
 "
 " ========= Transparency
-hi Normal guibg=NONE ceterbg=NONE
+hi Normal guibg=NONE ctermbg=NONE
 "
 " ========= for the space end of line
 highlight WhitespaceEOL ctermbg=red guibg=red
