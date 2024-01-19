@@ -968,9 +968,14 @@ highlight Visual     cterm=bold ctermfg=10 ctermbg=88 gui=none guifg=black guibg
 hi Pmenu    ctermfg=10 ctermbg=17 guibg=Black guifg=Green
 hi PmenuSel ctermfg=10 ctermbg=17 guibg=Gray  guifg=White
 
+"
+"========== for cursor location
 hi CursorLine   gui=underline cterm=underline guifg=revert guibg=black
 hi CursorColumn gui=bold																	 guibg=darkmagenta
 
+"
+" ========= Transparency
+hi Normal guibg=NONE ceterbg=NONE
 "
 " ========= for the space end of line
 highlight WhitespaceEOL ctermbg=red guibg=red
